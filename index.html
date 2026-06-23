@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Netto Calculator · Nederland 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Netto · Belastingadviseur Nederland 2025/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fafaf7;
@@ -20,483 +20,169 @@
     --green: #1a7d4f;
     --green-soft: #e8f5ed;
     --red: #c4322a;
+    --red-soft: #fbecea;
     --blue: #2563a8;
     --blue-soft: #e8f0fa;
-    --radius: 10px;
-    --radius-sm: 6px;
+    --amber: #9a6b00;
+    --amber-soft: #fbf3e0;
+    --radius: 12px;
+    --radius-sm: 7px;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0d0e10;
-      --surface: #18191c;
-      --surface-2: #222428;
-      --border: #2a2c30;
-      --border-strong: #3a3d42;
-      --text: #ebebeb;
-      --text-dim: #a0a0a0;
-      --text-faint: #6a6a6a;
-      --accent: #ff6b3d;
-      --accent-soft: #2a1810;
-      --green: #4ade80;
-      --green-soft: #122518;
-      --red: #f87171;
-      --blue: #60a5fa;
-      --blue-soft: #112233;
+      --bg: #0d0e10; --surface: #18191c; --surface-2: #222428;
+      --border: #2a2c30; --border-strong: #3a3d42;
+      --text: #ebebeb; --text-dim: #a0a0a0; --text-faint: #6a6a6a;
+      --accent: #ff6b3d; --accent-soft: #2a1810;
+      --green: #4ade80; --green-soft: #122518;
+      --red: #f87171; --red-soft: #2a1413;
+      --blue: #60a5fa; --blue-soft: #112233;
+      --amber: #fbbf24; --amber-soft: #2a2010;
     }
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    padding: 32px 16px 80px;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+    -webkit-font-smoothing: antialiased; padding: 28px 16px 100px;
   }
-
-  .wrap { max-width: 720px; margin: 0 auto; }
+  .wrap { max-width: 760px; margin: 0 auto; }
 
   /* Header */
-  header {
-    margin-bottom: 32px;
-    text-align: center;
-  }
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 900;
-    font-size: clamp(28px, 5vw, 36px);
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
+  header { margin-bottom: 22px; text-align: center; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(30px, 6vw, 40px); letter-spacing: -0.02em; line-height: 1; }
   h1 .dot { color: var(--accent); }
-  .subtitle {
-    color: var(--text-dim);
-    font-size: 13px;
-    margin-top: 6px;
-  }
+  .subtitle { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+  .year-pill { display: inline-block; font-size: 11px; color: var(--accent); border: 1px solid var(--accent); padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.08em; background: var(--accent-soft); margin-top: 10px; }
 
-  /* Hero result */
-  .hero {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    text-align: center;
-    margin-bottom: 16px;
-  }
-  .hero-label {
-    font-size: 12px;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 8px;
-  }
-  .hero-amount {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(48px, 10vw, 64px);
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-  .hero-amount .cur {
-    color: var(--accent);
-    font-weight: 400;
-    margin-right: 6px;
-  }
-  .hero-period {
-    color: var(--text-dim);
-    font-size: 13px;
-    margin-top: 6px;
-  }
-  .hero-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-  .hero-stat .lbl {
-    font-size: 10px;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 3px;
-  }
-  .hero-stat .val {
-    font-size: 16px;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* Tabs (Box 1 / Box 3) */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 4px;
-    margin-bottom: 16px;
-  }
-  .tab {
-    flex: 1;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-dim);
-    background: transparent;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s, color 0.15s;
-  }
-  .tab.active {
-    background: var(--surface-2);
-    color: var(--text);
-  }
-
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 18px; position: sticky; top: 8px; z-index: 30; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .tab { flex: 1; padding: 11px 6px; font-size: 13px; font-weight: 600; color: var(--text-dim); background: transparent; border: none; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit; transition: background 0.15s, color 0.15s; }
+  .tab.active { background: var(--accent); color: #fff; }
   .view { display: none; }
   .view.active { display: block; }
 
+  /* Hero */
+  .hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 24px; text-align: center; margin-bottom: 16px; }
+  .hero-label { font-size: 12px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .hero-amount { font-family: 'Fraunces', serif; font-size: clamp(44px, 9vw, 60px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+  .hero-amount .cur { color: var(--accent); font-weight: 400; margin-right: 6px; }
+  .hero-period { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+  .hero-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .hero-stat .lbl { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .hero-stat .val { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .hero-stat .val.green { color: var(--green); }
+
   /* Card */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-  .card-head {
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.15s;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-head { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; transition: background 0.15s; }
   .card-head:hover { background: var(--surface-2); }
-  .card-head .title {
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .card-head .title .icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--surface-2);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-  .card-head .summary {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-variant-numeric: tabular-nums;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-head .chevron {
-    transition: transform 0.2s;
-    color: var(--text-faint);
-    font-size: 12px;
-  }
+  .card-head .title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .card-head .title .icon { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-dim); flex: 0 0 26px; }
+  .card-head .summary { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 8px; text-align: right; }
+  .card-head .chevron { transition: transform 0.2s; color: var(--text-faint); font-size: 12px; }
   .card.open .card-head .chevron { transform: rotate(180deg); }
-  .card-body {
-    display: none;
-    padding: 4px 20px 20px;
-    border-top: 1px solid var(--border);
-  }
+  .card-body { display: none; padding: 4px 20px 20px; border-top: 1px solid var(--border); }
   .card.open .card-body { display: block; }
   .card.always-open .card-head { cursor: default; }
   .card.always-open .card-head:hover { background: transparent; }
   .card.always-open .card-head .chevron { display: none; }
   .card.always-open .card-body { display: block; }
 
-  /* Form fields */
-  .field-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-  }
-  .field-group:first-child { margin-top: 16px; }
+  /* Form */
+  .field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .field-group:first-child { margin-top: 14px; }
   .field-group.full { grid-template-columns: 1fr; }
   .field-group.three { grid-template-columns: 1fr 1fr 1fr; }
-  @media (max-width: 480px) {
-    .field-group, .field-group.three { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 520px) { .field-group, .field-group.three { grid-template-columns: 1fr; } }
   .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label {
-    font-size: 12px;
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-  .field input, .field select {
-    font-family: inherit;
-    font-size: 14px;
-    padding: 10px 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    transition: border-color 0.15s;
-  }
-  .field input:focus, .field select:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-  .field input[type="number"] {
-    font-variant-numeric: tabular-nums;
-  }
+  .field label { font-size: 12px; color: var(--text-dim); font-weight: 500; display: flex; align-items: center; }
+  .field input, .field select { font-family: inherit; font-size: 14px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); transition: border-color 0.15s; width: 100%; }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+  .field input[type="number"] { font-variant-numeric: tabular-nums; }
+  .seg { display: flex; background: var(--surface-2); border-radius: var(--radius-sm); padding: 3px; gap: 2px; margin-bottom: 4px; margin-top: 12px; }
+  .seg-btn { flex: 1; padding: 8px; font-size: 12px; font-weight: 500; color: var(--text-dim); background: transparent; border: none; border-radius: 5px; cursor: pointer; font-family: inherit; }
+  .seg-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
-  /* Tabs within card (period selector) */
-  .seg {
-    display: flex;
-    background: var(--surface-2);
-    border-radius: var(--radius-sm);
-    padding: 3px;
-    gap: 2px;
-    margin-bottom: 12px;
-  }
-  .seg-btn {
-    flex: 1;
-    padding: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-dim);
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
-  }
-  .seg-btn.active {
-    background: var(--surface);
-    color: var(--text);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-
-  /* Toggle row */
-  .toggle-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 12px;
-  }
-  .toggle-pill {
-    padding: 6px 12px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    font-size: 12px;
-    cursor: pointer;
-    color: var(--text-dim);
-    user-select: none;
-    transition: all 0.15s;
-  }
+  /* Pills (multi-toggle) */
+  .toggle-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .toggle-pill { padding: 8px 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; cursor: pointer; color: var(--text-dim); user-select: none; transition: all 0.15s; }
   .toggle-pill:hover { border-color: var(--border-strong); }
-  .toggle-pill.active {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+  .toggle-pill.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
 
-  /* Conditional sections */
-  .conditional {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px dashed var(--border);
-    display: none;
-  }
+  .conditional { margin-top: 14px; padding-top: 4px; border-top: 1px dashed var(--border); display: none; }
   .conditional.show { display: block; }
+  .hidden { display: none !important; }
 
   /* Breakdown rows */
-  .row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-  }
+  .row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--border); gap: 12px; }
   .row:last-child { border-bottom: none; }
-  .row.head {
-    font-size: 11px;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding-top: 12px;
-    padding-bottom: 4px;
-    font-weight: 500;
-  }
-  .row.total {
-    font-weight: 600;
-    border-top: 2px solid var(--border-strong);
-    border-bottom: none;
-    padding-top: 12px;
-    margin-top: 4px;
-  }
+  .row.head { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; padding-top: 14px; padding-bottom: 4px; font-weight: 600; }
+  .row.total { font-weight: 700; border-top: 2px solid var(--border-strong); border-bottom: none; padding-top: 12px; margin-top: 4px; }
   .row .lbl { color: var(--text-dim); }
-  .row .val { font-variant-numeric: tabular-nums; }
+  .row .val { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .row .val.pos { color: var(--green); }
   .row .val.neg { color: var(--red); }
 
-  /* Stack bar */
-  .stack {
-    display: flex;
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-    margin: 16px 0 8px;
-    background: var(--surface-2);
-  }
-  .stack-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-  .dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
+  .stack { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 18px 0 10px; background: var(--surface-2); }
+  .stack-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 11px; color: var(--text-dim); }
+  .sdot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
 
-  /* Disclaimer */
-  .disclaimer {
-    font-size: 11px;
-    color: var(--text-faint);
-    line-height: 1.6;
-    margin-top: 24px;
-    text-align: center;
-  }
+  /* Info / callouts */
+  .info { font-size: 12px; color: var(--text-dim); background: var(--blue-soft); border-radius: var(--radius-sm); padding: 11px 13px; margin-top: 12px; line-height: 1.55; }
+  .info.warn { background: var(--amber-soft); color: var(--amber); }
+  .info.good { background: var(--green-soft); color: var(--green); }
+  .info strong { color: inherit; font-weight: 700; }
 
-  /* Year badge */
-  .year-pill {
-    display: inline-block;
-    font-size: 11px;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 3px 10px;
-    border-radius: 100px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: var(--accent-soft);
-    margin-top: 8px;
-  }
-
-  /* Help tooltip */
-  .help {
-    display: inline-block;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--surface-2);
-    color: var(--text-faint);
-    font-size: 10px;
-    text-align: center;
-    line-height: 14px;
-    cursor: help;
-    margin-left: 4px;
-  }
+  .help { display: inline-block; width: 15px; height: 15px; border-radius: 50%; background: var(--surface-2); color: var(--text-faint); font-size: 10px; text-align: center; line-height: 15px; cursor: help; margin-left: 5px; flex: 0 0 15px; }
   [data-tip] { position: relative; }
-  [data-tip]:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 6px);
-    left: 0;
-    background: var(--text);
-    color: var(--bg);
-    font-size: 11px;
-    padding: 6px 10px;
-    border-radius: 4px;
-    white-space: normal;
-    width: 220px;
-    z-index: 10;
-    line-height: 1.4;
-  }
+  [data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 0; background: var(--text); color: var(--bg); font-size: 11px; padding: 7px 11px; border-radius: 6px; white-space: normal; width: 240px; z-index: 50; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
 
-  /* Month table */
-  .month-tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    margin-top: 8px;
-  }
-  .month-tbl th {
-    text-align: left;
-    padding: 8px 6px;
-    font-size: 10px;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 500;
-    border-bottom: 1px solid var(--border);
-  }
-  .month-tbl th.num { text-align: right; }
-  .month-tbl td {
-    padding: 8px 6px;
-    border-bottom: 1px solid var(--border);
-  }
-  .month-tbl td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .month-tbl td.month { font-weight: 500; }
-  .month-tbl tr.highlight { background: var(--accent-soft); }
-  .month-tbl tr.highlight td.month { color: var(--accent); }
-  .month-tbl tr.tot td {
-    background: var(--surface-2);
-    font-weight: 600;
-    border-top: 2px solid var(--border-strong);
-  }
-  .month-tbl tr.tot td.num.netto { color: var(--accent); }
-  .chip-mini {
-    display: inline-block;
-    font-size: 9px;
-    padding: 1px 5px;
-    border-radius: 3px;
-    margin-left: 4px;
-    background: var(--surface-2);
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 1px solid var(--border);
-  }
-
-  /* Mini info */
-  .info {
-    font-size: 12px;
-    color: var(--text-dim);
-    background: var(--blue-soft);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    margin-top: 12px;
-    line-height: 1.5;
-  }
-  .info strong { color: var(--text); font-weight: 500; }
-
-  /* Status badges */
-  .status {
-    display: inline-block;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 100px;
-    margin-left: 6px;
-  }
+  /* Status badge */
+  .status { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 100px; margin-left: 6px; font-weight: 600; }
   .status.green { background: var(--green-soft); color: var(--green); }
-  .status.red { background: var(--accent-soft); color: var(--accent); }
+  .status.red { background: var(--red-soft); color: var(--red); }
+  .status.amber { background: var(--amber-soft); color: var(--amber); }
+  .status.blue { background: var(--blue-soft); color: var(--blue); }
+
+  /* Advice cards */
+  .advice { border: 1px solid var(--border); border-left: 3px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 16px; background: var(--surface); margin-bottom: 10px; }
+  .advice.prio-1 { border-left-color: var(--green); background: var(--green-soft); }
+  .advice.prio-2 { border-left-color: var(--accent); }
+  .advice.prio-3 { border-left-color: var(--blue); }
+  .advice-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+  .advice-title { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .advice-saving { font-size: 14px; font-weight: 800; color: var(--green); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .advice-saving.check { color: var(--blue); font-size: 12px; font-weight: 600; }
+  .advice-body { color: var(--text-dim); font-size: 12.5px; line-height: 1.5; margin-top: 7px; }
+  .advice-body b { color: var(--text); }
+  .advice-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .meta { font-size: 10px; color: var(--text-dim); background: var(--surface-2); border: 1px solid var(--border); border-radius: 100px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .meta.deadline { background: var(--amber-soft); color: var(--amber); border-color: transparent; }
+
+  .question { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-dim); }
+  .question:last-child { border-bottom: none; }
+  .question .mark { flex: 0 0 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+  .question b { color: var(--text); }
+
+  .source-list { display: grid; gap: 8px; margin-top: 12px; font-size: 12px; }
+  .source-list a { color: var(--blue); text-decoration: none; }
+  .source-list a:hover { text-decoration: underline; }
+
+  .disclaimer { font-size: 11px; color: var(--text-faint); line-height: 1.6; margin-top: 24px; text-align: center; }
+  .disclaimer strong { color: var(--text-dim); }
+
+  .empty { font-size: 13px; color: var(--text-dim); text-align: center; padding: 20px; }
+
+  /* mini table */
+  .mini-tbl { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  .mini-tbl th { text-align: left; padding: 7px 6px; font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .mini-tbl th.num, .mini-tbl td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .mini-tbl td { padding: 7px 6px; border-bottom: 1px solid var(--border); }
+  .mini-tbl tr.tot td { font-weight: 700; border-top: 2px solid var(--border-strong); background: var(--surface-2); }
+
+  .section-intro { font-size: 12.5px; color: var(--text-dim); line-height: 1.55; margin-top: 12px; }
+  .big-num { font-family: 'Fraunces', serif; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -504,1087 +190,1519 @@
 
   <header>
     <h1>netto<span class="dot">.</span></h1>
-    <div class="subtitle">Bruto-naar-netto calculator voor Nederland</div>
+    <div class="subtitle">Belastingadviseur voor Nederland — slimme intake, volledige berekening, concrete besparingen</div>
     <div class="year-pill" id="yearBadge">Belastingjaar 2026</div>
   </header>
 
   <div class="tabs">
-    <button class="tab active" data-view="box1">Inkomen (Box 1)</button>
-    <button class="tab" data-view="box3">Vermogen (Box 3)</button>
+    <button class="tab active" data-view="adviseur">Adviseur</button>
+    <button class="tab" data-view="berekening">Berekening</button>
+    <button class="tab" data-view="advies">Aanbevelingen</button>
   </div>
 
-  <!-- ============================ BOX 1 ============================ -->
-  <div id="view-box1" class="view active">
+  <!-- ====================== ADVISEUR (intake) ====================== -->
+  <div id="view-adviseur" class="view active">
 
-    <!-- HERO RESULT -->
     <div class="hero">
-      <div class="hero-label">Netto per maand</div>
-      <div class="hero-amount"><span class="cur">€</span><span id="netoMaand">0</span></div>
-      <div class="hero-period" id="netoPeriod">40 uur/week · 2026</div>
+      <div class="hero-label">Geschat netto besteedbaar per maand</div>
+      <div class="hero-amount"><span class="cur">€</span><span id="hNetMaand">0</span></div>
+      <div class="hero-period" id="hPeriod">Vul je situatie in</div>
       <div class="hero-row">
-        <div class="hero-stat">
-          <div class="lbl">Per jaar</div>
-          <div class="val" id="netoJaar">€ 0</div>
+        <div class="hero-stat"><div class="lbl">Totale belasting/jaar</div><div class="val" id="hBelasting">€ 0</div></div>
+        <div class="hero-stat"><div class="lbl">Belastingdruk</div><div class="val" id="hDruk">0%</div></div>
+        <div class="hero-stat"><div class="lbl">Besparing mogelijk</div><div class="val green" id="hBesparing">€ 0</div></div>
+      </div>
+    </div>
+
+    <div class="info" style="margin-bottom:14px;">
+      Beantwoord de vragen hieronder. De adviseur <strong>verbergt automatisch alles wat niet op jou van toepassing is</strong> — kies je profiel en de rest past zich aan. Alles wordt direct doorgerekend en omgezet in concrete tips op het tabblad <strong>Aanbevelingen</strong>.
+    </div>
+
+    <!-- 1. BASIS -->
+    <div class="card always-open">
+      <div class="card-head"><div class="title"><span class="icon">1</span>Basis</div></div>
+      <div class="card-body">
+        <div class="field-group three">
+          <div class="field">
+            <label>Belastingjaar</label>
+            <select id="year"><option value="2026" selected>2026</option><option value="2025">2025</option></select>
+          </div>
+          <div class="field">
+            <label>Geboortejaar <span class="help" data-tip="Bepaalt of je de AOW-leeftijd (67) hebt bereikt. AOW-gerechtigden betalen geen AOW-premie en hebben een veel lager tarief in schijf 1.">?</span></label>
+            <input type="number" id="geboortejaar" value="1985" min="1920" max="2008" step="1">
+          </div>
+          <div class="field">
+            <label>Geboortemaand <span class="help" data-tip="Alleen relevant in het jaar dat je 67 wordt: dan geldt een tijdsevenredig tarief (lager vanaf de AOW-maand).">?</span></label>
+            <select id="geboortemaand"><option value="1">jan</option><option value="2">feb</option><option value="3">mrt</option><option value="4">apr</option><option value="5">mei</option><option value="6" selected>jun</option><option value="7">jul</option><option value="8">aug</option><option value="9">sep</option><option value="10">okt</option><option value="11">nov</option><option value="12">dec</option></select>
+          </div>
         </div>
-        <div class="hero-stat">
-          <div class="lbl">Per uur</div>
-          <div class="val" id="netoUur">€ 0</div>
-        </div>
-        <div class="hero-stat">
-          <div class="lbl">Belastingdruk</div>
-          <div class="val" id="effTarief">0%</div>
+        <div class="field-group">
+          <div class="field">
+            <label>Woon je heel het jaar in Nederland?</label>
+            <select id="resident">
+              <option value="ja" selected>Ja, hele jaar inwoner</option>
+              <option value="deels">Deels (emigratie/immigratie)</option>
+              <option value="nee">Nee, buitenlands belastingplichtig</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Fiscaal partner?</label>
+            <select id="heeftPartner"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- INKOMEN — altijd open -->
+    <!-- 2. PROFIEL -->
     <div class="card always-open">
-      <div class="card-head">
-        <div class="title"><span class="icon">€</span>Jouw inkomen</div>
-      </div>
+      <div class="card-head"><div class="title"><span class="icon">2</span>Wat zijn je bronnen van inkomen?</div></div>
       <div class="card-body">
-        <div class="seg">
-          <button class="seg-btn active" data-period="hour">Per uur</button>
+        <div class="section-intro">Kies alles wat van toepassing is. Hiermee bepalen we welke vragen je krijgt.</div>
+        <div class="toggle-list">
+          <label class="toggle-pill" data-toggle="pLoon"><input type="checkbox" id="pLoon" checked hidden>Loondienst</label>
+          <label class="toggle-pill" data-toggle="pZzp"><input type="checkbox" id="pZzp" hidden>ZZP / IB-onderneming</label>
+          <label class="toggle-pill" data-toggle="pDga"><input type="checkbox" id="pDga" hidden>DGA / eigen bv</label>
+          <label class="toggle-pill" data-toggle="pPensioen"><input type="checkbox" id="pPensioen" hidden>Pensioen / AOW / uitkering</label>
+        </div>
+        <div class="conditional" id="expatBlok">
+          <div class="field-group">
+            <div class="field">
+              <label>30%-/expatregeling van toepassing? <span class="help" data-tip="Voor ingekomen werknemers van buiten NL. Werkgever mag tot 30% van het loon onbelast vergoeden (per 2027 wordt dit 27%).">?</span></label>
+              <select id="expat"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select>
+            </div>
+            <div class="field" id="expatPctField" style="display:none;">
+              <label>Onbelaste vergoeding (€/jaar)</label>
+              <input type="number" id="expatBedrag" value="0" min="0" step="500">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. LOON -->
+    <div class="card open" id="cardLoon">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">€</span>Loon uit dienstbetrekking</div><div class="summary"><span id="sumLoon">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="seg" id="loonSeg">
+          <button class="seg-btn" data-period="hour">Per uur</button>
           <button class="seg-btn" data-period="month">Per maand</button>
-          <button class="seg-btn" data-period="year">Per jaar</button>
+          <button class="seg-btn active" data-period="year">Per jaar</button>
         </div>
         <div class="field-group">
-          <div class="field">
-            <label>Bedrag bruto (€)</label>
-            <input type="number" id="amount" value="17.22" step="0.01" min="0">
-          </div>
-          <div class="field" id="hoursField">
-            <label>Uren per week</label>
-            <input type="number" id="hours" value="40" min="1" max="60">
-          </div>
+          <div class="field"><label>Bruto bedrag (€)</label><input type="number" id="loonBedrag" value="45000" min="0" step="100"></div>
+          <div class="field" id="urenField" style="display:none;"><label>Uren per week</label><input type="number" id="loonUren" value="40" min="1" max="60"></div>
         </div>
         <div class="field-group">
-          <div class="field">
-            <label>Belastingjaar</label>
-            <select id="year">
-              <option value="2026" selected>2026</option>
-              <option value="2025">2025</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Leeftijd</label>
-            <select id="age">
-              <option value="normal" selected>Onder AOW (&lt;67)</option>
-              <option value="aow">AOW-leeftijd (67+)</option>
-            </select>
-          </div>
+          <div class="field"><label>Vakantiegeld</label><select id="vakantiegeld"><option value="1.08" selected>8% (standaard)</option><option value="1.0">Geen / inbegrepen</option><option value="1.10">10%</option></select></div>
+          <div class="field"><label>13e maand</label><select id="dertiende"><option value="0" selected>Nee</option><option value="1">Ja, hele maand</option><option value="0.5">Halve maand</option></select></div>
         </div>
         <div class="field-group">
-          <div class="field">
-            <label>Wie betaalt de ZVW-bijdrage? <span class="help" data-tip="Bij loondienst betaalt de werkgever (werkgeversheffing 6,10%) en zie je niets op je strook. ZZP'ers, gepensioneerden en sommige uitkeringstrekkers betalen zelf (5,43%).">?</span></label>
-            <select id="zvwWie">
-              <option value="werkgever" selected>Werkgever (loondienst)</option>
-              <option value="zelf">Ik zelf (ZZP / pensioen / uitkering)</option>
-            </select>
-          </div>
+          <div class="field"><label>Jaarbonus (€)</label><input type="number" id="bonus" value="0" min="0" step="100"></div>
+          <div class="field"><label>Bijtelling auto (€/jaar) <span class="help" data-tip="De fiscale bijtelling voor een auto van de zaak verhoogt je belastbaar loon.">?</span></label><input type="number" id="bijtelling" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Pensioenpremie die jij betaalt (€/jaar) <span class="help" data-tip="Het werknemersdeel van de pensioenpremie. Dit verlaagt je belastbaar loon. Staat op je loonstrook.">?</span></label><input type="number" id="pensioenWN" value="0" min="0" step="50"></div>
+          <div class="field"><label>Loonheffingskorting toegepast? <span class="help" data-tip="Vink aan bij je hoofdwerkgever. Die past dan de heffingskortingen toe. Maar 1 werkgever mag dit doen.">?</span></label><select id="loonheffingskorting"><option value="ja" selected>Ja (hoofdwerkgever)</option><option value="nee">Nee</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ZZP -->
+    <div class="card" id="cardZzp">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">★</span>Onderneming (ZZP / IB)</div><div class="summary"><span id="sumZzp">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="field-group">
+          <div class="field"><label>Winst vóór ondernemersaftrek (€) <span class="help" data-tip="Omzet minus zakelijke kosten en afschrijvingen, vóór zelfstandigenaftrek en MKB-winstvrijstelling.">?</span></label><input type="number" id="zzpWinst" value="50000" min="0" step="500"></div>
+          <div class="field"><label>Urencriterium gehaald? <span class="help" data-tip="Minimaal 1.225 uur per jaar aan je onderneming. Geeft recht op zelfstandigen- en startersaftrek.">?</span></label><select id="zzpUren"><option value="ja" selected>Ja (≥1.225 uur)</option><option value="nee">Nee</option></select></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Starter (max 3× in eerste 5 jaar)?</label><select id="zzpStarter"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
+          <div class="field"><label>AOV-premie (€/jaar) <span class="help" data-tip="Arbeidsongeschiktheidsverzekering. Premie is aftrekbaar in box 1.">?</span></label><input type="number" id="zzpAov" value="0" min="0" step="50"></div>
+        </div>
+        <div class="field-group three">
+          <div class="field"><label>KIA-investeringen (€) <span class="help" data-tip="Kleinschaligheidsinvesteringsaftrek. Investeringen van €2.901 t/m €70.602 geven 28% extra aftrek.">?</span></label><input type="number" id="zzpKia" value="0" min="0" step="100"></div>
+          <div class="field"><label>EIA energie (€) <span class="help" data-tip="Energie-investeringsaftrek: 40% extra aftrek voor bedrijfsmiddelen op de Energielijst (melden bij RVO).">?</span></label><input type="number" id="zzpEia" value="0" min="0" step="100"></div>
+          <div class="field"><label>MIA milieu (€) <span class="help" data-tip="Milieu-investeringsaftrek: 27%/36%/45% voor bedrijfsmiddelen op de Milieulijst.">?</span></label><input type="number" id="zzpMia" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>S&O/WBSO-verklaring? <span class="help" data-tip="Bij erkend speur- en ontwikkelingswerk (≥500 uur) krijg je een vaste S&O-aftrek.">?</span></label><select id="zzpSo"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
+          <div class="field"><label>Onderneming beëindigd dit jaar?</label><select id="zzpStaking"><option value="nee" selected>Nee</option><option value="ja">Ja (stakingsaftrek)</option></select></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Meewerkuren fiscaal partner/jaar <span class="help" data-tip="Werkt je fiscaal partner mee zonder reële beloning? Vanaf 525 uur geeft de meewerkaftrek 1,25%–4% van de winst.">?</span></label><input type="number" id="zzpMeewerkUren" value="0" min="0" step="25"></div>
           <div class="field"></div>
         </div>
       </div>
     </div>
 
-    <!-- PENSIOEN -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">⊙</span>Pensioen</div>
-        <div class="summary"><span id="pensioenSummary">Niet ingesteld</span><span class="chevron">▾</span></div>
+    <!-- 5. DGA -->
+    <div class="card" id="cardDga">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">◇</span>DGA / aanmerkelijk belang (box 2)</div><div class="summary"><span id="sumDga">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="field-group">
+          <div class="field"><label>DGA-salaris uit bv (€/jaar) <span class="help" data-tip="Je gebruikelijk loon. Minimaal het normbedrag (2026: €58.000) of het loon uit de meest vergelijkbare functie.">?</span></label><input type="number" id="dgaLoon" value="58000" min="0" step="1000"></div>
+          <div class="field"><label>Dividend uit bv dit jaar (€) <span class="help" data-tip="Box 2: tot €68.843 (2026) 24,5%, daarboven 31%. Met partner verdubbelt de eerste schijf.">?</span></label><input type="number" id="dgaDividend" value="0" min="0" step="1000"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Winst die in de bv blijft (€/jaar)</label><input type="number" id="dgaWinstBv" value="0" min="0" step="1000"></div>
+          <div class="field"><label>Loon meest vergelijkbare functie (€) <span class="help" data-tip="Gebruikelijk loon = hoogste van: (1) loon meest vergelijkbare dienstbetrekking, (2) hoogstbetaalde werknemer in de bv, (3) normbedrag €58.000 (2026). Vul (1) in als je die kent.">?</span></label><input type="number" id="dgaVergelijkbaar" value="0" min="0" step="1000"></div>
+        </div>
+        <div class="info">Het DGA-salaris reken ik als box 1-loon. Dividend belast ik in box 2. Gebruikelijk loon = het hoogste van het normbedrag en het loon uit de meest vergelijkbare functie.</div>
       </div>
+    </div>
+
+    <!-- 6. PENSIOEN/UITKERING -->
+    <div class="card" id="cardPensioen">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⊙</span>Pensioen / AOW / uitkering</div><div class="summary"><span id="sumPensioen">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="field-group">
+          <div class="field"><label>Bruto pensioen + AOW + uitkering (€/jaar)</label><input type="number" id="pensioenInkomen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Betaal je zelf de ZVW-bijdrage? <span class="help" data-tip="Over pensioen/uitkering houdt de uitkerende instantie vaak ZVW in (laag tarief).">?</span></label><select id="pensioenZvw"><option value="ja" selected>Ja (lage bijdrage)</option><option value="nee">Nee</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. PARTNER & GEZIN -->
+    <div class="card" id="cardPartner">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">♥</span>Partner &amp; gezin</div><div class="summary"><span id="sumPartner">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="conditional show" id="partnerBlok">
+          <div class="field-group">
+            <div class="field"><label>Belastbaar inkomen partner (€/jaar)</label><input type="number" id="partnerInkomen" value="0" min="0" step="500"></div>
+            <div class="field"><label>Arbeidsinkomen partner (€/jaar) <span class="help" data-tip="Loon/winst van je partner. Bepaalt wie de minstverdienende partner is voor de inkomensafhankelijke combinatiekorting (IACK).">?</span></label><input type="number" id="partnerArbeidsinkomen" value="0" min="0" step="500"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Geboortejaar partner</label><input type="number" id="partnerGeboortejaar" value="1985" min="1920" max="2008"></div>
+            <div class="field"></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Aantal kinderen onder 18</label><input type="number" id="kinderen" value="0" min="0" max="12" step="1"></div>
+          <div class="field" id="jongsteField" style="display:none;"><label>Leeftijd jongste kind</label><input type="number" id="jongsteKind" value="3" min="0" max="17"></div>
+        </div>
+        <div class="conditional" id="kinderenBlok">
+          <div class="field-group">
+            <div class="field"><label>Alleenstaande ouder? <span class="help" data-tip="Geeft recht op de alleenstaande-ouderkop in het kindgebonden budget en mogelijk de inkomensafhankelijke combinatiekorting.">?</span></label><select id="alleenstaandeOuder"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
+            <div class="field"><label>Kinderopvang (€/maand kosten) <span class="help" data-tip="De bruto opvangkosten. Op basis hiervan schat ik de kinderopvangtoeslag.">?</span></label><input type="number" id="opvangKosten" value="0" min="0" step="50"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Jongste kind ≥6 maanden tot je huishouden? <span class="help" data-tip="Voorwaarde voor de inkomensafhankelijke combinatiekorting: een kind onder 12 moet minstens 6 maanden van het jaar op jouw adres ingeschreven staan (of co-ouderschap).">?</span></label><select id="kindHuishouden6mnd"><option value="ja" selected>Ja</option><option value="nee">Nee</option></select></div>
+            <div class="field"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. WONEN -->
+    <div class="card" id="cardWonen">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⌂</span>Wonen</div><div class="summary"><span id="sumWonen">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
         <div class="field-group full">
-          <div class="field">
-            <label>Bouw je pensioen op via je werkgever?</label>
-            <select id="heeftPensioen">
-              <option value="nee" selected>Nee / niet ingesteld</option>
-              <option value="ja">Ja</option>
-            </select>
-          </div>
-        </div>
-        <div class="conditional" id="pensioenBlok">
-          <div class="field-group">
-            <div class="field">
-              <label>Totale premie (%) <span class="help" data-tip="Meestal 18-25% van pensioengrondslag. ABP: 24%, PFZW: 27,1%.">?</span></label>
-              <input type="number" id="pensioenTotaal" value="22" min="0" max="40" step="0.1">
-            </div>
-            <div class="field">
-              <label>Verdeling</label>
-              <select id="pensioenVerdeling">
-                <option value="33" selected>⅓ jij / ⅔ werkgever (standaard)</option>
-                <option value="50">50/50</option>
-                <option value="0">Werkgever betaalt alles</option>
-                <option value="100">Jij betaalt alles</option>
-              </select>
-            </div>
-          </div>
-          <div class="field-group">
-            <div class="field">
-              <label>Al opgebouwd pensioen (€/jaar) <span class="help" data-tip="Te zien op mijnpensioenoverzicht.nl. Het bedrag dat je per jaar krijgt vanaf je pensioendatum.">?</span></label>
-              <input type="number" id="opgebouwd" value="0" min="0" step="100">
-            </div>
-            <div class="field">
-              <label>Huidige leeftijd</label>
-              <input type="number" id="leeftijd" value="35" min="18" max="100">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- EXTRA's: vakantiegeld, 13e, bonus, bijtelling -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">+</span>Extra's en uitbetaling</div>
-        <div class="summary"><span id="extrasSummary">8% vakantiegeld in mei</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="field-group">
-          <div class="field">
-            <label>Vakantiegeld</label>
-            <select id="holiday">
-              <option value="1.08" selected>8% (standaard)</option>
-              <option value="1.10">10%</option>
-              <option value="1.0">Geen</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Uitbetaald in</label>
-            <select id="vakMaand">
-              <option value="5" selected>Mei</option>
-              <option value="6">Juni</option>
-              <option value="0">Maandelijks (all-in)</option>
-            </select>
-          </div>
-        </div>
-        <div class="field-group">
-          <div class="field">
-            <label>13e maand</label>
-            <select id="thirteenth">
-              <option value="0" selected>Nee</option>
-              <option value="1">Ja, hele maand</option>
-              <option value="0.5">Ja, halve maand</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>13e uitbetaald in</label>
-            <select id="derMaand">
-              <option value="12" selected>December</option>
-              <option value="11">November</option>
-              <option value="0">Maandelijks</option>
-            </select>
-          </div>
-        </div>
-        <div class="field-group">
-          <div class="field">
-            <label>Jaarbonus (€)</label>
-            <input type="number" id="bonus" value="0" min="0" step="100">
-          </div>
-          <div class="field">
-            <label>Bijtelling auto (€/jaar)</label>
-            <input type="number" id="bijtelling" value="0" min="0" step="100">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PERSOONLIJK: kortingen, partner, kinderen -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">♥</span>Persoonlijke situatie</div>
-        <div class="summary"><span id="persoonlijkSummary">Standaard</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="toggle-list">
-          <label class="toggle-pill" data-toggle="loonheffing"><input type="checkbox" id="loonheffing" checked hidden>Loonheffingskorting</label>
-          <label class="toggle-pill" data-toggle="partner"><input type="checkbox" id="partner" hidden>Fiscaal partner</label>
-          <label class="toggle-pill" data-toggle="kinderen"><input type="checkbox" id="kinderen" hidden>Kind &lt; 12 jaar</label>
-          <label class="toggle-pill" data-toggle="alleenverdiener"><input type="checkbox" id="alleenverdiener" hidden>Alleenstaand/minverdiener</label>
-        </div>
-        <div class="info" style="margin-top: 14px;">
-          Vink <strong>Loonheffingskorting</strong> aan als dit je hoofdwerkgever is — die past dan automatisch de heffingskortingen toe (max €3.115 algemene + €5.685 arbeidskorting in 2026).
-        </div>
-      </div>
-    </div>
-
-    <!-- WONEN -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">⌂</span>Wonen</div>
-        <div class="summary"><span id="wonenSummary">Niet ingesteld</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="field-group full">
-          <div class="field">
-            <label>Woonsituatie</label>
-            <select id="woonsituatie">
-              <option value="geen" selected>Niet van toepassing / overslaan</option>
-              <option value="huur">Huurwoning</option>
-              <option value="koop">Koopwoning met hypotheek</option>
-            </select>
-          </div>
-        </div>
-        <div class="conditional" id="huurBlok">
-          <div class="field-group">
-            <div class="field">
-              <label>Kale huur per maand (€)</label>
-              <input type="number" id="huur" value="850" min="0" step="10">
-            </div>
-            <div class="field">
-              <label>Vermogen &lt; €38.479?</label>
-              <select id="huurEligible">
-                <option value="ja" selected>Ja (mogelijk recht op toeslag)</option>
-                <option value="nee">Nee</option>
-              </select>
-            </div>
+          <div class="field"><label>Woonsituatie</label>
+            <select id="wonen"><option value="huur" selected>Huurwoning</option><option value="koop">Koopwoning (hypotheek)</option><option value="koopvrij">Koopwoning (afgelost/geen hypotheek)</option><option value="inwonend">Inwonend / anders</option></select>
           </div>
         </div>
         <div class="conditional" id="koopBlok">
           <div class="field-group">
-            <div class="field">
-              <label>Hypotheekrente per jaar (€)</label>
-              <input type="number" id="hyprente" value="6000" min="0" step="100">
-            </div>
-            <div class="field">
-              <label>WOZ-waarde (€)</label>
-              <input type="number" id="woz" value="350000" min="0" step="10000">
-            </div>
+            <div class="field"><label>WOZ-waarde (€)</label><input type="number" id="woz" value="350000" min="0" step="5000"></div>
+            <div class="field"><label>Betaalde hypotheekrente (€/jaar)</label><input type="number" id="hyprente" value="6000" min="0" step="100"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Eigenwoningschuld (€) <span class="help" data-tip="Het restant van je hypotheek. Bepaalt of de Wet Hillen (aftrek bij lage/geen schuld) speelt.">?</span></label><input type="number" id="ewSchuld" value="280000" min="0" step="5000"></div>
+            <div class="field"><label>Financieringskosten dit jaar (€) <span class="help" data-tip="Eenmalig aftrekbaar bij koop/oversluiten: advies-, afsluit-, taxatie- en NHG-kosten.">?</span></label><input type="number" id="ewKosten" value="0" min="0" step="100"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Aftrekbaar deel hypotheekrente (%) <span class="help" data-tip="Renteaftrek geldt max 30 jaar en alleen voor (annuïtair/lineair) aflossende leningen vanaf 2013. Verstreken termijn of aflossingsvrije delen zonder overgangsrecht zijn NIET aftrekbaar — verlaag dan dit percentage.">?</span></label><input type="number" id="ewRenteAftrekPct" value="100" min="0" max="100" step="5"></div>
+            <div class="field"></div>
+          </div>
+        </div>
+        <div class="conditional" id="huurBlok">
+          <div class="field-group">
+            <div class="field"><label>Kale huur (€/maand)</label><input type="number" id="huur" value="800" min="0" step="10"></div>
+            <div class="field"><label>Leeftijd (voor jongerengrens) <span class="help" data-tip="Onder 21 (2026) gelden andere huurtoeslaggrenzen.">?</span></label><input type="number" id="huurLeeftijd" value="35" min="18" max="100"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ARBEIDSVORM (alleen als ZZP nodig) -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">★</span>Arbeidsvorm</div>
-        <div class="summary"><span id="arbeidsvormSummary">Werknemer</span><span class="chevron">▾</span></div>
+    <!-- 9. AFTREKPOSTEN -->
+    <div class="card" id="cardAftrek">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">−</span>Aftrekposten &amp; pensioenopbouw</div><div class="summary"><span id="sumAftrek">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="row head" style="border:none;padding-top:6px;">Lijfrente / pensioentekort</div>
+        <div class="field-group">
+          <div class="field"><label>Jaarruimte (€) <span class="help" data-tip="De ruimte om fiscaal aftrekbaar lijfrente in te leggen. Bereken via de tool van de Belastingdienst of laat leeg om te schatten.">?</span></label><input type="number" id="jaarruimte" value="0" min="0" step="100"></div>
+          <div class="field"><label>Reserveringsruimte (€) <span class="help" data-tip="Onbenutte jaarruimte van de afgelopen 10 jaar, max ±€42.000.">?</span></label><input type="number" id="reserveringsruimte" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Al ingelegde lijfrente dit jaar (€)</label><input type="number" id="lijfrenteBetaald" value="0" min="0" step="100"></div>
+          <div class="field"><label>Kan ik nog extra storten vóór 31 dec? (€)</label><input type="number" id="lijfrenteExtra" value="0" min="0" step="100"></div>
+        </div>
+
+        <div class="row head" style="border:none;">Zorgkosten &amp; giften</div>
+        <div class="field-group">
+          <div class="field"><label>Zorgkosten — verhoogbaar deel (€) <span class="help" data-tip="Voorgeschreven medicijnen, hulpmiddelen, dieet op voorschrift, extra gezinshulp, aanpassingen. Bij laag inkomen/AOW geldt hierop een verhoging van 40% (113% bij AOW). NIET: eigen risico of premie.">?</span></label><input type="number" id="zorgkosten" value="0" min="0" step="50"></div>
+          <div class="field"><label>Zorgkosten — genees-/heelkundig + reiskosten (€) <span class="help" data-tip="Genees- en heelkundige hulp en reiskosten ziekenbezoek. Aftrekbaar, maar de verhoging voor lage inkomens geldt hier NIET.">?</span></label><input type="number" id="zorgkostenNiet" value="0" min="0" step="50"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Gewone giften aan ANBI (€/jaar)</label><input type="number" id="giftGewoon" value="0" min="0" step="25"></div>
+          <div class="field"><label>Periodieke giften (5-jaar vastgelegd) (€) <span class="help" data-tip="Geen drempel en geen 10%-plafond (wel max €1,5 mln). Vereist notariële of onderhandse akte voor minimaal 5 jaar.">?</span></label><input type="number" id="giftPeriodiek" value="0" min="0" step="25"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Waarvan aan culturele ANBI (€) <span class="help" data-tip="Giften aan culturele ANBI's tellen 1,25× mee (max €1.250 extra aftrek), ook bij periodieke giften.">?</span></label><input type="number" id="giftCultureel" value="0" min="0" step="25"></div>
+          <div class="field"></div>
+        </div>
+
+        <div class="row head" style="border:none;">Overige aftrek</div>
+        <div class="field-group">
+          <div class="field"><label>Betaalde partneralimentatie (€/jaar) <span class="help" data-tip="Partneralimentatie is volledig aftrekbaar. Kinderalimentatie NIET.">?</span></label><input type="number" id="alimentatie" value="0" min="0" step="100"></div>
+          <div class="field"><label>Reisaftrek OV — enkele reis (km) <span class="help" data-tip="Bij ≥10 km woon-werk met openbaar vervoer en een OV-verklaring is een vaste reisaftrek mogelijk.">?</span></label><input type="number" id="ovKm" value="0" min="0" step="1"></div>
+        </div>
+        <div class="conditional" id="ovBlok">
+          <div class="field-group">
+            <div class="field"><label>OV-dagen per week</label><select id="ovDagen"><option value="0" selected>—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4+</option></select></div>
+            <div class="field"><label>Reiskostenvergoeding werkgever (€/jaar)</label><input type="number" id="ovVergoeding" value="0" min="0" step="50"></div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <!-- 10. VERMOGEN BOX 3 -->
+    <div class="card" id="cardBox3">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">↗</span>Vermogen (box 3)</div><div class="summary"><span id="sumBox3">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
         <div class="field-group full">
-          <div class="field">
-            <label>Type</label>
-            <select id="employment">
-              <option value="employee" selected>Werknemer (loondienst)</option>
-              <option value="zzp">ZZP / IB-ondernemer</option>
-            </select>
+          <div class="field"><label>Heb je spaargeld/beleggingen van betekenis? <span class="help" data-tip="Onder het heffingsvrij vermogen (2026: €57.684 p.p. / €115.368 met partner) betaal je geen box 3.">?</span></label>
+            <select id="heeftVermogen"><option value="nee" selected>Nee / verwaarloosbaar</option><option value="ja">Ja</option></select>
           </div>
         </div>
-        <div class="conditional" id="zzpBlok">
+        <div class="conditional" id="box3Blok">
           <div class="field-group">
-            <div class="field">
-              <label>Urencriterium gehaald?</label>
-              <select id="uren">
-                <option value="ja" selected>Ja (≥1.225 uur)</option>
-                <option value="nee">Nee</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Starter (max 3 jaar)?</label>
-              <select id="starter">
-                <option value="nee" selected>Nee</option>
-                <option value="ja">Ja</option>
-              </select>
-            </div>
+            <div class="field"><label>Spaargeld + betaalrekeningen (€)</label><input type="number" id="b3Spaar" value="0" min="0" step="500"></div>
+            <div class="field"><label>Beleggingen / aandelen / ETF (€)</label><input type="number" id="b3Beleggingen" value="0" min="0" step="500"></div>
           </div>
           <div class="field-group">
-            <div class="field">
-              <label>Zakelijke kosten (€/jaar)</label>
-              <input type="number" id="zakelijk" value="0" min="0" step="100">
-            </div>
-            <div class="field">
-              <label>AOV-premie (€/jaar)</label>
-              <input type="number" id="aov" value="0" min="0" step="50">
-            </div>
+            <div class="field"><label>Crypto (€)</label><input type="number" id="b3Crypto" value="0" min="0" step="100"></div>
+            <div class="field"><label>Tweede woning / vastgoed WOZ (€)</label><input type="number" id="b3Vastgoed" value="0" min="0" step="1000"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Groene beleggingen (€) <span class="help" data-tip="Erkend groen sparen/beleggen is vrijgesteld tot €26.715 p.p. (2026) + extra heffingskorting. Regeling vervalt vanaf 2027.">?</span></label><input type="number" id="b3Groen" value="0" min="0" step="500"></div>
+            <div class="field"><label>Schulden box 3 (€) <span class="help" data-tip="Niet de eigenwoninghypotheek. Drempel €3.800 (€7.600 partners).">?</span></label><input type="number" id="b3Schuld" value="0" min="0" step="500"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Werkelijk rendement aantonen? <span class="help" data-tip="Tegenbewijsregeling: als je echte rendement lager was dan het forfait, mag je dat aantonen via Opgaaf Werkelijk Rendement. Dan geldt geen heffingsvrij vermogen.">?</span></label>
+              <select id="b3WerkelijkAantonen"><option value="nee" selected>Nee, forfait gebruiken</option><option value="ja">Ja, werkelijk rendement</option></select></div>
+            <div class="field"><label>Werkelijk rendement (€) <span class="help" data-tip="Rente + dividend + huur + gerealiseerde én ongerealiseerde waardemutaties, over je hele box 3-vermogen, zonder kostenaftrek behalve schuldrente. Mag negatief zijn bij verlies.">?</span></label><input type="number" id="b3Werkelijk" value="0" step="100"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- BEREKENING -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">≡</span>Bekijk berekening</div>
-        <div class="summary"><span class="chevron">▾</span></div>
+    <!-- 11. SCHENKEN/ERVEN -->
+    <div class="card" id="cardSchenken">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⤳</span>Schenken &amp; nalaten (optioneel)</div><div class="summary"><span id="sumSchenken">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="field-group full">
+          <div class="field"><label>Wil je schenk- en erfbelasting doorrekenen?</label><select id="schenkInteresse"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
+        </div>
+        <div class="conditional" id="schenkBlok">
+          <div class="section-intro">Plan je vermogen fiscaal slim over: jaarlijks belastingvrij schenken verlaagt zowel je box 3-belasting nú als de erfbelasting later.</div>
+          <div class="field-group">
+            <div class="field"><label>Aan wie schenk je / wie erft?</label>
+              <select id="schenkRelatie"><option value="kind" selected>Kind</option><option value="kleinkind">Kleinkind</option><option value="overig">Overig (broer/zus/derde)</option></select>
+            </div>
+            <div class="field"><label>Aantal ontvangers/erfgenamen</label><input type="number" id="schenkKinderen" value="2" min="0" max="20"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Bedrag dat je per ontvanger/jaar schenkt (€)</label><input type="number" id="schenkBedrag" value="6908" min="0" step="500"></div>
+            <div class="field"><label>Eenmalig verhoogde vrijstelling? <span class="help" data-tip="Voor een kind van 18–40 jaar geldt eenmalig een hogere vrijstelling (2026: €33.129 vrij besteedbaar, €69.009 voor studie).">?</span></label>
+              <select id="schenkEenmalig"><option value="nee" selected>Nee, jaarlijkse vrijstelling</option><option value="vrij">Ja, vrij besteedbaar</option><option value="studie">Ja, voor studie</option></select>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Verwachte nalatenschap (€) <span class="help" data-tip="Totaal na te laten vermogen: spaargeld, beleggingen, overwaarde eigen woning, minus schulden. We schatten dit uit je ingevoerde box 3-vermogen en woningoverwaarde.">?</span></label><input type="number" id="nalatenschap" value="0" min="0" step="5000"></div>
+            <div class="field"><label>Jaren dat je wilt schenken</label><input type="number" id="schenkJaren" value="10" min="1" max="30"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Is er een langstlevende partner die eerst erft? <span class="help" data-tip="Bij gehuwden erft vaak eerst de partner (vrijstelling 2026: €828.035, tarief 10/20%). Dat verlaagt de erfbelasting bij het eerste overlijden sterk.">?</span></label>
+              <select id="schenkPartnerErft"><option value="nee" selected>Nee, kinderen erven</option><option value="ja">Ja, partner erft eerst</option></select></div>
+            <div class="field"></div>
+          </div>
+        </div>
       </div>
+    </div>
+
+  </div>
+
+  <!-- ====================== BEREKENING ====================== -->
+  <div id="view-berekening" class="view">
+    <div class="card always-open">
+      <div class="card-head"><div class="title"><span class="icon">≡</span>Volledige berekening</div></div>
       <div class="card-body">
         <div id="breakdown"></div>
         <div class="stack" id="stackBar"></div>
         <div class="stack-legend" id="stackLegend"></div>
       </div>
     </div>
-
-    <!-- LOON PER MAAND -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">▦</span>Loon per maand</div>
-        <div class="summary"><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <table class="month-tbl" id="monthTable"></table>
-      </div>
+    <div class="card open">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">♦</span>Heffingskortingen</div><div class="summary"><span id="sumKortingen">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body" id="kortingenBody"></div>
     </div>
-
-    <!-- PENSIOENOVERZICHT (alleen tonen bij pensioen) -->
-    <div class="card" id="pensioenOverzichtCard" style="display:none;">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">○</span>Pensioenoverzicht</div>
-        <div class="summary"><span id="pensioenOverview">—</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body" id="pensioenBody"></div>
+    <div class="card" id="cardBox3Calc">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">↗</span>Box 3 in detail</div><div class="summary"><span id="sumBox3Calc">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body" id="box3Body"></div>
     </div>
-
-    <!-- WERKGEVERSLASTEN -->
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">◆</span>Wat kost jij je werkgever?</div>
-        <div class="summary"><span id="wgSummary">—</span><span class="chevron">▾</span></div>
-      </div>
+    <div class="card" id="cardToeslagen">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">+</span>Toeslagen (schatting)</div><div class="summary"><span id="sumToeslagen">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body" id="toeslagenBody"></div>
+    </div>
+    <div class="card" id="cardWg">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">◆</span>Wat kost jij je werkgever?</div><div class="summary"><span id="sumWg">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body" id="wgBody"></div>
     </div>
-
+    <div class="card" id="cardSchenkErf">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⤳</span>Schenk- &amp; erfbelasting</div><div class="summary"><span id="sumSchenkErf">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body" id="schenkErfBody"></div>
+    </div>
   </div>
 
-  <!-- ============================ BOX 3 ============================ -->
-  <div id="view-box3" class="view">
-
+  <!-- ====================== AANBEVELINGEN ====================== -->
+  <div id="view-advies" class="view">
     <div class="hero">
-      <div class="hero-label">Box 3 belasting per jaar</div>
-      <div class="hero-amount"><span class="cur">€</span><span id="b3Bedrag">0</span></div>
-      <div class="hero-period" id="b3Period">2026</div>
+      <div class="hero-label">Totaal te besparen / te benutten</div>
+      <div class="hero-amount"><span class="cur">€</span><span id="aBesparing">0</span></div>
+      <div class="hero-period" id="aTop">Vul je situatie in op het tabblad Adviseur</div>
       <div class="hero-row">
-        <div class="hero-stat">
-          <div class="lbl">Per maand</div>
-          <div class="val" id="b3Maand">€ 0</div>
-        </div>
-        <div class="hero-stat">
-          <div class="lbl">Eff. tarief</div>
-          <div class="val" id="b3Eff">0%</div>
-        </div>
-        <div class="hero-stat">
-          <div class="lbl">Vermogen</div>
-          <div class="val" id="b3Totaal">€ 0</div>
-        </div>
+        <div class="hero-stat"><div class="lbl">Concrete acties</div><div class="val" id="aActies">0</div></div>
+        <div class="hero-stat"><div class="lbl">Fiscale waarde aftrek</div><div class="val" id="aTarief">0%</div></div>
+        <div class="hero-stat"><div class="lbl">Aandachtspunten</div><div class="val" id="aVragen">0</div></div>
       </div>
     </div>
-
     <div class="card always-open">
-      <div class="card-head">
-        <div class="title"><span class="icon">⚙</span>Situatie</div>
-      </div>
-      <div class="card-body">
-        <div class="field-group">
-          <div class="field">
-            <label>Belastingjaar</label>
-            <select id="b3year">
-              <option value="2026" selected>2026</option>
-              <option value="2025">2025</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Fiscaal partner?</label>
-            <select id="b3partner">
-              <option value="nee" selected>Nee</option>
-              <option value="ja">Ja (vrijstelling verdubbelt)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <div class="card-head"><div class="title"><span class="icon">✓</span>Aanbevelingen — meeste besparing eerst</div></div>
+      <div class="card-body"><div id="adviesLijst"></div></div>
     </div>
-
     <div class="card open">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">€</span>Banktegoeden</div>
-        <div class="summary"><span id="b3BankSum">€ 0</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="field-group">
-          <div class="field">
-            <label>Spaargeld + betaalrekeningen (€)</label>
-            <input type="number" id="b3spaar" value="0" min="0" step="100">
-          </div>
-          <div class="field">
-            <label>Deposito's (€)</label>
-            <input type="number" id="b3depo" value="0" min="0" step="100">
-          </div>
-        </div>
-      </div>
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">?</span>Vragen die geld kunnen schelen</div><div class="summary"><span class="chevron">▾</span></div></div>
+      <div class="card-body" id="adviesVragen"></div>
     </div>
-
-    <div class="card open">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">↗</span>Beleggingen & overig</div>
-        <div class="summary"><span id="b3OverigSum">€ 0</span><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div class="field-group">
-          <div class="field">
-            <label>Aandelen, ETF's, fondsen (€)</label>
-            <input type="number" id="b3aandelen" value="0" min="0" step="100">
-          </div>
-          <div class="field">
-            <label>Crypto (€)</label>
-            <input type="number" id="b3crypto" value="0" min="0" step="100">
-          </div>
-        </div>
-        <div class="field-group">
-          <div class="field">
-            <label>Tweede woning (WOZ) (€)</label>
-            <input type="number" id="b3tweede" value="0" min="0" step="1000">
-          </div>
-          <div class="field">
-            <label>Overig vermogen (€)</label>
-            <input type="number" id="b3overig" value="0" min="0" step="100">
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">−</span>Schulden & vrijstellingen</div>
-        <div class="summary"><span class="chevron">▾</span></div>
-      </div>
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">i</span>Bronnen &amp; grenzen</div><div class="summary"><span class="chevron">▾</span></div></div>
       <div class="card-body">
-        <div class="field-group">
-          <div class="field">
-            <label>Schulden box 3 (€) <span class="help" data-tip="Geen hypotheek voor eigen woning. Drempel €3.800 (€7.600 partners) wordt automatisch toegepast.">?</span></label>
-            <input type="number" id="b3schuld" value="0" min="0" step="100">
-          </div>
-          <div class="field">
-            <label>Groene beleggingen (€) <span class="help" data-tip="Vrijstelling 2026: €26.715 per persoon.">?</span></label>
-            <input type="number" id="b3groen" value="0" min="0" step="100">
-          </div>
+        <div class="info">De adviseur rekent met de officiële tarieven 2025/2026 en alleen legale fiscale keuzes. Schattingen zijn indicatief. Laat grote keuzes (bv-structuur, vastgoed, emigratie, schenking, stakingswinst) altijd toetsen door een fiscalist of de Belastingdienst.</div>
+        <div class="source-list">
+          <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/tarieven/content/tarieven-2026" target="_blank" rel="noopener">Belastingdienst — tarieven box 1, 2 en 3 (2026)</a>
+          <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/heffingskortingen/" target="_blank" rel="noopener">Belastingdienst — heffingskortingen</a>
+          <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/box-3/" target="_blank" rel="noopener">Belastingdienst — box 3 &amp; werkelijk rendement</a>
+          <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/werk_en_inkomen/lijfrente/aftrekken-lijfrentepremies/" target="_blank" rel="noopener">Belastingdienst — lijfrente, jaarruimte &amp; reserveringsruimte</a>
+          <a href="https://www.toeslagen.nl/" target="_blank" rel="noopener">Toeslagen — zorg-, huur-, kinderopvangtoeslag &amp; kindgebonden budget</a>
+          <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/schenken/" target="_blank" rel="noopener">Belastingdienst — schenken &amp; erven</a>
         </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="title"><span class="icon">≡</span>Berekening</div>
-        <div class="summary"><span class="chevron">▾</span></div>
-      </div>
-      <div class="card-body">
-        <div id="b3Breakdown"></div>
-      </div>
-    </div>
-
   </div>
 
   <div class="disclaimer">
-    Indicatieve berekening op basis van officiële tarieven 2026 (Belastingdienst).
-    Geen financieel advies. Gebruik <strong>Mijn Belastingdienst</strong> voor exact bedrag.
+    Indicatieve berekening op basis van officiële tarieven 2025/2026 (Belastingdienst &amp; Rijksoverheid, geverifieerd). <strong>Geen financieel of fiscaal advies.</strong> Gebruik <strong>Mijn Belastingdienst</strong> voor je exacte aanslag.
   </div>
 
 </div>
 
 <script>
 /* ==========================================================================
-   PARAMS - Officiële Nederlandse tarieven
+   PARAMETERS — geverifieerde officiële tarieven 2025 & 2026 (Belastingdienst)
    ========================================================================== */
 const P = {
   2026: {
-    s1: { grens: 38883, t: 0.3575 }, s2: { grens: 78426, t: 0.3756 }, s3: { t: 0.4950 },
-    aow_s1: { t: 0.1785 },
-    ahkMax: 3115, ahkStart: 29739, ahkEnd: 78426, ahkAfb: 0.0640,
-    ahkAOWMax: 1556, ahkAOWAfb: 0.03195,
-    akMax: 5685, akK1: 11965, akK2: 25845, akK3: 45592, akAfbStart: 45593, akAfb: 0.0651, akEnd: 132920,
-    akP1: 0.09186, akP2: 0.28771, akP3: 0.03015,
-    akAOWMax: 2840, akAOWAfb: 0.03250,
-    iackMin: 6239, iackMax: 3032, iackOpb: 0.1145, iackTop: 32719,
-    ewf: 0.0035,
-    zelfstAftrek: 1200, startersAftrek: 2123, mkbVrij: 0.127,
-    zvwZZP: 0.0543, zvwWG: 0.0610, zvwMax: 79412,
-    wwLaag: 0.0274, aofGroot: 0.0761, whk: 0.0152, kot: 0.0050,
-    pensioenFranchise: 19172,
+    // Box 1 schijven
+    b1g1: 38883, b1t1: 0.3575, b1g2: 78426, b1t2: 0.3756, b1t3: 0.4950, b1t1aow: 0.1785,
+    premieAOW: 0.1790,
+    // Algemene heffingskorting
+    ahkMax: 3115, ahkStart: 29736, ahkAfb: 0.06398, ahkEnd: 78426, ahkMaxAow: 1556, ahkAfbAow: 0.03195,
+    // Arbeidskorting
+    akMax: 5685, akK1: 11965, akK2: 25845, akK3: 45592, akP1: 0.08324, akP2: 0.31009, akP3: 0.01950,
+    akAfb: 0.06510, akEnd: 132920, akMaxAow: 2840, akAfbAow: 0.03250,
+    // IACK
+    iackDrempel: 6239, iackOpb: 0.1145, iackMax: 3032,
+    // Ouderenkorting
+    ouderenMax: 2067, ouderenStart: 46002, ouderenAfb: 0.15, ouderenEnd: 59782,
+    alleenstaandeOuderen: 540,
+    // Box 2
+    b2g: 68843, b2t1: 0.245, b2t2: 0.31, dgaNorm: 58000,
     // Box 3
-    b3Bank: 0.0144, b3Overig: 0.06, b3Schuld: 0.0270, b3Tarief: 0.36,
-    b3Vrij: 59357, b3VrijP: 118714, b3Drempel: 3800, b3DrempelP: 7600,
-    b3Groen: 26715, b3GroenP: 53430,
-    // Toeslagen
-    ztMax: 131, ztMaxP: 246, ztGrens: 40857, ztGrensP: 51142, ztDrempel: 24813,
-    htMax: 350, htHuurMax: 932.93,
-    // AOW gemiddeld
-    aowAlleenstaand: 18900, aowGehuwd: 16800
+    b3vrij: 59357, b3vrijP: 118714, b3bank: 0.0128, b3overig: 0.0600, b3schuld: 0.0270, b3tarief: 0.36,
+    b3drempel: 3800, b3drempelP: 7600, b3groen: 26715, b3groenP: 53430, b3groenKorting: 0.001,
+    // Eigen woning
+    ewfPct: 0.0035, ewfVillaGrens: 1350000, ewfVillaVast: 4725, ewfVillaPct: 0.0235, hillen: 0.71867,
+    // Aftrekbeperking
+    maxAftrektarief: 0.3756, tariefsaanpassing: 0.1194, tariefsaanpassingGrens: 78426,
+    // Lijfrente
+    lijfPct: 0.30, lijfFranchise: 19172, lijfMaxGrondslag: 137800, lijfFactorA: 6.27, lijfMaxJaar: 35589, lijfMaxReserve: 42753,
+    // Zorgkosten
+    zorgMinAlleen: 166, zorgMinP: 332, zorgOndergrensA: 9680, zorgOndergrensP: 19360, zorgPct: 0.0165,
+    zorgBovengrens: 51411, zorgHoogBasis: 848, zorgHoogPct: 0.0575, zorgVerhogingGrens: 41123, zorgVerhogingNiet: 0.40, zorgVerhogingAow: 1.13,
+    // Giften
+    giftDrempelPct: 0.01, giftDrempelMin: 60, giftPlafondPct: 0.10, giftPeriodiekPlafond: 1500000, giftCultMult: 1.25, giftCultMax: 1250,
+    // Ondernemers
+    zelfst: 1200, starters: 2123, urencrit: 1225, mkbVrij: 0.127, staking: 3630, soAftrek: 15979, soStarters: 7996,
+    // KIA
+    kiaOn: 2901, kiaS1max: 71683, kiaPct: 0.28, kiaVast: 20072, kiaS2max: 132746, kiaS3max: 398236, kiaAfb: 0.0756,
+    eiaPct: 0.40, miaPct: 0.36, eiaMin: 2500, miaMin: 2500,
+    // Premies / ZVW
+    zvwHoog: 0.0610, zvwLaag: 0.0485, zvwMax: 79409, wwLaag: 0.0274, aofHoog: 0.0763, aofOpslag: 0.0050, whk: 0.0152,
+    // Toeslagen (jaarbedragen / grenzen)
+    ztMax: 1548, ztMaxP: 2952, ztDrempel: 24874, ztGrensA: 40857, ztGrensP: 51142, ztVermA: 146011, ztVermP: 184633,
+    htRekenhuurMax: 932.93, htVermA: 38479, htVermP: 76958, htBasis: 202.52, htBasisMeer: 200.71, htKwaliteit: 498.20, htAftopLaag: 713.02, htAftopHoog: 764.14, htIjkA: 23425, htIjkP: 31500,
+    kgbBasis: 2580, kgb12: 724, kgb16: 964, kgbAlo: 3416, kgbAfb: 0.071, kgbDrempelA: 29736, kgbDrempelP: 39141, kgbVermA: 146011, kgbVermP: 184633,
+    kotMaxUur: 11.23, kotPctMax: 0.96, kotMaxUren: 230,
+    b1g1aow1946: 41123,
+    // Schenken / erven
+    schenkOuderKind: 6908, schenkOverig: 2769, schenkEenmalig: 33129, schenkStudie: 69009,
+    erfPartner: 828035, erfKind: 26230, erfOuder: 62110, erfOverig: 2769,
+    sgGrens: 158669, sgKindT1: 0.10, sgKindT2: 0.20, sgKleinT1: 0.18, sgKleinT2: 0.36, sgOverigT1: 0.30, sgOverigT2: 0.40,
+    // Expat
+    expatPct: 0.30, expatNormRegulier: 48013, expatNormJong: 36497, expatAftopping: 262000,
+    belastingrente: 0.05,
+    // Pensioenprojectie (AOW bruto/jaar indicatief)
+    aowAlleen: 18900, aowGehuwd: 16800
   },
   2025: {
-    s1: { grens: 38441, t: 0.3582 }, s2: { grens: 76817, t: 0.3748 }, s3: { t: 0.4950 },
-    aow_s1: { t: 0.1792 },
-    ahkMax: 3068, ahkStart: 28406, ahkEnd: 76817, ahkAfb: 0.06337,
-    ahkAOWMax: 1536, ahkAOWAfb: 0.03170,
-    akMax: 5599, akK1: 12169, akK2: 27519, akK3: 43071, akAfbStart: 43072, akAfb: 0.0651, akEnd: 129078,
-    akP1: 0.08425, akP2: 0.28771, akP3: 0.02610,
-    akAOWMax: 2775, akAOWAfb: 0.03250,
-    iackMin: 6145, iackMax: 2986, iackOpb: 0.1145, iackTop: 32228,
-    ewf: 0.0035,
-    zelfstAftrek: 2470, startersAftrek: 2123, mkbVrij: 0.127,
-    zvwZZP: 0.0526, zvwWG: 0.0651, zvwMax: 75864,
-    wwLaag: 0.0274, aofGroot: 0.0764, whk: 0.0133, kot: 0.0050,
-    pensioenFranchise: 18475,
-    b3Bank: 0.0144, b3Overig: 0.0588, b3Schuld: 0.0261, b3Tarief: 0.36,
-    b3Vrij: 57684, b3VrijP: 115368, b3Drempel: 3800, b3DrempelP: 7600,
-    b3Groen: 26312, b3GroenP: 52624,
-    ztMax: 131, ztMaxP: 250, ztGrens: 39719, ztGrensP: 50206, ztDrempel: 24068,
-    htMax: 350, htHuurMax: 900.07,
-    aowAlleenstaand: 18250, aowGehuwd: 16200
+    b1g1: 38441, b1t1: 0.3582, b1g2: 76817, b1t2: 0.3748, b1t3: 0.4950, b1t1aow: 0.1792,
+    premieAOW: 0.1790,
+    ahkMax: 3068, ahkStart: 28406, ahkAfb: 0.06337, ahkEnd: 76817, ahkMaxAow: 1536, ahkAfbAow: 0.03170,
+    akMax: 5599, akK1: 12169, akK2: 26288, akK3: 43071, akP1: 0.08053, akP2: 0.30030, akP3: 0.02258,
+    akAfb: 0.06510, akEnd: 129078, akMaxAow: 2802, akAfbAow: 0.03257,
+    iackDrempel: 6145, iackOpb: 0.1145, iackMax: 2986,
+    ouderenMax: 2035, ouderenStart: 45308, ouderenAfb: 0.15, ouderenEnd: 58875,
+    alleenstaandeOuderen: 531,
+    b2g: 67804, b2t1: 0.245, b2t2: 0.31, dgaNorm: 56000,
+    b3vrij: 57684, b3vrijP: 115368, b3bank: 0.0137, b3overig: 0.0588, b3schuld: 0.0270, b3tarief: 0.36,
+    b3drempel: 3800, b3drempelP: 7600, b3groen: 26312, b3groenP: 52624, b3groenKorting: 0.001,
+    ewfPct: 0.0035, ewfVillaGrens: 1330000, ewfVillaVast: 4655, ewfVillaPct: 0.0235, hillen: 0.7667,
+    maxAftrektarief: 0.3748, tariefsaanpassing: 0.1202, tariefsaanpassingGrens: 76817,
+    lijfPct: 0.30, lijfFranchise: 18475, lijfMaxGrondslag: 137800, lijfFactorA: 6.27, lijfMaxJaar: 35798, lijfMaxReserve: 42108,
+    zorgMinAlleen: 164, zorgMinP: 328, zorgOndergrensA: 9534, zorgOndergrensP: 19068, zorgPct: 0.0165,
+    zorgBovengrens: 50635, zorgHoogBasis: 835, zorgHoogPct: 0.0575, zorgVerhogingGrens: 40502, zorgVerhogingNiet: 0.40, zorgVerhogingAow: 1.13,
+    giftDrempelPct: 0.01, giftDrempelMin: 60, giftPlafondPct: 0.10, giftPeriodiekPlafond: 1500000, giftCultMult: 1.25, giftCultMax: 1250,
+    zelfst: 2470, starters: 2123, urencrit: 1225, mkbVrij: 0.127, staking: 3630, soAftrek: 15738, soStarters: 7875,
+    kiaOn: 2901, kiaS1max: 70602, kiaPct: 0.28, kiaVast: 19769, kiaS2max: 130744, kiaS3max: 392230, kiaAfb: 0.0756,
+    eiaPct: 0.40, miaPct: 0.36, eiaMin: 2500, miaMin: 2500,
+    zvwHoog: 0.0651, zvwLaag: 0.0526, zvwMax: 75864, wwLaag: 0.0274, aofHoog: 0.0764, aofOpslag: 0.0050, whk: 0.0133,
+    ztMax: 1572, ztMaxP: 3000, ztDrempel: 24068, ztGrensA: 39719, ztGrensP: 50206, ztVermA: 141896, ztVermP: 179429,
+    htRekenhuurMax: 900.07, htVermA: 37395, htVermP: 74790, htBasis: 199.05, htBasisMeer: 197.24, htKwaliteit: 477.20, htAftopLaag: 731.93, htAftopHoog: 784.38, htIjkA: 22700, htIjkP: 30500,
+    kgbBasis: 2511, kgb12: 703, kgb16: 936, kgbAlo: 3389, kgbAfb: 0.071, kgbDrempelA: 28406, kgbDrempelP: 37545, kgbVermA: 141896, kgbVermP: 179429,
+    kotMaxUur: 10.71, kotPctMax: 0.96, kotMaxUren: 230,
+    b1g1aow1946: 40502,
+    schenkOuderKind: 6713, schenkOverig: 2690, schenkEenmalig: 32195, schenkStudie: 67064,
+    erfPartner: 804698, erfKind: 25490, erfOuder: 60359, erfOverig: 2690,
+    sgGrens: 154197, sgKindT1: 0.10, sgKindT2: 0.20, sgKleinT1: 0.18, sgKleinT2: 0.36, sgOverigT1: 0.30, sgOverigT2: 0.40,
+    expatPct: 0.30, expatNormRegulier: 46660, expatNormJong: 35468, expatAftopping: 246000,
+    belastingrente: 0.065,
+    aowAlleen: 18250, aowGehuwd: 16200
   }
 };
 
-/* ==========================================================================
-   FORMATTING
-   ========================================================================== */
-const fmtE = n => '€ ' + Math.round(n).toLocaleString('nl-NL');
-const fmtEd = n => '€ ' + n.toFixed(2).replace('.', ',');
-const fmtPct = n => n.toFixed(1).replace('.', ',') + '%';
+const OV_AFTREK = {
+  2026: [[10,[0,0,0,0]],[15,[144,287,431,574]],[20,[191,381,572,762]],[30,[317,634,951,1268]],[40,[393,786,1179,1572]],[50,[512,1024,1536,2047]],[60,[570,1140,1710,2279]],[70,[632,1264,1896,2527]],[80,[654,1307,1961,2614]],[90,[663,1325,1987,2649]]],
+  2025: [[10,[0,0,0,0]],[15,[142,283,424,565]],[20,[188,375,563,750]],[30,[312,624,936,1248]],[40,[387,774,1161,1548]],[50,[504,1008,1512,2016]],[60,[561,1122,1683,2244]],[70,[622,1244,1866,2488]],[80,[644,1287,1931,2574]],[90,[653,1305,1957,2609]]]
+};
 
 /* ==========================================================================
-   STATE & INPUTS
+   FORMATTERS & HELPERS
    ========================================================================== */
-function getInputs() {
-  let period = 'hour';
-  document.querySelectorAll('.seg-btn[data-period]').forEach(t => {
-    if (t.classList.contains('active')) period = t.dataset.period;
-  });
-  const v = id => parseFloat(document.getElementById(id).value) || 0;
-  const c = id => document.getElementById(id).checked;
-  const s = id => document.getElementById(id).value;
+const fmtE  = n => '€ ' + Math.round(n).toLocaleString('nl-NL');
+const fmtEd = n => '€ ' + (Math.round(n*100)/100).toFixed(2).replace('.', ',');
+const fmtPct= n => (Math.round(n*10)/10).toFixed(1).replace('.', ',') + '%';
+const $ = id => document.getElementById(id);
+const v = id => { const e=$(id); return e ? (parseFloat(e.value)||0) : 0; };
+const s = id => { const e=$(id); return e ? e.value : ''; };
+const chk = id => { const e=$(id); return e ? e.checked : false; };
+const clamp = (x,a,b) => Math.max(a, Math.min(b, x));
+
+function row(lbl, val, cls='', total=false){ return `<div class="row ${total?'total':''}"><span class="lbl">${lbl}</span><span class="val ${cls}">${val}</span></div>`; }
+function rowH(lbl){ return `<div class="row head">${lbl}</div>`; }
+
+/* ==========================================================================
+   STATE
+   ========================================================================== */
+function getState() {
+  let period = 'year';
+  document.querySelectorAll('#loonSeg .seg-btn').forEach(b => { if (b.classList.contains('active')) period = b.dataset.period; });
+  const year = s('year');
+  const yr = parseInt(year);
+  const p = P[year];
+  const geboortejaar = v('geboortejaar') || 1985;
+  const geboortemaand = clamp(parseInt(s('geboortemaand'))||1, 1, 12);
+  // AOW-status: bereik je 67 dit jaar = overgangsjaar met tijdsevenredig schijf 1-tarief
+  const jaarVan67 = geboortejaar + 67;
+  let b1t1eff, aowStatus;
+  if (yr > jaarVan67) { b1t1eff = p.b1t1aow; aowStatus = 'full'; }
+  else if (yr === jaarVan67) {
+    const laagMnd = clamp(13 - geboortemaand, 0, 12);   // maanden vanaf AOW-maand t/m december
+    b1t1eff = (laagMnd/12)*p.b1t1aow + ((12-laagMnd)/12)*p.b1t1;
+    aowStatus = 'overgang';
+  } else { b1t1eff = p.b1t1; aowStatus = 'none'; }
+  const aow = aowStatus !== 'none';
+  const b1g1eff = (aow && geboortejaar < 1946) ? p.b1g1aow1946 : p.b1g1;
   return {
-    period, year: s('year'), age: s('age'),
-    amount: v('amount'), hours: v('hours') || 40,
-    zvwWie: s('zvwWie'),
-    holiday: parseFloat(s('holiday')) || 1.08,
-    vakMaand: parseInt(s('vakMaand')),
-    derMaand: parseInt(s('derMaand')),
-    thirteenth: parseFloat(s('thirteenth')) || 0,
-    bonus: v('bonus'), bijtelling: v('bijtelling'),
-    loonheffing: c('loonheffing'),
-    partner: c('partner'), kinderen: c('kinderen'), alleenverdiener: c('alleenverdiener'),
-    woonsituatie: s('woonsituatie'),
-    huur: v('huur'), huurEligible: s('huurEligible') === 'ja',
-    hyprente: v('hyprente'), woz: v('woz'),
-    employment: s('employment'),
-    heeftPensioen: s('heeftPensioen') === 'ja',
-    pensioenTotaal: v('pensioenTotaal'),
-    pensioenVerdeling: parseFloat(s('pensioenVerdeling')),
-    opgebouwd: v('opgebouwd'), leeftijd: v('leeftijd') || 35,
-    uren: s('uren'), starter: s('starter'),
-    zakelijk: v('zakelijk'), aov: v('aov')
+    year, p, geboortejaar, geboortemaand, aow, aowStatus, b1t1eff, b1g1eff, period,
+    resident: s('resident'),
+    heeftPartner: s('heeftPartner') === 'ja',
+    pLoon: chk('pLoon'), pZzp: chk('pZzp'), pDga: chk('pDga'), pPensioen: chk('pPensioen'),
+    expat: s('expat') === 'ja', expatBedrag: v('expatBedrag'),
+    // loon
+    loonBedrag: v('loonBedrag'), loonUren: v('loonUren')||40,
+    vakantiegeld: parseFloat(s('vakantiegeld'))||1.08, dertiende: parseFloat(s('dertiende'))||0,
+    bonus: v('bonus'), bijtelling: v('bijtelling'), pensioenWN: v('pensioenWN'),
+    loonheffingskorting: s('loonheffingskorting') === 'ja',
+    // zzp
+    zzpWinst: v('zzpWinst'), zzpUren: s('zzpUren')==='ja', zzpStarter: s('zzpStarter')==='ja',
+    zzpAov: v('zzpAov'), zzpKia: v('zzpKia'), zzpEia: v('zzpEia'), zzpMia: v('zzpMia'),
+    zzpSo: s('zzpSo')==='ja', zzpStaking: s('zzpStaking')==='ja', zzpMeewerkUren: v('zzpMeewerkUren'),
+    // dga
+    dgaLoon: v('dgaLoon'), dgaDividend: v('dgaDividend'), dgaWinstBv: v('dgaWinstBv'), dgaVergelijkbaar: v('dgaVergelijkbaar'),
+    // pensioen
+    pensioenInkomen: v('pensioenInkomen'), pensioenZvw: s('pensioenZvw')==='ja',
+    // partner & gezin
+    partnerInkomen: v('partnerInkomen'), partnerArbeidsinkomen: v('partnerArbeidsinkomen'), partnerGeboortejaar: v('partnerGeboortejaar')||1985,
+    kinderen: Math.round(v('kinderen')), jongsteKind: v('jongsteKind'), kindHuishouden6mnd: s('kindHuishouden6mnd')!=='nee',
+    alleenstaandeOuder: s('alleenstaandeOuder')==='ja', opvangKosten: v('opvangKosten'),
+    // wonen
+    wonen: s('wonen'), woz: v('woz'), hyprente: v('hyprente'), ewSchuld: v('ewSchuld'), ewKosten: v('ewKosten'), ewRenteAftrekPct: $('ewRenteAftrekPct') ? clamp(v('ewRenteAftrekPct'),0,100) : 100,
+    huur: v('huur'), huurLeeftijd: v('huurLeeftijd')||35,
+    // aftrek
+    jaarruimte: v('jaarruimte'), reserveringsruimte: v('reserveringsruimte'),
+    lijfrenteBetaald: v('lijfrenteBetaald'), lijfrenteExtra: v('lijfrenteExtra'),
+    zorgkosten: v('zorgkosten'), zorgkostenNiet: v('zorgkostenNiet'), giftGewoon: v('giftGewoon'), giftPeriodiek: v('giftPeriodiek'), giftCultureel: v('giftCultureel'),
+    alimentatie: v('alimentatie'), ovKm: v('ovKm'), ovDagen: parseInt(s('ovDagen'))||0, ovVergoeding: v('ovVergoeding'),
+    // box 3
+    heeftVermogen: s('heeftVermogen')==='ja',
+    b3Spaar: v('b3Spaar'), b3Beleggingen: v('b3Beleggingen'), b3Crypto: v('b3Crypto'), b3Vastgoed: v('b3Vastgoed'),
+    b3Groen: v('b3Groen'), b3Schuld: v('b3Schuld'), b3Werkelijk: v('b3Werkelijk'), b3WerkelijkAantonen: s('b3WerkelijkAantonen')==='ja',
+    // schenken
+    schenkInteresse: s('schenkInteresse')==='ja', schenkKinderen: Math.round(v('schenkKinderen')),
+    schenkRelatie: s('schenkRelatie')||'kind', schenkBedrag: v('schenkBedrag'), schenkEenmalig: s('schenkEenmalig')||'nee',
+    schenkPartnerErft: s('schenkPartnerErft')==='ja',
+    nalatenschap: v('nalatenschap'), schenkJaren: Math.max(1, Math.round(v('schenkJaren'))||10)
   };
 }
 
 /* ==========================================================================
-   CORE BEREKENINGEN
+   FISCALE BOUWSTENEN
    ========================================================================== */
-function calcBruto(i) {
-  let base = i.period === 'hour' ? i.amount * i.hours * 52
-           : i.period === 'month' ? i.amount * 12
-           : i.amount;
-  return base * i.holiday + (base / 12) * i.thirteenth + i.bonus + i.bijtelling;
-}
-
-function calcBox1Tax(belastbaar, age, year) {
+function box1Tax(belastbaar, st, p) {
   if (belastbaar <= 0) return 0;
-  const p = P[year];
-  const t1 = age === 'aow' ? p.aow_s1.t : p.s1.t;
-  if (belastbaar <= p.s1.grens) return belastbaar * t1;
-  let tax = p.s1.grens * t1;
-  if (belastbaar <= p.s2.grens) return tax + (belastbaar - p.s1.grens) * p.s2.t;
-  tax += (p.s2.grens - p.s1.grens) * p.s2.t;
-  return tax + (belastbaar - p.s2.grens) * p.s3.t;
+  const t1 = st.b1t1eff, g1 = st.b1g1eff;
+  if (belastbaar <= g1) return belastbaar * t1;
+  let tax = g1 * t1;
+  if (belastbaar <= p.b1g2) return tax + (belastbaar - g1) * p.b1t2;
+  tax += (p.b1g2 - g1) * p.b1t2;
+  return tax + (belastbaar - p.b1g2) * p.b1t3;
+}
+function marginaalTarief(belastbaar, st, p) {
+  if (belastbaar <= st.b1g1eff) return st.b1t1eff;
+  if (belastbaar <= p.b1g2) return p.b1t2;
+  return p.b1t3;
+}
+function ahk(verzamel, aow, p) {
+  const max = aow ? p.ahkMaxAow : p.ahkMax;
+  const afb = aow ? p.ahkAfbAow : p.ahkAfb;
+  if (verzamel <= p.ahkStart) return max;
+  if (verzamel >= p.ahkEnd) return 0;
+  return Math.max(0, max - (verzamel - p.ahkStart) * afb);
+}
+function arbeidskorting(arbeid, aow, p) {
+  if (arbeid <= 0) return 0;
+  let k;
+  if (arbeid <= p.akK1) k = arbeid * p.akP1;
+  else if (arbeid <= p.akK2) k = p.akK1*p.akP1 + (arbeid - p.akK1) * p.akP2;
+  else if (arbeid <= p.akK3) k = p.akK1*p.akP1 + (p.akK2-p.akK1)*p.akP2 + (arbeid - p.akK2) * p.akP3;
+  else k = p.akMax - (arbeid - p.akK3) * p.akAfb;
+  k = Math.max(0, Math.min(p.akMax, k));
+  if (arbeid >= p.akEnd) k = 0;
+  if (aow) k = k * (p.akMaxAow / p.akMax);
+  return Math.max(0, k);
+}
+function iack(arbeid, heeftKindOnder12, komtInAanmerking, p) {
+  if (!heeftKindOnder12 || !komtInAanmerking) return 0;
+  if (arbeid < p.iackDrempel) return 0;
+  return Math.min(p.iackMax, (arbeid - p.iackDrempel) * p.iackOpb);
+}
+function ouderenkorting(verzamel, aow, p) {
+  if (!aow) return 0;
+  if (verzamel <= p.ouderenStart) return p.ouderenMax;
+  if (verzamel >= p.ouderenEnd) return 0;
+  return Math.max(0, p.ouderenMax - (verzamel - p.ouderenStart) * p.ouderenAfb);
+}
+function ewfBerekening(woz, p) {
+  if (woz <= 12500) return 0;
+  if (woz <= 25000) return woz * 0.0010;
+  if (woz <= 50000) return woz * 0.0020;
+  if (woz <= 75000) return woz * 0.0025;
+  if (woz <= p.ewfVillaGrens) return woz * p.ewfPct;
+  return p.ewfVillaVast + (woz - p.ewfVillaGrens) * p.ewfVillaPct;
+}
+function calcKIA(invest, p) {
+  if (invest < p.kiaOn) return 0;
+  if (invest <= p.kiaS1max) return invest * p.kiaPct;
+  if (invest <= p.kiaS2max) return p.kiaVast;
+  if (invest <= p.kiaS3max) return Math.max(0, p.kiaVast - p.kiaAfb * (invest - p.kiaS2max));
+  return 0;
+}
+function box2Tax(amount, heeftPartner, p) {
+  if (amount <= 0) return 0;
+  const grens = heeftPartner ? p.b2g * 2 : p.b2g;
+  return Math.min(amount, grens) * p.b2t1 + Math.max(0, amount - grens) * p.b2t2;
+}
+function zorgDrempel(inkomen, heeftPartner, p) {
+  const min = heeftPartner ? p.zorgMinP : p.zorgMinAlleen;
+  const onder = heeftPartner ? p.zorgOndergrensP : p.zorgOndergrensA;
+  if (inkomen <= onder) return min;
+  if (inkomen <= p.zorgBovengrens) return inkomen * p.zorgPct;
+  return p.zorgHoogBasis + (inkomen - p.zorgBovengrens) * p.zorgHoogPct;
+}
+function ovAftrek(km, dagen, vergoeding, year) {
+  if (km < 10 || dagen <= 0) return 0;
+  const t = OV_AFTREK[year] || OV_AFTREK[2026];
+  const idx = clamp(dagen,1,4) - 1;
+  const r = t.find(([mx]) => km <= mx);
+  const base = r ? r[1][idx] : t[t.length-1][1][idx];
+  return Math.max(0, base - vergoeding);
 }
 
-function calcAHK(income, age, year) {
-  const p = P[year];
-  const isAOW = age === 'aow';
-  const max = isAOW ? p.ahkAOWMax : p.ahkMax;
-  const afb = isAOW ? p.ahkAOWAfb : p.ahkAfb;
-  if (income <= p.ahkStart) return max;
-  if (income >= p.ahkEnd) return 0;
-  return Math.max(0, max - (income - p.ahkStart) * afb);
-}
+/* ==========================================================================
+   HOOFDBEREKENING
+   ========================================================================== */
+function compute() {
+  const st = getState();
+  const p = st.p;
+  let R = { st, p };
 
-function calcAK(income, age, year) {
-  if (income <= 0) return 0;
-  const p = P[year];
-  if (age === 'aow') {
-    if (income >= p.akAfbStart) return Math.max(0, p.akAOWMax - (income - p.akAfbStart) * p.akAOWAfb);
-    return (p.akAOWMax / p.akMax) * calcAK(income, 'normal', year);
-  }
-  if (income <= p.akK1) return income * p.akP1;
-  const ak1 = p.akK1 * p.akP1;
-  if (income <= p.akK2) return ak1 + (income - p.akK1) * p.akP2;
-  const ak2 = ak1 + (p.akK2 - p.akK1) * p.akP2;
-  if (income <= p.akK3) return Math.min(p.akMax, ak2 + (income - p.akK2) * p.akP3);
-  if (income >= p.akEnd) return 0;
-  return Math.max(0, p.akMax - (income - p.akAfbStart) * p.akAfb);
-}
-
-function calcIACK(income, hasKid, isAlleenverdiener, year) {
-  if (!hasKid || !isAlleenverdiener) return 0;
-  const p = P[year];
-  if (income < p.iackMin) return 0;
-  if (income >= p.iackTop) return p.iackMax;
-  return (income - p.iackMin) * p.iackOpb;
-}
-
-function bereken() {
-  const i = getInputs();
-  const p = P[i.year];
-  const brutoJaar = calcBruto(i);
-
-  // ZZP
-  let ondernemersaftrek = 0, mkbVrij = 0, brutoNa = brutoJaar;
-  if (i.employment === 'zzp') {
-    brutoNa = Math.max(0, brutoJaar - i.zakelijk - i.aov);
-    if (i.uren === 'ja') {
-      ondernemersaftrek = p.zelfstAftrek + (i.starter === 'ja' ? p.startersAftrek : 0);
-    }
-    mkbVrij = Math.max(0, brutoNa - ondernemersaftrek) * p.mkbVrij;
+  /* ---- LOON ---- */
+  let loonBruto = 0, loonBelast = 0, expatOnbelast = 0;
+  if (st.pLoon) {
+    const base = st.period === 'hour' ? st.loonBedrag * st.loonUren * 52
+               : st.period === 'month' ? st.loonBedrag * 12 : st.loonBedrag;
+    loonBruto = base * st.vakantiegeld + (base/12) * st.dertiende + st.bonus + st.bijtelling;
+    // 30%-regeling: onbelaste vergoeding is max 30% van het loon, afgetopt op de WNT-norm
+    if (st.expat) expatOnbelast = Math.min(st.expatBedrag, p.expatPct * Math.min(loonBruto, p.expatAftopping));
+    loonBelast = Math.max(0, loonBruto - st.pensioenWN - expatOnbelast);
   }
 
-  // Pensioen
-  let pensioenGrondslag = 0, pensioenTotaal = 0, pensioenWN = 0, pensioenWG = 0;
-  if (i.employment === 'employee' && i.heeftPensioen && i.pensioenTotaal > 0) {
-    pensioenGrondslag = Math.max(0, brutoJaar - p.pensioenFranchise);
-    pensioenTotaal = pensioenGrondslag * (i.pensioenTotaal / 100);
-    pensioenWN = pensioenTotaal * (i.pensioenVerdeling / 100);
-    pensioenWG = pensioenTotaal - pensioenWN;
+  /* ---- ZZP ---- */
+  let winstNa = 0, ondernemersaftrek = 0, mkbVrij = 0, investAftrek = 0, zzpBelast = 0;
+  if (st.pZzp) {
+    // Investeringsaftrek: EIA/MIA kennen een minimum van €2.500 per bedrijfsmiddel
+    const eia = st.zzpEia >= p.eiaMin ? st.zzpEia * p.eiaPct : 0;
+    const mia = st.zzpMia >= p.miaMin ? st.zzpMia * p.miaPct : 0;
+    investAftrek = calcKIA(st.zzpKia, p) + eia + mia;
+    let winst = st.zzpWinst - investAftrek;
+    // Zelfstandigenaftrek is gecapt op de winst — BEHALVE bij een starter (mag een verlies veroorzaken)
+    let zelfstDeel = st.zzpUren ? p.zelfst : 0;
+    if (!st.zzpStarter) zelfstDeel = Math.min(zelfstDeel, Math.max(0, winst));
+    const startersDeel = (st.zzpUren && st.zzpStarter) ? p.starters : 0;
+    // S&O-aftrek en stakingsaftrek vallen NIET onder de zelfstandigenaftrek-winstcap
+    const soDeel = (st.zzpSo && st.zzpUren) ? (p.soAftrek + (st.zzpStarter ? p.soStarters : 0)) : 0;
+    const stakingDeel = st.zzpStaking ? p.staking : 0;
+    // Meewerkaftrek: fiscaal partner werkt ≥525 uur mee zonder reële beloning (staffel 1,25%–4% van de winst)
+    let meewerkPct = 0; const mu = st.zzpMeewerkUren;
+    if (st.zzpUren && st.heeftPartner && mu >= 525) meewerkPct = mu < 875 ? 0.0125 : mu < 1225 ? 0.02 : mu < 1750 ? 0.03 : 0.04;
+    const meewerkDeel = meewerkPct * Math.max(0, winst);
+    ondernemersaftrek = zelfstDeel + startersDeel + soDeel + stakingDeel + meewerkDeel;
+    // Verlies mag doorlopen naar box 1 bij starter of staking; anders niet onder nul
+    const naAftrek = (st.zzpStarter || st.zzpStaking) ? (winst - ondernemersaftrek) : Math.max(0, winst - ondernemersaftrek);
+    mkbVrij = naAftrek * p.mkbVrij;   // werkt symmetrisch: vermindert ook een verlies
+    winstNa = naAftrek - mkbVrij;
+    zzpBelast = winstNa;              // kan negatief zijn → verrekent met overig box 1-inkomen
   }
 
-  // Eigen woning
-  let ewf = 0, hyprente = 0;
-  if (i.woonsituatie === 'koop') {
-    ewf = i.woz * p.ewf;
-    hyprente = i.hyprente;
+  /* ---- DGA & PENSIOEN ---- */
+  const dgaLoon = st.pDga ? st.dgaLoon : 0;
+  const pensioenInkomen = st.pPensioen ? st.pensioenInkomen : 0;
+
+  /* ---- EIGEN WONING ---- */
+  let ewf = 0, ewAftrekKosten = 0, ewSaldo = 0, hillenAftrek = 0;
+  if (st.wonen === 'koop' || st.wonen === 'koopvrij') {
+    ewf = ewfBerekening(st.woz, p);
+    // Renteaftrek max 30 jaar en alleen voor kwalificerende (aflossende) leningen → aftrekbaar deel
+    const rente = st.wonen === 'koop' ? st.hyprente * (st.ewRenteAftrekPct/100) : 0;
+    ewAftrekKosten = st.wonen === 'koop' ? st.ewKosten : 0;
+    const saldoVoorHillen = ewf - rente - ewAftrekKosten;
+    if (saldoVoorHillen > 0) { hillenAftrek = saldoVoorHillen * p.hillen; ewSaldo = saldoVoorHillen - hillenAftrek; }
+    else { ewSaldo = saldoVoorHillen; }
   }
 
-  // Belastbaar
-  let belastbaar = brutoJaar - pensioenWN - ondernemersaftrek - mkbVrij + ewf - hyprente;
+  /* ---- BOX 3 (vroeg nodig voor het drempelinkomen) ---- */
+  const b3 = berekenBox3(st, p);
+  const box2Inkomen = st.pDga ? st.dgaDividend : 0;
+  const partnerAow = st.heeftPartner && (parseInt(st.year) - st.partnerGeboortejaar) >= 67;
+
+  /* ---- LIJFRENTE / JAARRUIMTE ---- */
+  // Schat jaarruimte als die niet is ingevuld (alleen bij waarschijnlijk pensioentekort: ZZP of werknemer zonder pensioenpremie).
+  // jaarruimte = 0,30 × (min(inkomen;137.800) − AOW-franchise). Factor A onbekend, dus dit is een bovengrens-schatting.
+  const jrInkomen = loonBelast + Math.max(0, zzpBelast) + dgaLoon;
+  let jaarruimte = st.jaarruimte;
+  let jaarruimteGeschat = false;
+  if (jaarruimte <= 0 && jrInkomen > p.lijfFranchise && (st.pZzp || st.pDga || (st.pLoon && st.pensioenWN === 0))) {
+    jaarruimte = Math.max(0, (Math.min(jrInkomen, p.lijfMaxGrondslag) - p.lijfFranchise) * p.lijfPct);
+    jaarruimteGeschat = true;
+  }
+  jaarruimte = Math.min(jaarruimte, p.lijfMaxJaar);
+  const reserveringsruimte = Math.min(st.reserveringsruimte, p.lijfMaxReserve);
+  const lijfRuimte = jaarruimte + reserveringsruimte;
+  const lijfrenteAftrek = Math.min(st.lijfrenteBetaald, lijfRuimte) + st.zzpAov;
+
+  /* ---- AFTREKPOSTEN (PGA) ---- */
+  let inkomenVoorPGA = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + ewSaldo - lijfrenteAftrek;
+  inkomenVoorPGA = Math.max(0, inkomenVoorPGA);
+  // Drempelinkomen voor zorgkosten en giften = inkomen box 1 + box 2 + box 3, vóór persoonsgebonden aftrek
+  const drempelInkomen = inkomenVoorPGA + box2Inkomen + b3.voordeelBelast + (st.heeftPartner ? st.partnerInkomen : 0);
+
+  // Zorgkosten: verhogingsfactor geldt als JEZELF of je PARTNER AOW heeft, en alleen op het verhoogbare deel
+  // (NIET op genees-/heelkundige hulp en reiskosten ziekenbezoek = st.zorgkostenNiet).
+  const zd = zorgDrempel(drempelInkomen, st.heeftPartner, p);
+  let zorgAftrek = 0;
+  if (st.zorgkosten + st.zorgkostenNiet > 0) {
+    let verhoogbaar = st.zorgkosten;
+    if (drempelInkomen <= p.zorgVerhogingGrens) verhoogbaar = st.zorgkosten * (1 + ((st.aow || partnerAow) ? p.zorgVerhogingAow : p.zorgVerhogingNiet));
+    zorgAftrek = Math.max(0, verhoogbaar + st.zorgkostenNiet - zd);
+  }
+  // Giften: culturele 25%-bonus (max €1.250) geldt ook voor periodieke giften en is daar drempelvrij
+  const cultBonus = Math.min(st.giftCultureel * (p.giftCultMult - 1), p.giftCultMax);
+  const giftDrempel = Math.max(p.giftDrempelMin, drempelInkomen * p.giftDrempelPct);
+  const gewoonPlafond = drempelInkomen * p.giftPlafondPct;
+  const gewoonAftrek = Math.max(0, Math.min(st.giftGewoon - giftDrempel, gewoonPlafond));
+  const periodiekAftrek = Math.min(st.giftPeriodiek + cultBonus, p.giftPeriodiekPlafond);
+  const giftAftrek = gewoonAftrek + periodiekAftrek;
+  // Alimentatie & OV
+  const alimentatieAftrek = st.alimentatie;
+  const ovA = ovAftrek(st.ovKm, st.ovDagen, st.ovVergoeding, st.year);
+  const pga = zorgAftrek + giftAftrek + alimentatieAftrek + ovA;
+
+  /* ---- BELASTBAAR BOX 1 ---- */
+  let belastbaar = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + ewSaldo - lijfrenteAftrek - pga;
   belastbaar = Math.max(0, belastbaar);
 
-  // Belasting + kortingen
-  const taxGross = calcBox1Tax(belastbaar, i.age, i.year);
-  let ahk = 0, ak = 0, iack = 0;
-  if (i.loonheffing) {
-    ahk = calcAHK(belastbaar, i.age, i.year);
-    ak = calcAK(brutoJaar, i.age, i.year);
-    iack = calcIACK(brutoJaar, i.kinderen, i.alleenverdiener, i.year);
-  }
-  const totalKort = ahk + ak + iack;
-  const taxNet = Math.max(0, taxGross - totalKort);
+  /* ---- AFTREKBEPERKING (tariefsaanpassing) ---- */
+  const beperkteAftrek = Math.max(0, -Math.min(0, ewSaldo)) + ondernemersaftrek + mkbVrij + pga;
+  const inkomenVoorBeperkt = belastbaar + beperkteAftrek;
+  const correctie = p.tariefsaanpassing * Math.min(beperkteAftrek, Math.max(0, inkomenVoorBeperkt - p.tariefsaanpassingGrens));
 
-  // ZVW — wie betaalt? Werkgever via heffing (geen inhouding) of werknemer zelf (5,43%)
+  /* ---- BELASTING BOX 1 ---- */
+  const taxBruto = box1Tax(belastbaar, st, p) + correctie;
+
+  /* ---- BOX 2 ---- */
+  const box2 = box2Tax(box2Inkomen, st.heeftPartner, p);
+  // (b3 is hierboven al berekend voor het drempelinkomen)
+
+  /* ---- HEFFINGSKORTINGEN ---- */
+  const arbeidsinkomen = Math.max(0, loonBelast + zzpBelast + dgaLoon);
+  const verzamel = belastbaar + box2Inkomen + b3.voordeelBelast;
+  const kAhk = ahk(verzamel, st.aow, p);
+  const kAk = arbeidskorting(arbeidsinkomen, st.aow, p);
+  // IACK: kind <12 op 1 jan, ten minste 6 mnd tot het huishouden, werken, én alleenstaand óf minstverdienende partner
+  const kindOnder12 = st.kinderen > 0 && st.jongsteKind < 12 && st.kindHuishouden6mnd;
+  const iackEligible = st.alleenstaandeOuder || (st.heeftPartner && arbeidsinkomen > 0 && st.partnerArbeidsinkomen <= arbeidsinkomen);
+  const kIack = iack(arbeidsinkomen, kindOnder12, iackEligible, p);
+  const kOuderen = ouderenkorting(verzamel, st.aow, p);
+  const kAlleenOuderen = (st.aow && !st.heeftPartner) ? p.alleenstaandeOuderen : 0;
+  const kGroen = Math.min(st.heeftVermogen ? st.b3Groen : 0, st.heeftPartner ? p.b3groenP : p.b3groen) * p.b3groenKorting;
+  let totaalKorting = kAhk + kAk + kIack + kOuderen + kAlleenOuderen + kGroen;
+  // heffingskortingen kunnen niet meer bedragen dan de verschuldigde belasting (box1+2+3), behoudens uitbetaling
+  const heffingVoorKorting = taxBruto + box2 + b3.belasting;
+  totaalKorting = Math.min(totaalKorting, heffingVoorKorting);
+
+  const taxBox1Na = Math.max(0, taxBruto - Math.min(totaalKorting, taxBruto));
+  const kortingRestBox23 = Math.max(0, totaalKorting - taxBruto);
+  const box2Na = Math.max(0, box2 - Math.min(kortingRestBox23, box2));
+  const box3Na = Math.max(0, b3.belasting - Math.max(0, kortingRestBox23 - box2));
+
+  /* ---- ZVW (eigen bijdrage, lage tarief) ---- */
   let zvw = 0;
-  if (i.zvwWie === 'zelf' || i.employment === 'zzp') {
-    zvw = Math.min(brutoNa, p.zvwMax) * p.zvwZZP;
-  }
+  if (st.pZzp) zvw += Math.min(Math.max(0, zzpBelast), p.zvwMax) * p.zvwLaag;
+  if (st.pPensioen && st.pensioenZvw) zvw += Math.min(pensioenInkomen, p.zvwMax) * p.zvwLaag;
 
-  // Toeslagen (ALLEEN als info — niet meegeteld in netto loon)
-  let zorgtoeslag = 0, huurtoeslag = 0;
-  const totIncome = belastbaar;
-  const ztGrens = i.partner ? p.ztGrensP : p.ztGrens;
-  const ztMax = i.partner ? p.ztMaxP : p.ztMax;
-  if (totIncome < ztGrens) {
-    if (totIncome <= p.ztDrempel) zorgtoeslag = ztMax;
-    else zorgtoeslag = Math.max(0, ztMax * (1 - (totIncome - p.ztDrempel) / (ztGrens - p.ztDrempel)));
+  /* ---- TOTALEN ---- */
+  const totaalBelasting = taxBox1Na + box2Na + box3Na + zvw;
+  // Ondernemers-/MKB-aftrek zijn fiscaal (geen cash-uitgave): gebruik de echte winst als besteedbaar bedrag.
+  const winstCash = st.pZzp ? st.zzpWinst : 0;
+  const brutoCash = (loonBruto - st.bijtelling) - st.pensioenWN + winstCash + dgaLoon + pensioenInkomen
+                  + expatOnbelast + (st.pDga ? st.dgaDividend : 0);
+  const nettoJaar = brutoCash - totaalBelasting; // toeslagen apart
+  const nettoMaand = nettoJaar / 12;
+  const brutoBasis = loonBruto - st.bijtelling + winstCash + dgaLoon + pensioenInkomen;
+  const druk = brutoBasis > 0 ? (totaalBelasting / brutoBasis) * 100 : 0;
+
+  /* ---- TOESLAGEN ---- */
+  const toeslagen = berekenToeslagen(st, p, drempelInkomen, b3);
+
+  /* ---- SCHENK- & ERFBELASTING ---- */
+  const schenkErf = berekenSchenkErf(st, p, { b3 });
+
+  Object.assign(R, {
+    schenkErf, expatOnbelast,
+    loonBruto, loonBelast, winstNa, ondernemersaftrek, mkbVrij, investAftrek, zzpBelast,
+    dgaLoon, pensioenInkomen, ewf, ewSaldo, hillenAftrek, ewAftrekKosten,
+    lijfrenteAftrek, zorgAftrek, zorgDrempelBedrag: zd, giftAftrek, gewoonAftrek, periodiekAftrek, alimentatieAftrek, ovA, pga,
+    belastbaar, correctie, taxBruto, box2, box2Na, b3, box3Na,
+    arbeidsinkomen, verzamel, kAhk, kAk, kIack, kOuderen, kAlleenOuderen, kGroen, totaalKorting,
+    taxBox1Na, zvw, totaalBelasting, nettoJaar, nettoMaand, druk, drempelInkomen, toeslagen,
+    marginaal: marginaalTarief(belastbaar, st, p),
+    kindOnder12, jaarruimte, reserveringsruimte, lijfRuimte, jaarruimteGeschat, partnerAow, box2Inkomen
+  });
+  return R;
+}
+
+function berekenBox3(st, p) {
+  if (!st.heeftVermogen) return { actief:false, voordeelBelast:0, belasting:0, grondslag:0, vrij: st.heeftPartner?p.b3vrijP:p.b3vrij };
+  const bank = st.b3Spaar;
+  const groenVrij = st.heeftPartner ? p.b3groenP : p.b3groen;
+  const groenBelast = Math.max(0, st.b3Groen - groenVrij);
+  const overig = st.b3Beleggingen + st.b3Crypto + st.b3Vastgoed + groenBelast;
+  const drempel = st.heeftPartner ? p.b3drempelP : p.b3drempel;
+  const schuldAftrek = Math.max(0, st.b3Schuld - drempel);
+  const totBezit = bank + overig;
+  const grondslag = totBezit - schuldAftrek;
+  const vrij = st.heeftPartner ? p.b3vrijP : p.b3vrij;
+  if (grondslag <= vrij) return { actief:true, voordeelBelast:0, belasting:0, grondslag, vrij, bank, overig, schuldAftrek, voordeelForfait:0, voordeelForfaitBelast:0 };
+  const rBank = bank * p.b3bank, rOverig = overig * p.b3overig, rSchuld = schuldAftrek * p.b3schuld;
+  const voordeelForfait = rBank + rOverig - rSchuld;
+  const aandeel = (grondslag - vrij) / grondslag;
+  const voordeelForfaitBelast = Math.max(0, voordeelForfait * aandeel);
+  // Tegenbewijsregeling (Wet werkelijk rendement): werkelijk rendement geldt over het HELE vermogen,
+  // ZONDER heffingsvrij vermogen en ZONDER aandeel-correctie. Mag 0 of negatief zijn (-> €0 heffing).
+  const tegenbewijs = st.b3WerkelijkAantonen;
+  const voordeelBelast = tegenbewijs ? Math.max(0, Math.min(voordeelForfaitBelast, st.b3Werkelijk)) : voordeelForfaitBelast;
+  const belasting = voordeelBelast * p.b3tarief;
+  const gekozenWerkelijk = tegenbewijs && st.b3Werkelijk < voordeelForfaitBelast;
+  return { actief:true, voordeelBelast, belasting, grondslag, vrij, bank, overig, schuldAftrek, voordeelForfait, voordeelForfaitBelast, rBank, rOverig, rSchuld, aandeel, gekozenWerkelijk };
+}
+
+function berekenToeslagen(st, p, inkomen, b3) {
+  const vermogen = b3.grondslag > 0 ? b3.grondslag : 0;
+  let zorg = 0, huur = 0, kgb = 0, kot = 0;
+  // Zorgtoeslag
+  const ztMax = st.heeftPartner ? p.ztMaxP : p.ztMax;
+  const ztGrens = st.heeftPartner ? p.ztGrensP : p.ztGrensA;
+  const ztVerm = st.heeftPartner ? p.ztVermP : p.ztVermA;
+  if (inkomen < ztGrens && vermogen < ztVerm) {
+    if (inkomen <= p.ztDrempel) zorg = ztMax;
+    else zorg = Math.max(0, ztMax * (1 - (inkomen - p.ztDrempel) / (ztGrens - p.ztDrempel)));
   }
-  if (i.woonsituatie === 'huur' && i.huurEligible && i.huur > 0) {
-    if (totIncome < 35000) {
-      const basisEig = 250 + Math.max(0, totIncome - 20000) * 0.015;
-      huurtoeslag = Math.max(0, Math.min(p.htMax, Math.min(i.huur, p.htHuurMax) - basisEig));
+  // Huurtoeslag (indicatief): eigen bijdrage vanaf inkomensijkpunt; 100%/65%/40%-schijven; geen harde inkomenscliff
+  if (st.wonen === 'huur' && st.huur > 0) {
+    const htVerm = st.heeftPartner ? p.htVermP : p.htVermA;
+    if (vermogen < htVerm) {
+      const rekenhuur = Math.min(st.huur, p.htRekenhuurMax);
+      const ijk = st.heeftPartner ? p.htIjkP : p.htIjkA;
+      const basis = st.heeftPartner ? p.htBasisMeer : p.htBasis;
+      const ebFactor = st.heeftPartner ? 0.037 : 0.045;   // afbouw eigen bijdrage per euro boven ijkpunt
+      const eigenBijdrage = basis + Math.max(0, inkomen - ijk) * ebFactor;
+      // Banden vanaf de eigen bijdrage: 100% tot kwaliteitskortingsgrens, 65% tot aftoppingsgrens, 40% daarboven
+      const a = Math.max(0, Math.min(rekenhuur, p.htKwaliteit) - eigenBijdrage);
+      const b = 0.65 * Math.max(0, Math.min(rekenhuur, p.htAftopLaag) - Math.max(eigenBijdrage, p.htKwaliteit));
+      const c = 0.40 * Math.max(0, Math.min(rekenhuur, p.htRekenhuurMax) - Math.max(eigenBijdrage, p.htAftopLaag));
+      huur = Math.max(0, (a + b + c) * 12);   // maand -> jaarbedrag, consistent met de andere toeslagen
     }
   }
-  const toeslagenMaand = zorgtoeslag + huurtoeslag;
+  // Kindgebonden budget
+  if (st.kinderen > 0) {
+    const kgbVerm = st.heeftPartner ? p.kgbVermP : p.kgbVermA;
+    if (vermogen < kgbVerm) {
+      let basis = st.kinderen * p.kgbBasis;
+      if (st.jongsteKind >= 12 && st.jongsteKind <= 15) basis += p.kgb12;
+      if (st.jongsteKind >= 16) basis += p.kgb16;
+      if (st.alleenstaandeOuder) basis += p.kgbAlo;
+      const drempel = st.heeftPartner ? p.kgbDrempelP : p.kgbDrempelA;
+      kgb = Math.max(0, basis - Math.max(0, inkomen - drempel) * p.kgbAfb);
+    }
+  }
+  // Kinderopvangtoeslag (ruwe schatting): vergoeding gemaximeerd op max uurtarief × 230 uur/maand per kind
+  if (st.opvangKosten > 0 && st.kinderen > 0) {
+    const pct = inkomen < 50000 ? p.kotPctMax : (inkomen < 100000 ? 0.7 : 0.4);
+    const maxKostenMaand = p.kotMaxUur * p.kotMaxUren * st.kinderen;
+    const vergoedbaar = Math.min(st.opvangKosten, maxKostenMaand);
+    kot = vergoedbaar * 12 * pct;
+  }
+  return { zorg, huur, kgb, kot, totaalJaar: zorg + huur + kgb + kot };
+}
 
-  // Netto = bruto loon - belasting - ZVW - pensioen werknemer
-  // Toeslagen worden APART getoond, NIET in netto loon meegerekend
-  const nettoJaar = brutoJaar - taxNet - zvw - pensioenWN;
-  const nettoMaand = nettoJaar / 12;
-  const nettoMaandIncl = nettoMaand; // GEEN toeslagen meer in netto
-  const effTarief = brutoJaar > 0 ? ((taxNet + zvw) / brutoJaar) * 100 : 0;
-  const nettoUur = nettoMaand / (i.hours * 52 / 12);
+/* ==========================================================================
+   SCHENK- & ERFBELASTING
+   ========================================================================== */
+function schenkErfTarief(belast, relatie, p) {
+  let t1, t2;
+  if (relatie === 'kind') { t1 = p.sgKindT1; t2 = p.sgKindT2; }
+  else if (relatie === 'kleinkind') { t1 = p.sgKleinT1; t2 = p.sgKleinT2; }
+  else { t1 = p.sgOverigT1; t2 = p.sgOverigT2; }
+  return Math.min(belast, p.sgGrens) * t1 + Math.max(0, belast - p.sgGrens) * t2;
+}
+function berekenSchenkErf(st, p, R) {
+  if (!st.schenkInteresse) return { actief: false };
+  const n = Math.max(1, st.schenkKinderen);
+  const jaren = st.schenkJaren;
+  // Jaarlijkse vrijstelling + (eenmalig verhoogde, alleen in jaar 1)
+  const jaarVrij = st.schenkRelatie === 'kind' ? p.schenkOuderKind : p.schenkOverig;
+  let eenmaligVrij = jaarVrij;
+  if (st.schenkRelatie === 'kind' && st.schenkEenmalig === 'studie') eenmaligVrij = p.schenkStudie;
+  else if (st.schenkRelatie === 'kind' && st.schenkEenmalig === 'vrij') eenmaligVrij = p.schenkEenmalig;
+  const eenmaligGebruikt = st.schenkRelatie === 'kind' && st.schenkEenmalig !== 'nee';
+  const taxJaar1 = schenkErfTarief(Math.max(0, st.schenkBedrag - eenmaligVrij), st.schenkRelatie, p);
+  const taxOverig = schenkErfTarief(Math.max(0, st.schenkBedrag - jaarVrij), st.schenkRelatie, p);
+  const schenkTaxTotaal = (taxJaar1 + taxOverig * (jaren - 1)) * n;   // alle jaren, alle ontvangers
+  const belastingvrijPerJaar = Math.min(st.schenkBedrag, jaarVrij) * n;
+
+  // Nalatenschap: gebruik invoer of schat uit box 3 + overwaarde eigen woning
+  const overwaarde = (st.wonen === 'koop' || st.wonen === 'koopvrij') ? Math.max(0, st.woz - st.ewSchuld) : 0;
+  const geschatNalaten = (R && R.b3 && R.b3.grondslag > 0 ? R.b3.grondslag : (st.b3Spaar + st.b3Beleggingen + st.b3Crypto + st.b3Vastgoed)) + overwaarde;
+  const nalaten = st.nalatenschap > 0 ? st.nalatenschap : geschatNalaten;
+
+  // Erfbelasting: optioneel eerst naar langstlevende partner (partnervrijstelling, tarief partner/kind 10/20%)
+  let erfVrij, erfN, erfRelatie;
+  if (st.schenkPartnerErft) { erfVrij = p.erfPartner; erfN = 1; erfRelatie = 'kind'; }
+  else { erfVrij = st.schenkRelatie === 'overig' ? p.erfOverig : p.erfKind; erfN = n; erfRelatie = st.schenkRelatie; }
+  const erfTax = bedrag => schenkErfTarief(Math.max(0, bedrag/erfN - erfVrij), erfRelatie, p) * erfN;
+  const erfTaxNu = erfTax(nalaten);
+
+  // Na X jaar schenken verlaat het VOLLEDIGE geschonken bedrag de nalatenschap
+  const transferPerJaar = st.schenkBedrag * n;
+  const geschonken = Math.min(transferPerJaar * jaren, nalaten);
+  const nalatenNa = Math.max(0, nalaten - geschonken);
+  const erfTaxNa = erfTax(nalatenNa);
+  const erfBesparing = Math.max(0, erfTaxNu - erfTaxNa) - schenkTaxTotaal;
+
+  const box3Eff = (R && R.b3 && R.b3.grondslag > 0) ? (R.b3.belasting / R.b3.grondslag) : 0;
+  const box3BesparingPerJaar = transferPerJaar * box3Eff;
 
   return {
-    i, p, brutoJaar, brutoMaand: brutoJaar / 12,
-    pensioenGrondslag, pensioenTotaal, pensioenWN, pensioenWG,
-    ondernemersaftrek, mkbVrij, ewf, hyprente,
-    belastbaar, taxGross, taxNet, ahk, ak, iack, totalKort,
-    zvw, zorgtoeslag, huurtoeslag, toeslagenMaand,
-    nettoJaar, nettoMaand, nettoMaandIncl, nettoUur, effTarief
+    actief: true, n, jaren, schenkVrij: jaarVrij, eenmaligVrij, eenmaligGebruikt, partnerErft: st.schenkPartnerErft,
+    schenkTaxPer: taxJaar1, schenkTaxTotaal, belastingvrijPerJaar,
+    nalaten, erfVrij, erfTaxNu, erfTaxNa, geschonken, erfBesparing, box3BesparingPerJaar,
+    box3BesparingTotaal: box3BesparingPerJaar * jaren
   };
+}
+
+/* ==========================================================================
+   AANBEVELINGEN — concrete besparingen, meeste eerst
+   ========================================================================== */
+function adv(prio, title, saving, body, meta, deadline) {
+  return { prio, title, saving: Math.max(0, saving||0), body, meta: meta||[], deadline: deadline||'' };
+}
+
+function aanbevelingen(R) {
+  const st = R.st, p = R.p;
+  const list = [], vragen = [];
+  const dRate = Math.min(R.marginaal, p.maxAftrektarief);   // PGA/eigenwoning/ondernemer
+  const lRate = R.marginaal;                                // lijfrente (geen tariefsaanpassing)
+  const box3Eff = R.b3.grondslag > 0 ? (R.b3.belasting / R.b3.grondslag) : 0;
+
+  /* --- LIJFRENTE / PENSIOENTEKORT --- */
+  const ruimte = R.lijfRuimte;
+  const resterend = Math.max(0, ruimte - st.lijfrenteBetaald);
+  const kanStorten = st.lijfrenteExtra > 0 ? Math.min(st.lijfrenteExtra, resterend) : resterend;
+  if (st.lijfrenteBetaald > 0) {
+    const benut = Math.min(st.lijfrenteBetaald, ruimte || st.lijfrenteBetaald);
+    list.push(adv(2, 'Lijfrenteaftrek vastleggen', benut * lRate,
+      `Je ingelegde <b>${fmtE(benut)}</b> is aftrekbaar tegen je marginale tarief van <b>${fmtPct(lRate*100)}</b>. Bewaar de jaarruimteberekening en het inlegbewijs bij je aangifte.`,
+      ['box 1','zekere aftrek']));
+  }
+  if (kanStorten > 0) {
+    let saving = kanStorten * lRate;
+    let toeslagBoost = '';
+    if (R.toeslagen.zorg > 0 || R.toeslagen.kgb > 0) toeslagBoost = ' Het verlaagt bovendien je verzamelinkomen, waardoor je zorgtoeslag/kindgebonden budget kan stijgen.';
+    const schatNoot = R.jaarruimteGeschat ? ' Dit is een <b>schatting</b> van je jaarruimte (zonder factor A van je pensioenopbouw) — controleer met de Belastingdienst-tool.' : '';
+    list.push(adv(1, 'Extra lijfrente storten vóór 31 december', saving,
+      `Er lijkt nog <b>${fmtE(kanStorten)}</b> jaarruimte/reserveringsruimte over. Inleggen levert nu <b>${fmtE(saving)}</b> belastingvoordeel (${fmtPct(lRate*100)}).${toeslagBoost} Het bedrag keert later belast uit als oudedagsinkomen — ideaal als je dan in een lager tarief valt.${schatNoot}`,
+      ['pensioen','liquiditeit nodig'], 'vóór 31 dec'));
+  } else if (ruimte === 0) {
+    vragen.push('Heb je je <b>jaarruimte en reserveringsruimte</b> al berekend (met factor A van je UPO)? Dit is vaak de grootste legale aftrekpost — soms €10.000+ ruimte.');
+  }
+
+  /* --- PENSIOEN VIA WERKGEVER --- */
+  if (st.pLoon && ruimte > 0 && kanStorten <= 0 && st.pensioenWN === 0) {
+    vragen.push('Bouw je via je werkgever pensioen op? Extra inleg via de werkgever (uit brutoloon) is meestal fiscaal voordeliger dan netto sparen.');
+  }
+
+  /* --- GIFTEN: PERIODIEK MAKEN --- */
+  if (st.giftGewoon > 0) {
+    const drempel = Math.max(p.giftDrempelMin, R.drempelInkomen * p.giftDrempelPct);
+    const verloren = Math.min(st.giftGewoon, drempel);
+    if (verloren > 0) {
+      list.push(adv(2, 'Leg structurele giften periodiek vast', verloren * dRate,
+        `Gewone giften kennen een drempel van <b>${fmtE(drempel)}</b> (1% van je inkomen, min €60). Door je gift via een <b>periodieke schenking</b> (5 jaar, onderhandse akte) vast te leggen vervalt die drempel — dat scheelt ca. <b>${fmtE(verloren * dRate)}</b> per jaar.`,
+        ['ANBI','geen drempel'], 'akte vóór 1e gift'));
+    }
+  }
+  if (st.giftCultureel > 0) {
+    const bonus = Math.min(st.giftCultureel * 0.25, p.giftCultMax);
+    list.push(adv(3, 'Culturele giften 1,25× laten meetellen', bonus * dRate,
+      `Giften aan culturele ANBI's mogen met 25% worden verhoogd (max €1.250 extra aftrek). Op jouw culturele gift levert dat ca. <b>${fmtE(bonus * dRate)}</b> extra voordeel.`,
+      ['cultuur','ANBI']));
+  }
+
+  /* --- ZORGKOSTEN --- */
+  if (R.zorgAftrek > 0) {
+    list.push(adv(2, 'Specifieke zorgkosten aftrekken', R.zorgAftrek * dRate,
+      `Je niet-vergoede zorgkosten komen <b>${fmtE(R.zorgAftrek)}</b> boven de drempel (${fmtE(R.zorgDrempelBedrag)}) uit${R.drempelInkomen <= p.zorgVerhogingGrens ? ', inclusief de verhoging voor lagere inkomens' : ''}. Voordeel ca. <b>${fmtE(R.zorgAftrek * dRate)}</b>. Denk aan medicijnen op recept, hulpmiddelen, dieet, reiskosten ziekenbezoek en extra gezinshulp.`,
+      ['zorg','bewijs nodig']));
+  } else if (st.zorgkosten > 0) {
+    vragen.push(`Je zorgkosten blijven onder de drempel van ~${fmtE(R.zorgDrempelBedrag)}. Vergeet je niet aftrekbare posten zoals <b>dieet op voorschrift, vervoer naar zorg, hulpmiddelen of extra gezinshulp</b>?`);
+  }
+
+  /* --- ALIMENTATIE & OV --- */
+  if (st.alimentatie > 0) {
+    list.push(adv(2, 'Betaalde partneralimentatie aftrekken', st.alimentatie * dRate,
+      `Partneralimentatie is volledig aftrekbaar: ca. <b>${fmtE(st.alimentatie * dRate)}</b> voordeel. Let op: kinderalimentatie is níét aftrekbaar.`, ['box 1']));
+  }
+  if (R.ovA > 0) {
+    list.push(adv(3, 'Reisaftrek openbaar vervoer claimen', R.ovA * dRate,
+      `Op basis van ${st.ovKm} km en ${st.ovDagen} dag(en)/week is de reisaftrek ca. <b>${fmtE(R.ovA)}</b> (na vergoeding). Vraag een OV-/reisverklaring bij je werkgever of vervoerder.`, ['werk','verklaring']));
+  } else if (st.ovKm >= 10 && st.ovDagen === 0) {
+    vragen.push('Reis je met het OV naar je werk? Vul het aantal dagen per week in — bij ≥10 km kan een vaste reisaftrek gelden.');
+  }
+
+  /* --- BOX 3 OPTIMALISATIE --- */
+  if (R.b3.actief) {
+    const groenVrij = st.heeftPartner ? p.b3groenP : p.b3groen;
+    const groenRuimte = Math.max(0, groenVrij - st.b3Groen);
+    const overig = st.b3Beleggingen + st.b3Crypto;
+    const teVerschuiven = Math.min(groenRuimte, overig);
+    if (teVerschuiven > 0 && R.b3.belasting > 0) {
+      const saving = teVerschuiven * p.b3overig * p.b3tarief + teVerschuiven * p.b3groenKorting;
+      list.push(adv(2, 'Groen beleggen binnen de vrijstelling', saving,
+        `Tot <b>${fmtE(groenRuimte)}</b> aan erkende groene beleggingen is vrijgesteld in box 3 én geeft 0,1% extra heffingskorting. Verschuiven van regulier vermogen scheelt ca. <b>${fmtE(saving)}</b>/jaar. Let op: deze vrijstelling vervalt vanaf 2027.`,
+        ['box 3','risico'], 'peildatum 1 jan'));
+    }
+    if (R.b3.belasting > 0) {
+      if (st.b3WerkelijkAantonen && st.b3Werkelijk < R.b3.voordeelForfaitBelast) {
+        const saving = Math.max(0, R.b3.voordeelForfaitBelast - st.b3Werkelijk) * p.b3tarief;
+        list.push(adv(1, 'Box 3: werkelijk rendement aantonen', saving,
+          `Je werkelijke rendement (<b>${fmtE(st.b3Werkelijk)}</b>) is lager dan het forfaitaire belastbare voordeel (${fmtE(R.b3.voordeelForfaitBelast)}). Met het formulier <b>Opgaaf Werkelijk Rendement</b> bespaar je ca. <b>${fmtE(saving)}</b>. Werkelijk rendement = rente + dividend + huur + gerealiseerde én ongerealiseerde waardemutaties over je hele vermogen. Verzamel jaaroverzichten.`,
+          ['box 3','tegenbewijs']));
+      } else if (!st.b3WerkelijkAantonen) {
+        vragen.push('Was je <b>werkelijke</b> box 3-rendement (incl. ongerealiseerde waardestijging) lager dan het forfait? Zet "werkelijk rendement aantonen" aan — met tegenbewijs kun je box 3-belasting verlagen of zelfs op €0 krijgen.');
+      }
+      list.push(adv(3, 'Plan rond de peildatum (1 januari)', 0,
+        `Box 3 kijkt alleen naar je vermogen op <b>1 januari</b>. Grote uitgaven of belastingbetalingen vóór de jaarwisseling, en aflossen van box 3-schulden, verlagen je grondslag. Schuldendrempel: ${fmtE(st.heeftPartner?p.b3drempelP:p.b3drempel)}.`,
+        ['box 3','timing'], 'vóór 1 jan'));
+    }
+    if (!st.heeftPartner && R.b3.grondslag > p.b3vrij) {
+      vragen.push(`Heb je (of komt er) een fiscaal partner? Dan verdubbelt het heffingsvrij vermogen naar ${fmtE(p.b3vrijP)} en kun je de grondslag optimaal verdelen.`);
+    }
+  }
+
+  /* --- ZZP --- */
+  if (st.pZzp) {
+    if (!st.zzpUren) {
+      const aftrek = p.zelfst + (st.zzpStarter ? p.starters : 0);
+      list.push(adv(1, 'Urencriterium halen (1.225 uur)', aftrek * dRate,
+        `Met ≥1.225 uur/jaar krijg je de zelfstandigenaftrek (${fmtE(p.zelfst)})${st.zzpStarter?` + startersaftrek (${fmtE(p.starters)})`:''}. Dat is ca. <b>${fmtE(aftrek * dRate)}</b> minder belasting. Houd een sluitende urenregistratie bij.`,
+        ['ondernemer','urenregistratie']));
+    } else {
+      list.push(adv(3, 'Ondernemersaftrek benut', R.ondernemersaftrek * dRate,
+        `Je past <b>${fmtE(R.ondernemersaftrek)}</b> ondernemersaftrek + ${fmtE(R.mkbVrij)} MKB-winstvrijstelling toe. Let op: de zelfstandigenaftrek daalt naar €900 in 2027 — lijfrente wordt belangrijker voor je oudedag.`,
+        ['ondernemer']));
+    }
+    if (st.zzpKia > 0 || st.zzpEia > 0 || st.zzpMia > 0) {
+      list.push(adv(2, 'Investeringsaftrek benutten', R.investAftrek * dRate,
+        `KIA/EIA/MIA samen geven <b>${fmtE(R.investAftrek)}</b> extra aftrek (≈ ${fmtE(R.investAftrek * dRate)} voordeel). Meld EIA/MIA binnen 3 maanden bij RVO.`,
+        ['ondernemer','RVO','meldtermijn']));
+    } else {
+      vragen.push('Plan je zakelijke investeringen? Bundel ze boven €2.901 voor de KIA (28%), en check de Energielijst (EIA 40%) en Milieulijst (MIA).');
+    }
+    if (ruimte === 0) vragen.push('Als ondernemer bouw je geen werkgeverspensioen op. Bereken je jaarruimte en zet lijfrente op voor je oudedag (en directe aftrek).');
+  }
+
+  /* --- DGA / BOX 2 --- */
+  if (st.pDga) {
+    const grens = st.heeftPartner ? p.b2g * 2 : p.b2g;
+    if (st.dgaDividend > grens) {
+      const teveel = st.dgaDividend - grens;
+      const saving = teveel * (p.b2t2 - p.b2t1);
+      list.push(adv(1, 'Box 2-dividend spreiden over jaren', saving,
+        `Dividend boven <b>${fmtE(grens)}</b> valt in het hoge box 2-tarief (31% i.p.v. 24,5%). Door <b>${fmtE(teveel)}</b> naar een ander jaar te schuiven bespaar je ca. <b>${fmtE(saving)}</b>.${st.heeftPartner?'':' Met een fiscaal partner verdubbelt de lage schijf.'}`,
+        ['box 2','planning'], 'per kalenderjaar'));
+    } else if (st.dgaDividend > 0) {
+      list.push(adv(3, 'Dividend binnen de lage schijf', 0,
+        `Je dividend blijft onder ${fmtE(grens)} en wordt tegen 24,5% belast. Je hebt nog <b>${fmtE(grens - st.dgaDividend)}</b> ruimte in de lage schijf dit jaar.`,
+        ['box 2']));
+    }
+    const gebruikelijkLoon = Math.max(p.dgaNorm, st.dgaVergelijkbaar);
+    if (st.dgaLoon < gebruikelijkLoon) {
+      vragen.push(`Je DGA-loon (${fmtE(st.dgaLoon)}) ligt onder het <b>gebruikelijk loon</b> van ${fmtE(gebruikelijkLoon)} — het hoogste van het normbedrag (${fmtE(p.dgaNorm)})${st.dgaVergelijkbaar>0?` en het vergelijkbare loon (${fmtE(st.dgaVergelijkbaar)})`:''}. Verhoog je loon of onderbouw een lager bedrag, anders volgt een correctie/naheffing.`);
+    }
+    if (st.dgaWinstBv > 0) {
+      list.push(adv(3, 'Winst in bv houden vs. uitkeren', 0,
+        `Winst in de bv laten stelt box 2-heffing uit (gecombineerde druk ≈ 38,8%/48,8% inclusief Vpb). Vergelijk dit met privé beleggen in box 3 en je liquiditeitsbehoefte.`,
+        ['bv','timing']));
+    }
+  }
+
+  /* --- EIGEN WONING --- */
+  if (st.wonen === 'koop') {
+    if (R.belastbaar > p.b1g2 && st.hyprente > 0) {
+      list.push(adv(3, 'Hypotheekrente: benut tariefsaanpassing slim', 0,
+        `Je rente-aftrek telt in de toptariefschijf maar tegen <b>${fmtPct(p.maxAftrektarief*100)}</b> (niet 49,5%). Met een fiscaal partner kun je de aftrek toedelen aan wie er het meest voordeel van heeft.`,
+        ['eigen woning','verdeling']));
+    }
+    if (st.ewKosten === 0) {
+      vragen.push('Heb je dit jaar een hypotheek afgesloten of overgesloten? <b>Advies-, afsluit-, taxatie- en NHG-kosten</b> zijn eenmalig aftrekbaar.');
+    }
+    if (st.ewRenteAftrekPct >= 100) {
+      vragen.push('Loopt je hypotheek al richting <b>30 jaar</b> of heb je een aflossingsvrij deel (zonder overgangsrecht van vóór 2013)? Dan is (een deel van) de rente niet meer aftrekbaar — verlaag het aftrekbare percentage.');
+    }
+  }
+  if ((st.wonen === 'koop' || st.wonen === 'koopvrij') && R.ewSaldo > 0 && R.hillenAftrek > 0) {
+    list.push(adv(3, 'Wet Hillen: aftrek bij (bijna) afgeloste woning', R.hillenAftrek * dRate,
+      `Omdat je weinig/geen hypotheek hebt, krijg je via de Wet Hillen een aftrek van <b>${fmtE(R.hillenAftrek)}</b> op het eigenwoningforfait (${fmtPct(p.hillen*100)}). Deze regeling wordt wel afgebouwd (volledig weg in 2041).`,
+      ['eigen woning']));
+  }
+
+  /* --- INKOMENSSPREIDING / TOPTARIEF --- */
+  if (R.belastbaar > p.b1g2 && R.belastbaar < p.b1g2 + 25000 && (st.bonus > 0 || st.pZzp)) {
+    const inTop = Math.min(R.belastbaar - p.b1g2, st.bonus || 10000);
+    const saving = inTop * (p.b1t3 - p.b1t2);
+    list.push(adv(2, 'Inkomenspiek spreiden over twee jaren', saving,
+      `Een deel van je inkomen valt in het toptarief (49,5%). Door <b>${fmtE(inTop)}</b> (bonus/winst/nabetaling) naar volgend jaar te schuiven, bespaar je ca. <b>${fmtE(saving)}</b> (verschil 49,5% vs ${fmtPct(p.b1t2*100)}).`,
+      ['box 1','timing'], 'rond 31 dec'));
+  }
+
+  /* --- AOW-TIMING --- */
+  const leeftijd = parseInt(st.year) - st.geboortejaar;
+  if (!st.aow && leeftijd >= 65 && leeftijd < 67) {
+    vragen.push('Je nadert de AOW-leeftijd. Vanaf dan vervalt de AOW-premie (17,9%) en daalt je tarief in schijf 1 sterk. Overweeg aftrekposten (lijfrente, giften) nú te benutten tegen het hoge tarief.');
+  }
+
+  /* --- PARTNER --- */
+  if (st.heeftPartner) {
+    list.push(adv(3, 'Verdeel aftrekposten optimaal met je partner', 0,
+      `Eigenwoningsaldo, persoonsgebonden aftrek (zorg, giften, alimentatie) en de box 3-grondslag mag je in de aangifte vrij verdelen. Geef ze aan de partner met het <b>hoogste tarief</b> (aftrek) en box 3 aan wie het laagst uitkomt.`,
+      ['partner','aangifte']));
+    if (st.geboortejaar < 1963 && (st.partnerInkomen === 0 || R.arbeidsinkomen === 0)) {
+      vragen.push('Heeft de minstverdienende partner (geboren vóór 1963) weinig eigen inkomen? Dan kan de <b>algemene heffingskorting</b> deels worden uitbetaald.');
+    }
+  }
+
+  /* --- TOESLAGEN --- */
+  if (R.toeslagen.totaalJaar > 0) {
+    list.push(adv(2, 'Toeslagen aanvragen', R.toeslagen.totaalJaar,
+      `Op basis van je inkomen heb je naar schatting recht op ${[
+        R.toeslagen.zorg>0?`zorgtoeslag ${fmtE(R.toeslagen.zorg)}`:null,
+        R.toeslagen.huur>0?`huurtoeslag ${fmtE(R.toeslagen.huur)}`:null,
+        R.toeslagen.kgb>0?`kindgebonden budget ${fmtE(R.toeslagen.kgb)}`:null,
+        R.toeslagen.kot>0?`kinderopvangtoeslag ${fmtE(R.toeslagen.kot)}`:null
+      ].filter(Boolean).join(', ')} — samen ca. <b>${fmtE(R.toeslagen.totaalJaar)}/jaar</b>. Vraag aan via toeslagen.nl.`,
+      ['toeslagen','los aanvragen']));
+  } else if (R.drempelInkomen > 0 && R.drempelInkomen < (st.heeftPartner?p.ztGrensP:p.ztGrensA) + 8000) {
+    vragen.push('Je zit net rond de inkomensgrens voor toeslagen. Een aftrekpost (zoals lijfrente) verlaagt je verzamelinkomen en kan recht op zorgtoeslag/kindgebonden budget (her)openen.');
+  }
+
+  /* --- SCHENKEN / ERVEN --- */
+  const se = R.schenkErf;
+  if (se.actief && se.n > 0) {
+    const totaalVoordeel = Math.max(0, se.erfBesparing) + se.box3BesparingTotaal;
+    list.push(adv(2, 'Jaarlijks belastingvrij schenken', se.box3BesparingPerJaar,
+      `Je kunt <b>${fmtE(se.belastingvrijPerJaar)}/jaar</b> belastingvrij schenken (${se.n} ontvanger(s)). Over ${st.schenkJaren} jaar haal je zo <b>${fmtE(se.geschonken)}</b> uit je nalatenschap. Totaal fiscaal voordeel: <b>${fmtE(totaalVoordeel)}</b> (${fmtE(Math.max(0,se.erfBesparing))} minder erfbelasting${se.box3BesparingTotaal>0?` + ${fmtE(se.box3BesparingTotaal)} box 3`:''}). ${se.schenkTaxPer>0?`Let op: je schenkt meer dan vrijgesteld — ${fmtE(se.schenkTaxPer)} schenkbelasting per ontvanger.`:''}`,
+      ['schenken','erfbelasting'], 'per kalenderjaar'));
+  } else if (R.b3.actief && R.b3.grondslag > 2 * R.b3.vrij) {
+    vragen.push('Bij groter vermogen: jaarlijks schenken aan (klein)kinderen verlaagt zowel je box 3-belasting als de latere erfbelasting. Zet het onder "Schenken & nalaten" aan voor een doorrekening.');
+  }
+
+  /* --- EXPAT --- */
+  if (st.expat) {
+    list.push(adv(3, '30%-regeling: let op versobering 2027', 0,
+      `Vanaf 2027 daalt het forfait naar 27% en stijgt de salarisnorm. Wie de regeling vóór 2024 toepaste houdt 30%. De vergoeding is afgetopt op de WNT-norm (2026: ${fmtE(p.expatAftopping)}). Vergelijk jaarlijks met vergoeding van werkelijke extraterritoriale kosten.`,
+      ['expat','2027']));
+  }
+
+  /* --- VOORLOPIGE AANSLAG --- */
+  if (list.some(a => a.saving > 200)) {
+    vragen.push(`Verwacht je een teruggaaf door aftrekposten? Pas je <b>voorlopige aanslag</b> aan zodat je het voordeel maandelijks ontvangt i.p.v. achteraf (belastingrente ${fmtPct(p.belastingrente*100)}).`);
+  }
+
+  list.sort((a,b) => (a.prio - b.prio) || (b.saving - a.saving));
+  const besparing = list.reduce((s,a) => s + a.saving, 0);
+  return { list, vragen, besparing, dRate };
 }
 
 /* ==========================================================================
    RENDER
    ========================================================================== */
+function adviceHtml(a) {
+  const metas = a.meta.map(m => `<span class="meta">${m}</span>`).join('') + (a.deadline ? `<span class="meta deadline">${a.deadline}</span>` : '');
+  const sav = a.saving > 0 ? `<div class="advice-saving">${fmtE(a.saving)}</div>` : `<div class="advice-saving check">bekijken</div>`;
+  return `<div class="advice prio-${a.prio}"><div class="advice-head"><div class="advice-title">${a.title}</div>${sav}</div><div class="advice-body">${a.body}</div><div class="advice-meta">${metas}</div></div>`;
+}
+function questionHtml(q) { return `<div class="question"><span class="mark">?</span><span>${q}</span></div>`; }
+
+function setText(id, txt){ const e=$(id); if(e) e.textContent = txt; }
+function toggleHidden(id, show){ const e=$(id); if(e) e.classList.toggle('hidden', !show); }
+function toggleShow(id, show){ const e=$(id); if(e) e.classList.toggle('show', !!show); }
+function setDisplay(id, show){ const e=$(id); if(e) e.style.display = show ? '' : 'none'; }
+
+function applyVisibility(st) {
+  toggleHidden('cardLoon', st.pLoon);
+  toggleHidden('cardZzp', st.pZzp);
+  toggleHidden('cardDga', st.pDga);
+  toggleHidden('cardPensioen', st.pPensioen);
+  toggleShow('expatBlok', st.pLoon);
+  setDisplay('expatPctField', st.expat);
+  setDisplay('urenField', st.period === 'hour');
+  toggleShow('partnerBlok', st.heeftPartner);
+  toggleShow('kinderenBlok', st.kinderen > 0);
+  setDisplay('jongsteField', st.kinderen > 0);
+  toggleShow('koopBlok', st.wonen === 'koop' || st.wonen === 'koopvrij');
+  toggleShow('huurBlok', st.wonen === 'huur');
+  toggleShow('box3Blok', st.heeftVermogen);
+  toggleShow('ovBlok', st.ovKm >= 10);
+  toggleShow('schenkBlok', st.schenkInteresse);
+  toggleHidden('cardBox3Calc', st.heeftVermogen);
+  toggleHidden('cardWg', st.pLoon || st.pDga);
+  toggleHidden('cardSchenkErf', st.schenkInteresse);
+}
+
 function render() {
-  const r = bereken();
-  const i = r.i;
+  const R = compute();
+  const st = R.st, p = R.p;
+  applyVisibility(st);
 
-  // Hero — netto loon zonder toeslagen
-  document.getElementById('netoMaand').textContent = Math.round(r.nettoMaand).toLocaleString('nl-NL');
-  document.getElementById('netoJaar').textContent = fmtE(r.nettoJaar);
-  document.getElementById('netoUur').textContent = fmtEd(r.nettoUur);
-  document.getElementById('effTarief').textContent = fmtPct(r.effTarief);
-  document.getElementById('netoPeriod').textContent = `${i.hours} uur/week · ${i.year}${i.employment === 'zzp' ? ' · ZZP' : ''}`;
-  document.getElementById('yearBadge').textContent = `Belastingjaar ${i.year}`;
+  setText('hNetMaand', Math.round(R.nettoMaand).toLocaleString('nl-NL'));
+  setText('hBelasting', fmtE(R.totaalBelasting));
+  setText('hDruk', fmtPct(R.druk));
+  setText('hPeriod', `${st.year} · ${[st.pLoon?'loon':null, st.pZzp?'ZZP':null, st.pDga?'DGA':null, st.pPensioen?'pensioen':null].filter(Boolean).join(' + ') || 'geen inkomen'}`);
+  setText('yearBadge', `Belastingjaar ${st.year}`);
 
-  // Card summaries
-  const vakLbl = i.vakMaand === 0 ? 'maandelijks' : (i.vakMaand === 5 ? 'mei' : 'juni');
-  const extras = [];
-  if (i.holiday > 1) extras.push(`${((i.holiday-1)*100).toFixed(0)}% in ${vakLbl}`);
-  if (i.thirteenth > 0) extras.push('13e mnd');
-  if (i.bonus > 0) extras.push(`bonus ${fmtE(i.bonus)}`);
-  if (i.bijtelling > 0) extras.push(`bijtelling`);
-  document.getElementById('extrasSummary').textContent = extras.join(' · ') || 'Geen';
+  setText('sumLoon', R.loonBruto > 0 ? `${fmtE(R.loonBruto)}/jr bruto` : '—');
+  setText('sumZzp', st.pZzp ? `winst ${fmtE(st.zzpWinst)}` : '—');
+  setText('sumDga', st.pDga ? `loon ${fmtE(st.dgaLoon)} · div ${fmtE(st.dgaDividend)}` : '—');
+  setText('sumPensioen', st.pPensioen ? `${fmtE(st.pensioenInkomen)}/jr` : '—');
+  setText('sumPartner', st.heeftPartner ? `partner · ${st.kinderen} kind(eren)` : (st.kinderen>0?`${st.kinderen} kind(eren)`:'geen partner'));
+  setText('sumWonen', st.wonen==='koop'?`koop · WOZ ${fmtE(st.woz)}`:st.wonen==='koopvrij'?'koop (afgelost)':st.wonen==='huur'?`huur ${fmtE(st.huur)}/mnd`:'—');
+  const aftrekTot = R.lijfrenteAftrek + R.pga;
+  setText('sumAftrek', aftrekTot > 0 ? `${fmtE(aftrekTot)} aftrek` : '—');
+  setText('sumBox3', R.b3.actief ? (R.b3.belasting>0?`${fmtE(R.b3.belasting)}/jr`:'onder vrijstelling') : '—');
+  setText('sumSchenken', st.schenkInteresse ? (R.schenkErf.erfBesparing>0?`bespaar ${fmtE(R.schenkErf.erfBesparing)} erf`:`${st.schenkKinderen} ontvanger(s)`) : '—');
 
-  const pers = [];
-  if (!i.loonheffing) pers.push('zonder kortingen');
-  if (i.partner) pers.push('partner');
-  if (i.kinderen) pers.push('kind <12');
-  if (i.alleenverdiener) pers.push('alleenverdiener');
-  document.getElementById('persoonlijkSummary').textContent = pers.length ? pers.join(' · ') : 'Standaard';
+  renderBreakdown(R);
+  renderKortingen(R);
+  renderBox3Detail(R);
+  renderToeslagen(R);
+  renderWerkgever(R);
+  renderSchenkErf(R);
 
-  document.getElementById('wonenSummary').textContent =
-    i.woonsituatie === 'huur' ? `Huur ${fmtE(i.huur)}/mnd` :
-    i.woonsituatie === 'koop' ? `Koop · WOZ ${fmtE(i.woz)}` :
-    'Niet ingesteld';
-
-  document.getElementById('pensioenSummary').textContent =
-    i.heeftPensioen && r.pensioenTotaal > 0
-      ? `${fmtE(r.pensioenWN/12)}/mnd jij + ${fmtE(r.pensioenWG/12)}/mnd werkgever`
-      : 'Niet ingesteld';
-
-  document.getElementById('arbeidsvormSummary').textContent =
-    i.employment === 'zzp' ? 'ZZP' : 'Werknemer';
-
-  // Conditional blocks
-  document.getElementById('huurBlok').classList.toggle('show', i.woonsituatie === 'huur');
-  document.getElementById('koopBlok').classList.toggle('show', i.woonsituatie === 'koop');
-  document.getElementById('pensioenBlok').classList.toggle('show', i.heeftPensioen);
-  document.getElementById('zzpBlok').classList.toggle('show', i.employment === 'zzp');
-  document.getElementById('hoursField').style.display = i.period === 'hour' ? 'flex' : 'flex';
-
-  // Pensioen overzicht card
-  document.getElementById('pensioenOverzichtCard').style.display = (i.heeftPensioen && r.pensioenTotaal > 0) ? 'block' : 'none';
-
-  renderBreakdown(r);
-  renderMonthTable(r);
-  renderWerkgever(r);
-  renderPensioenOverzicht(r);
+  const A = aanbevelingen(R);
+  setText('hBesparing', fmtE(A.besparing));
+  setText('aBesparing', Math.round(A.besparing).toLocaleString('nl-NL'));
+  setText('aActies', A.list.length.toString());
+  setText('aTarief', fmtPct(A.dRate * 100));
+  setText('aVragen', A.vragen.length.toString());
+  setText('aTop', A.list[0] ? `Grootste kans: ${A.list[0].title}` : 'Nog geen concrete besparing gevonden');
+  $('adviesLijst').innerHTML = A.list.length ? A.list.map(adviceHtml).join('') : '<div class="empty">Vul je situatie in op het tabblad Adviseur om besparingen te vinden.</div>';
+  $('adviesVragen').innerHTML = A.vragen.length ? A.vragen.map(questionHtml).join('') : '<div class="empty">Geen openstaande aandachtspunten op basis van je invoer.</div>';
 }
 
-function renderBreakdown(r) {
-  const i = r.i, p = r.p;
-  const parts = [];
-  parts.push(rowH('Bruto'));
-  parts.push(row('Bruto jaarloon', fmtE(r.brutoJaar)));
-  if (r.pensioenWN > 0) parts.push(row('− Pensioenpremie (jij)', '−' + fmtE(r.pensioenWN), 'neg'));
-  if (r.ondernemersaftrek > 0) parts.push(row('− Zelfstandigenaftrek', '−' + fmtE(r.ondernemersaftrek), 'neg'));
-  if (r.mkbVrij > 0) parts.push(row('− MKB-winstvrijstelling', '−' + fmtE(r.mkbVrij), 'neg'));
-  if (r.ewf > 0) parts.push(row('+ Eigenwoningforfait', '+' + fmtE(r.ewf)));
-  if (r.hyprente > 0) parts.push(row('− Hypotheekrente', '−' + fmtE(r.hyprente), 'neg'));
-  parts.push(row('Belastbaar inkomen', fmtE(r.belastbaar)));
-
-  parts.push(rowH('Belasting'));
-  parts.push(row('Loonheffing bruto', fmtE(r.taxGross)));
-  if (r.ahk > 0) parts.push(row('− Algemene heffingskorting', '−' + fmtE(r.ahk), 'neg'));
-  if (r.ak > 0) parts.push(row('− Arbeidskorting', '−' + fmtE(r.ak), 'neg'));
-  if (r.iack > 0) parts.push(row('− Combinatiekorting', '−' + fmtE(r.iack), 'neg'));
-  parts.push(row('Te betalen belasting', fmtE(r.taxNet)));
-  if (r.zvw > 0) parts.push(row('ZVW-bijdrage (jij betaalt zelf)', fmtE(r.zvw)));
-
-  parts.push(row('Netto loon per maand', fmtE(r.nettoMaand), '', true));
-
-  // Toeslagen los — niet meegerekend in netto loon
-  if (r.toeslagenMaand > 0) {
-    parts.push(rowH('Eventuele toeslagen (apart aanvragen)'));
-    if (r.zorgtoeslag > 0) parts.push(row('Zorgtoeslag (los aanvragen)', '+' + fmtE(r.zorgtoeslag) + '/mnd', 'pos'));
-    if (r.huurtoeslag > 0) parts.push(row('Huurtoeslag (los aanvragen)', '+' + fmtE(r.huurtoeslag) + '/mnd', 'pos'));
-    parts.push(row('Totaal toeslagen', '+' + fmtE(r.toeslagenMaand) + '/mnd', 'pos'));
+function renderBreakdown(R) {
+  const st = R.st, p = R.p;
+  const out = [];
+  out.push(rowH('Inkomen box 1'));
+  if (R.loonBruto > 0) out.push(row('Bruto loon', fmtE(R.loonBruto)));
+  if (st.pLoon && st.pensioenWN > 0) out.push(row('− Pensioenpremie (jij)', '−'+fmtE(st.pensioenWN), 'neg'));
+  if (R.expatOnbelast > 0) out.push(row('− Onbelast (30%-regeling, afgetopt)', '−'+fmtE(R.expatOnbelast), 'neg'));
+  if (st.pZzp) {
+    out.push(row('Winst onderneming', fmtE(st.zzpWinst)));
+    if (R.investAftrek > 0) out.push(row('− Investeringsaftrek', '−'+fmtE(R.investAftrek), 'neg'));
+    if (R.ondernemersaftrek > 0) out.push(row('− Ondernemersaftrek', '−'+fmtE(R.ondernemersaftrek), 'neg'));
+    if (R.mkbVrij > 0) out.push(row('− MKB-winstvrijstelling (12,7%)', '−'+fmtE(R.mkbVrij), 'neg'));
   }
-  document.getElementById('breakdown').innerHTML = parts.join('');
+  if (R.dgaLoon > 0) out.push(row('DGA-loon', fmtE(R.dgaLoon)));
+  if (R.pensioenInkomen > 0) out.push(row('Pensioen / uitkering', fmtE(R.pensioenInkomen)));
+  if (R.ewSaldo !== 0) out.push(row(R.ewSaldo>0?'+ Eigenwoningforfait (na Hillen)':'− Hypotheekrente saldo', (R.ewSaldo>0?'+':'−')+fmtE(Math.abs(R.ewSaldo)), R.ewSaldo>0?'':'neg'));
+  if (R.lijfrenteAftrek > 0) out.push(row('− Lijfrente / AOV', '−'+fmtE(R.lijfrenteAftrek), 'neg'));
+  if (R.pga > 0) out.push(row('− Persoonsgebonden aftrek', '−'+fmtE(R.pga), 'neg'));
+  out.push(row('Belastbaar inkomen box 1', fmtE(R.belastbaar), '', true));
 
-  // Stack bar
-  const tot = r.brutoJaar;
-  if (tot > 0) {
-    const n = (r.nettoJaar / tot) * 100;
-    const b = ((r.taxNet + r.zvw) / tot) * 100;
-    const pen = (r.pensioenWN / tot) * 100;
-    document.getElementById('stackBar').innerHTML = `
-      <div style="width:${n}%;background:var(--green)"></div>
-      <div style="width:${b}%;background:var(--accent)"></div>
-      <div style="width:${pen}%;background:var(--blue)"></div>
-    `;
-    document.getElementById('stackLegend').innerHTML = `
-      <span><span class="dot" style="background:var(--green)"></span>Netto ${n.toFixed(0)}%</span>
-      <span><span class="dot" style="background:var(--accent)"></span>Belasting ${b.toFixed(0)}%</span>
-      ${pen > 0 ? `<span><span class="dot" style="background:var(--blue)"></span>Pensioen ${pen.toFixed(0)}%</span>` : ''}
-    `;
-  }
+  out.push(rowH('Belasting & kortingen'));
+  out.push(row('Inkomstenbelasting box 1', fmtE(box1Tax(R.belastbaar, st, p))));
+  if (R.correctie > 0) out.push(row('+ Aftrekbeperking (tariefsaanpassing)', '+'+fmtE(R.correctie)));
+  if (R.kAhk > 0) out.push(row('− Algemene heffingskorting', '−'+fmtE(R.kAhk), 'neg'));
+  if (R.kAk > 0) out.push(row('− Arbeidskorting', '−'+fmtE(R.kAk), 'neg'));
+  if (R.kIack > 0) out.push(row('− Inkomensafh. combinatiekorting', '−'+fmtE(R.kIack), 'neg'));
+  if (R.kOuderen > 0) out.push(row('− Ouderenkorting', '−'+fmtE(R.kOuderen), 'neg'));
+  if (R.kAlleenOuderen > 0) out.push(row('− Alleenstaande ouderenkorting', '−'+fmtE(R.kAlleenOuderen), 'neg'));
+  if (R.kGroen > 0) out.push(row('− Heffingskorting groen', '−'+fmtE(R.kGroen), 'neg'));
+  out.push(row('Belasting box 1 na korting', fmtE(R.taxBox1Na), '', true));
+
+  if (R.box2Na > 0) { out.push(rowH('Box 2 — aanmerkelijk belang')); out.push(row('Belasting dividend', fmtE(R.box2Na), '', true)); }
+  if (R.box3Na > 0) { out.push(rowH('Box 3 — vermogen')); out.push(row('Vermogensrendementsheffing', fmtE(R.box3Na), '', true)); }
+  if (R.zvw > 0) { out.push(rowH('Zorgverzekeringswet')); out.push(row('ZVW-bijdrage (eigen)', fmtE(R.zvw), '', true)); }
+
+  out.push(rowH('Resultaat'));
+  out.push(row('Totale belasting + premies', fmtE(R.totaalBelasting), 'neg'));
+  out.push(row('Netto besteedbaar / jaar', fmtE(R.nettoJaar), 'pos'));
+  out.push(row('Netto besteedbaar / maand', fmtE(R.nettoMaand), 'pos', true));
+  if (R.toeslagen.totaalJaar > 0) out.push(row('+ Toeslagen (apart, schatting)', '+'+fmtE(R.toeslagen.totaalJaar)+'/jr', 'pos'));
+  $('breakdown').innerHTML = out.join('');
+
+  const basis = R.loonBruto - st.bijtelling + (st.pZzp ? st.zzpWinst : 0) + R.dgaLoon + R.pensioenInkomen;
+  if (basis > 0) {
+    const nettoP = clamp(R.nettoJaar / basis * 100, 0, 100);
+    const belP = clamp(R.totaalBelasting / basis * 100, 0, 100);
+    const penP = clamp(st.pensioenWN / basis * 100, 0, 100);
+    $('stackBar').innerHTML = `<div style="width:${nettoP}%;background:var(--green)"></div><div style="width:${belP}%;background:var(--accent)"></div><div style="width:${penP}%;background:var(--blue)"></div>`;
+    $('stackLegend').innerHTML = `<span><span class="sdot" style="background:var(--green)"></span>Netto ${nettoP.toFixed(0)}%</span><span><span class="sdot" style="background:var(--accent)"></span>Belasting ${belP.toFixed(0)}%</span>${penP>0?`<span><span class="sdot" style="background:var(--blue)"></span>Pensioen ${penP.toFixed(0)}%</span>`:''}`;
+  } else { $('stackBar').innerHTML=''; $('stackLegend').innerHTML=''; }
 }
 
-function renderMonthTable(r) {
-  const i = r.i, p = r.p;
-  const namen = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
-
-  const basisJaar = i.period === 'hour' ? i.amount * i.hours * 52
-                   : i.period === 'month' ? i.amount * 12
-                   : i.amount;
-  const basisMaand = (basisJaar + i.bijtelling) / 12;
-  const vakTot = basisJaar * (i.holiday - 1);
-  const derTot = (basisJaar / 12) * i.thirteenth;
-
-  // Effectieve ratios
-  const effRatio = r.brutoJaar > 0 ? r.nettoJaar / r.brutoJaar : 0.7;
-  let bijz;
-  if (r.belastbaar <= p.s1.grens) bijz = p.s1.t;
-  else if (r.belastbaar <= p.s2.grens) bijz = p.s2.t;
-  else bijz = p.s3.t;
-  const ratExtra = 1 - bijz;
-
-  let html = `<thead><tr><th>Maand</th><th class="num">Bruto</th><th class="num">Netto</th></tr></thead><tbody>`;
-  let tBruto = 0, tNetto = 0;
-
-  for (let m = 1; m <= 12; m++) {
-    let extras = 0;
-    let chips = '';
-    if (i.vakMaand === 0) extras += vakTot / 12;
-    else if (m === i.vakMaand) { extras += vakTot; chips += '<span class="chip-mini">vak</span>'; }
-    if (i.thirteenth > 0) {
-      if (i.derMaand === 0) extras += derTot / 12;
-      else if (m === i.derMaand) { extras += derTot; chips += '<span class="chip-mini">13e</span>'; }
-    }
-    const bruto = basisMaand + extras;
-    const netto = basisMaand * effRatio + extras * ratExtra;
-    tBruto += bruto; tNetto += netto;
-    const high = extras > basisMaand * 0.3;
-    html += `<tr class="${high ? 'highlight' : ''}"><td class="month">${namen[m-1]}${chips}</td><td class="num">${fmtE(bruto)}</td><td class="num">${fmtE(netto)}</td></tr>`;
-  }
-  html += `<tr class="tot"><td>Totaal jaar</td><td class="num">${fmtE(tBruto)}</td><td class="num netto">${fmtE(tNetto)}</td></tr></tbody>`;
-  document.getElementById('monthTable').innerHTML = html;
+function renderKortingen(R) {
+  setText('sumKortingen', fmtE(R.totaalKorting));
+  const out = [];
+  out.push(row('Verzamelinkomen (grondslag AHK)', fmtE(R.verzamel)));
+  out.push(row('Arbeidsinkomen (grondslag arbeidskorting)', fmtE(R.arbeidsinkomen)));
+  out.push(rowH('Toegepaste heffingskortingen'));
+  out.push(row('Algemene heffingskorting', fmtE(R.kAhk)));
+  out.push(row('Arbeidskorting', fmtE(R.kAk)));
+  if (R.kIack > 0) out.push(row('Inkomensafhankelijke combinatiekorting', fmtE(R.kIack)));
+  if (R.kOuderen > 0) out.push(row('Ouderenkorting', fmtE(R.kOuderen)));
+  if (R.kAlleenOuderen > 0) out.push(row('Alleenstaande ouderenkorting', fmtE(R.kAlleenOuderen)));
+  if (R.kGroen > 0) out.push(row('Heffingskorting groen beleggen', fmtE(R.kGroen)));
+  out.push(row('Totaal', fmtE(R.totaalKorting), '', true));
+  if (!R.kindOnder12 && R.st.kinderen > 0) out.push(`<div class="info">Je jongste kind is 12+, dus geen recht op de inkomensafhankelijke combinatiekorting (alleen voor kinderen onder 12).</div>`);
+  $('kortingenBody').innerHTML = out.join('');
 }
 
-function renderWerkgever(r) {
-  const i = r.i, p = r.p;
-  if (i.employment !== 'employee') {
-    document.getElementById('wgBody').innerHTML = `<div class="info">ZZP'ers zijn hun eigen werkgever — niet van toepassing.</div>`;
-    document.getElementById('wgSummary').textContent = '—';
-    return;
-  }
-  const grondslag = Math.min(r.brutoJaar, p.zvwMax);
-  const zvwWG = grondslag * p.zvwWG;
-  const ww = grondslag * p.wwLaag;
-  const aof = grondslag * p.aofGroot;
-  const whk = grondslag * p.whk;
-  const kot = grondslag * p.kot;
-  const totWG = zvwWG + ww + aof + whk + kot + r.pensioenWG;
-  const totaalKost = r.brutoJaar + totWG;
-  const pct = (totWG / r.brutoJaar) * 100;
-
-  document.getElementById('wgSummary').textContent = `+${pct.toFixed(0)}% (${fmtE(totaalKost)}/jr)`;
-
-  document.getElementById('wgBody').innerHTML = `
-    <div class="info" style="background:var(--accent-soft);">
-      <strong>Bovenop jouw bruto van ${fmtE(r.brutoJaar)}</strong> betaalt je werkgever nog <strong>${fmtE(totWG)}</strong> aan premies.
-      Totale loonkosten: <strong>${fmtE(totaalKost)}</strong> per jaar (+${pct.toFixed(0)}%).
-    </div>
-    <div style="margin-top:14px;">
-      ${row('ZVW werkgeversheffing (6,10%)', fmtE(zvwWG))}
-      ${row('WW-premie laag (2,74%)', fmtE(ww))}
-      ${row('Aof-premie (7,61%)', fmtE(aof))}
-      ${row('Whk-premie (1,52%)', fmtE(whk))}
-      ${row('Kinderopvangtoeslag (0,50%)', fmtE(kot))}
-      ${r.pensioenWG > 0 ? row('Pensioenbijdrage werkgever', fmtE(r.pensioenWG)) : ''}
-      ${row('Totaal werkgeverslasten', fmtE(totWG), '', true)}
-    </div>
-  `;
-}
-
-function renderPensioenOverzicht(r) {
-  const i = r.i;
-  if (!i.heeftPensioen || r.pensioenTotaal <= 0) return;
-
-  const jaren = Math.max(0, 67 - i.leeftijd);
-  const opbouwDitJaar = r.pensioenGrondslag * 0.01875;
-  const projectie = i.opgebouwd + (opbouwDitJaar * jaren);
-  const aow = i.partner ? r.p.aowGehuwd : r.p.aowAlleenstaand;
-  const totaal = projectie + aow;
-  const ratio = r.brutoJaar > 0 ? (totaal / r.brutoJaar) * 100 : 0;
-
-  document.getElementById('pensioenOverview').textContent = `${fmtE(totaal/12)}/mnd op 67`;
-
-  let advies, kleur;
-  if (ratio >= 80) { advies = 'Op koers'; kleur = 'green'; }
-  else if (ratio >= 60) { advies = 'Acceptabel'; kleur = 'green'; }
-  else { advies = 'Te laag — overweeg lijfrente'; kleur = 'red'; }
-
-  document.getElementById('pensioenBody').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-      <div style="text-align:center;background:var(--surface-2);padding:14px;border-radius:var(--radius-sm);">
-        <div style="font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.1em;">Al opgebouwd</div>
-        <div style="font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin-top:4px;">${fmtE(i.opgebouwd)}</div>
-        <div style="font-size:11px;color:var(--text-dim);">${fmtE(i.opgebouwd/12)}/mnd</div>
-      </div>
-      <div style="text-align:center;background:var(--accent-soft);padding:14px;border-radius:var(--radius-sm);">
-        <div style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;">Verwacht op 67</div>
-        <div style="font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin-top:4px;">${fmtE(projectie)}</div>
-        <div style="font-size:11px;color:var(--text-dim);">${fmtE(projectie/12)}/mnd</div>
-      </div>
-    </div>
-
-    <div>
-      ${rowH('Opbouw dit jaar')}
-      ${row('Inleg jij', '+' + fmtE(r.pensioenWN), 'pos')}
-      ${row('Inleg werkgever', '+' + fmtE(r.pensioenWG), 'pos')}
-      ${row('Totale inleg per maand', fmtE(r.pensioenTotaal/12))}
-      ${row('Nieuwe pensioenrechten', '+' + fmtE(opbouwDitJaar) + '/jr', 'pos')}
-
-      ${rowH('Vanaf pensioenleeftijd 67')}
-      ${row('AOW (geschat)', fmtE(aow/12) + '/mnd')}
-      ${row('Werkgeverspensioen', fmtE(projectie/12) + '/mnd')}
-      ${row('Totaal bruto', fmtE(totaal/12) + '/mnd', '', true)}
-    </div>
-
-    <div class="info" style="margin-top:14px;">
-      <strong>Vervangingsratio: ${ratio.toFixed(0)}%</strong> van je huidige bruto
-      <span class="status ${kleur}">${advies}</span><br>
-      Aanbevolen: 70-80%. Check je actuele cijfers op <strong>mijnpensioenoverzicht.nl</strong>.
-    </div>
-  `;
-}
-
-function row(lbl, val, cls = '', isTotal = false) {
-  const c = isTotal ? 'row total' : 'row';
-  return `<div class="${c}"><span class="lbl">${lbl}</span><span class="val ${cls}">${val}</span></div>`;
-}
-function rowH(lbl) {
-  return `<div class="row head">${lbl}</div>`;
-}
-
-/* ==========================================================================
-   BOX 3
-   ========================================================================== */
-function berekenBox3() {
-  const v = id => parseFloat(document.getElementById(id).value) || 0;
-  const year = document.getElementById('b3year').value;
-  const partner = document.getElementById('b3partner').value === 'ja';
-  const p = P[year];
-
-  const bank = v('b3spaar') + v('b3depo');
-  const groen = v('b3groen');
-  const groenVrij = partner ? p.b3GroenP : p.b3Groen;
-  const groenBelast = Math.max(0, groen - groenVrij);
-  const overig = v('b3aandelen') + v('b3crypto') + v('b3tweede') + v('b3overig') + groenBelast;
-
-  const totSchuld = v('b3schuld');
-  const drempel = partner ? p.b3DrempelP : p.b3Drempel;
-  const aftrekSchuld = Math.max(0, totSchuld - drempel);
-
-  const totBezit = bank + overig;
-  const grondslag = totBezit - aftrekSchuld;
-  const vrij = partner ? p.b3VrijP : p.b3Vrij;
-
-  if (grondslag <= vrij) {
-    return { p, bank, overig, aftrekSchuld, grondslag, vrij, belasting: 0, eff: 0, totBezit };
-  }
-
-  const rBank = bank * p.b3Bank;
-  const rOverig = overig * p.b3Overig;
-  const rSchuld = aftrekSchuld * p.b3Schuld;
-  const belastbR = rBank + rOverig - rSchuld;
-  const grondslagSB = grondslag - vrij;
-  const aandeel = (grondslagSB / grondslag) * 100;
-  const voordeel = belastbR * (aandeel / 100);
-  const belasting = Math.max(0, voordeel * p.b3Tarief);
-  const eff = grondslag > 0 ? (belasting / grondslag) * 100 : 0;
-
-  return { p, bank, overig, aftrekSchuld, grondslag, vrij,
-    rBank, rOverig, rSchuld, belastbR, grondslagSB, aandeel, voordeel,
-    belasting, eff, totBezit };
-}
-
-function renderBox3() {
-  const r = berekenBox3();
-  document.getElementById('b3Bedrag').textContent = Math.round(r.belasting).toLocaleString('nl-NL');
-  document.getElementById('b3Maand').textContent = fmtE(r.belasting / 12);
-  document.getElementById('b3Eff').textContent = fmtPct(r.eff);
-  document.getElementById('b3Totaal').textContent = fmtE(r.grondslag);
-  document.getElementById('b3BankSum').textContent = fmtE(r.bank);
-  document.getElementById('b3OverigSum').textContent = fmtE(r.overig);
-  document.getElementById('b3Period').textContent = document.getElementById('b3year').value;
-
-  const parts = [];
-  parts.push(rowH('Bezittingen'));
-  parts.push(row('Banktegoeden', fmtE(r.bank)));
-  parts.push(row('Overige bezittingen', fmtE(r.overig)));
-  if (r.aftrekSchuld > 0) parts.push(row('− Aftrekbare schulden', '−' + fmtE(r.aftrekSchuld), 'neg'));
-  parts.push(row('Rendementsgrondslag', fmtE(r.grondslag)));
-  parts.push(row('− Heffingsvrij vermogen', '−' + fmtE(r.vrij), 'neg'));
-
-  if (r.grondslag > r.vrij) {
-    parts.push(rowH('Forfaitair rendement'));
-    parts.push(row(`Bank × ${(r.p.b3Bank*100).toFixed(2)}%`, fmtE(r.rBank)));
-    parts.push(row(`Overig × ${(r.p.b3Overig*100).toFixed(2)}%`, fmtE(r.rOverig)));
-    if (r.rSchuld > 0) parts.push(row(`− Schuld × ${(r.p.b3Schuld*100).toFixed(2)}%`, '−' + fmtE(r.rSchuld), 'neg'));
-    parts.push(row('Voordeel uit sparen/beleggen', fmtE(r.voordeel)));
-    parts.push(row(`× ${(r.p.b3Tarief*100)}% belasting`, fmtE(r.belasting), '', true));
+function renderBox3Detail(R) {
+  const b3 = R.b3, p = R.p, st = R.st;
+  if (!b3.actief) { setText('sumBox3Calc','geen vermogen'); $('box3Body').innerHTML = '<div class="empty">Geen box 3-vermogen opgegeven.</div>'; return; }
+  setText('sumBox3Calc', b3.belasting>0?fmtE(b3.belasting):'€ 0');
+  const out = [];
+  out.push(row('Banktegoeden', fmtE(b3.bank)));
+  out.push(row('Overige bezittingen', fmtE(b3.overig)));
+  if (b3.schuldAftrek > 0) out.push(row('− Schulden (na drempel)', '−'+fmtE(b3.schuldAftrek), 'neg'));
+  out.push(row('Rendementsgrondslag', fmtE(b3.grondslag)));
+  out.push(row('− Heffingsvrij vermogen', '−'+fmtE(b3.vrij), 'neg'));
+  if (b3.grondslag > b3.vrij) {
+    out.push(rowH('Forfaitair rendement'));
+    out.push(row(`Bank × ${fmtPct(p.b3bank*100)}`, fmtE(b3.rBank)));
+    out.push(row(`Overig × ${fmtPct(p.b3overig*100)}`, fmtE(b3.rOverig)));
+    if (b3.rSchuld > 0) out.push(row(`− Schuld × ${fmtPct(p.b3schuld*100)}`, '−'+fmtE(b3.rSchuld), 'neg'));
+    out.push(row('Belastbaar voordeel (× aandeel)', fmtE(b3.voordeelBelast)));
+    out.push(row(`Belasting (${fmtPct(p.b3tarief*100)})`, fmtE(b3.belasting), '', true));
+    if (b3.gekozenWerkelijk) out.push('<div class="info good">Werkelijk rendement toegepast (lager dan forfait) via tegenbewijsregeling.</div>');
   } else {
-    parts.push(row('Onder heffingsvrij vermogen', '€ 0 belasting', 'pos', true));
+    out.push(row('Onder heffingsvrij vermogen', '€ 0 belasting', 'pos', true));
   }
+  $('box3Body').innerHTML = out.join('');
+}
 
-  document.getElementById('b3Breakdown').innerHTML = parts.join('');
+function renderToeslagen(R) {
+  const t = R.toeslagen;
+  setText('sumToeslagen', t.totaalJaar>0?`${fmtE(t.totaalJaar)}/jr`:'€ 0');
+  const out = [];
+  out.push(row('Zorgtoeslag', t.zorg>0?fmtE(t.zorg)+'/jr':'geen', t.zorg>0?'pos':''));
+  out.push(row('Huurtoeslag', t.huur>0?fmtE(t.huur)+'/jr':'geen', t.huur>0?'pos':''));
+  out.push(row('Kindgebonden budget', t.kgb>0?fmtE(t.kgb)+'/jr':'geen', t.kgb>0?'pos':''));
+  out.push(row('Kinderopvangtoeslag', t.kot>0?fmtE(t.kot)+'/jr':'geen', t.kot>0?'pos':''));
+  out.push(row('Totaal (schatting)', fmtE(t.totaalJaar)+'/jr', 'pos', true));
+  out.push('<div class="info">Indicatieve schatting. Toeslagen vraag je los aan via <strong>toeslagen.nl</strong> en hangen af van je exacte toetsingsinkomen en vermogen op 1 januari.</div>');
+  $('toeslagenBody').innerHTML = out.join('');
+}
+
+function renderWerkgever(R) {
+  const st = R.st, p = R.p;
+  if (!(st.pLoon || st.pDga)) { return; }
+  const loon = st.pLoon ? R.loonBruto : 0;
+  const dga = st.pDga ? R.dgaLoon : 0;
+  if (loon + dga <= 0) { setText('sumWg','—'); $('wgBody').innerHTML='<div class="empty">Geen loon opgegeven.</div>'; return; }
+  // Werknemersloon: volledige werkgeverslasten. DGA-loon: alleen de lage Zvw-bijdrage (geen werknemersverzekeringen).
+  const gLoon = Math.min(loon, p.zvwMax);
+  const zvwWg = gLoon * p.zvwHoog, ww = gLoon * p.wwLaag, aof = gLoon * p.aofHoog, whk = gLoon * p.whk, opslag = gLoon * p.aofOpslag;
+  const zvwDga = st.pDga ? Math.min(dga, p.zvwMax) * p.zvwLaag : 0;
+  const totWg = zvwWg + ww + aof + whk + opslag + zvwDga;
+  const totaal = loon + dga + totWg;
+  const pct = (loon+dga) > 0 ? totWg/(loon+dga)*100 : 0;
+  setText('sumWg', `+${pct.toFixed(0)}%`);
+  $('wgBody').innerHTML = `
+    <div class="info warn">Bovenop je bruto van ${fmtE(loon+dga)} betaalt de werkgever/bv nog <strong>${fmtE(totWg)}</strong> aan premies. Totale loonkosten: <strong>${fmtE(totaal)}</strong>/jaar (+${pct.toFixed(0)}%).</div>
+    ${loon>0?row('ZVW werkgeversheffing ('+fmtPct(p.zvwHoog*100)+')', fmtE(zvwWg)):''}
+    ${loon>0?row('WW-premie laag ('+fmtPct(p.wwLaag*100)+')', fmtE(ww)):''}
+    ${loon>0?row('Aof-premie ('+fmtPct(p.aofHoog*100)+')', fmtE(aof)):''}
+    ${loon>0?row('Whk-premie ('+fmtPct(p.whk*100)+')', fmtE(whk)):''}
+    ${loon>0?row('Opslag kinderopvang ('+fmtPct(p.aofOpslag*100)+')', fmtE(opslag)):''}
+    ${zvwDga>0?row('ZVW-bijdrage DGA (laag, '+fmtPct(p.zvwLaag*100)+')', fmtE(zvwDga)):''}
+    ${row('Totaal werkgeverslasten', fmtE(totWg), '', true)}
+    ${st.pDga?'<div class="info">Een DGA met aanmerkelijk belang is meestal niet verzekerd voor de werknemersverzekeringen (WW/Aof/Whk); de bv betaalt over het DGA-loon alleen de lage Zvw-bijdrage.</div>':''}`;
+}
+
+function renderSchenkErf(R) {
+  const se = R.schenkErf, st = R.st;
+  if (!se.actief) { setText('sumSchenkErf', '—'); return; }
+  setText('sumSchenkErf', se.erfBesparing > 0 ? `bespaar ${fmtE(se.erfBesparing)}` : fmtE(se.erfTaxNu));
+  const relLbl = st.schenkRelatie === 'kind' ? 'kind' : st.schenkRelatie === 'kleinkind' ? 'kleinkind' : 'overige verkrijger';
+  const out = [];
+  out.push(rowH('Schenken — per ontvanger per jaar'));
+  out.push(row('Geschonken bedrag', fmtE(st.schenkBedrag)));
+  out.push(row(`Jaarlijkse vrijstelling (${relLbl})`, '−'+fmtE(se.schenkVrij), 'neg'));
+  if (se.eenmaligGebruikt) out.push(row('Eenmalig verhoogd (alleen jaar 1)', '−'+fmtE(se.eenmaligVrij), 'neg'));
+  out.push(row('Schenkbelasting per ontvanger (jaar 1)', fmtE(se.schenkTaxPer), se.schenkTaxPer>0?'neg':'', true));
+  out.push(row(`Jaarlijks belastingvrij schenkbaar (${se.n} ontvanger(s))`, fmtE(se.belastingvrijPerJaar)+'/jr', 'pos'));
+
+  out.push(rowH('Erfbelasting'));
+  out.push(row('Verwachte nalatenschap', fmtE(se.nalaten)));
+  out.push(row(se.partnerErft?'Vrijstelling langstlevende partner':'Vrijstelling per erfgenaam', '−'+fmtE(se.erfVrij), 'neg'));
+  out.push(row('Erfbelasting nu (zonder schenken)', fmtE(se.erfTaxNu), 'neg'));
+  out.push(row(`Erfbelasting na ${st.schenkJaren} jaar schenken`, fmtE(se.erfTaxNa), se.erfTaxNa<se.erfTaxNu?'pos':''));
+  if (se.partnerErft) out.push('<div class="info">Berekend op basis van vererving naar de langstlevende partner. Bij het latere overlijden van de partner betalen de kinderen alsnog erfbelasting over wat resteert.</div>');
+
+  out.push(rowH('Totale fiscale winst van schenken'));
+  if (se.box3BesparingTotaal > 0) out.push(row(`Box 3-besparing (${st.schenkJaren} jr)`, '+'+fmtE(se.box3BesparingTotaal), 'pos'));
+  out.push(row('Bespaarde erfbelasting (netto)', '+'+fmtE(Math.max(0, se.erfBesparing)), 'pos'));
+  out.push(row('Totaal voordeel', fmtE(Math.max(0, se.erfBesparing) + se.box3BesparingTotaal), 'pos', true));
+  out.push('<div class="info">Indicatief. Schenkingen aan kinderen: ouders gelden als één schenker. Periodieke giften en de bedrijfsopvolgingsregeling (BOR) vallen hier los buiten. Laat een estate-plan toetsen door een notaris.</div>');
+  $('schenkErfBody').innerHTML = out.join('');
 }
 
 /* ==========================================================================
    EVENT BINDINGS
    ========================================================================== */
-document.querySelectorAll('input, select').forEach(el => {
-  el.addEventListener('input', () => { render(); renderBox3(); });
-  el.addEventListener('change', () => { render(); renderBox3(); });
-});
-
-// Toggle pills
-document.querySelectorAll('.toggle-pill').forEach(pill => {
-  pill.addEventListener('click', e => {
+function bind() {
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+  document.querySelectorAll('.toggle-pill').forEach(pill => {
     const cb = pill.querySelector('input');
-    cb.checked = !cb.checked;
-    pill.classList.toggle('active', cb.checked);
-    render();
+    if (cb && cb.checked) pill.classList.add('active');
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      cb.checked = !cb.checked;
+      pill.classList.toggle('active', cb.checked);
+      render();
+    });
   });
-  // Initialize state
-  const cb = pill.querySelector('input');
-  if (cb && cb.checked) pill.classList.add('active');
-});
-
-// Period segments
-document.querySelectorAll('.seg-btn[data-period]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.seg-btn[data-period]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render();
+  document.querySelectorAll('#loonSeg .seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#loonSeg .seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
   });
-});
-
-// Main tabs
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('view-' + tab.dataset.view).classList.add('active');
-    if (tab.dataset.view === 'box3') {
-      document.getElementById('yearBadge').textContent = `Belastingjaar ${document.getElementById('b3year').value}`;
-    } else {
-      document.getElementById('yearBadge').textContent = `Belastingjaar ${document.getElementById('year').value}`;
-    }
+  document.querySelectorAll('[data-toggle-card]').forEach(head => {
+    head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
   });
-});
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(vw => vw.classList.remove('active'));
+      tab.classList.add('active');
+      $('view-' + tab.dataset.view).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
 
-// Initial render
+bind();
 render();
-renderBox3();
 </script>
+
 </body>
 </html>
