@@ -498,7 +498,39 @@
       </div>
     </div>
 
-    <!-- 11. SCHENKEN/ERVEN -->
+    <!-- 11. OVERIG INKOMEN, SCHULDEN & ONTVANGEN TOESLAGEN -->
+    <div class="card" id="cardPlaatje">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">∑</span>Compleet plaatje: overig inkomen, schulden &amp; toeslagen</div><div class="summary"><span id="sumPlaatje">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="section-intro">Hoe completer dit beeld, hoe preciezer het advies. Vul in wat van toepassing is — laat de rest op 0.</div>
+        <div class="row head" style="border:none;padding-top:6px;">Overig inkomen &amp; schulden</div>
+        <div class="field-group">
+          <div class="field"><label>Overig belast inkomen box 1 (€/jaar) <span class="help" data-tip="Bijv. bijverdiensten, resultaat overige werkzaamheden, ontvangen partneralimentatie, freelance naast loondienst. Wordt als box 1-inkomen belast.">?</span></label><input type="number" id="overigInkomen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Ontvangen partneralimentatie (€/jaar) <span class="help" data-tip="Ontvangen partneralimentatie is belast in box 1. Kinderalimentatie niet.">?</span></label><input type="number" id="alimentatieOntvangen" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Studieschuld DUO (€) <span class="help" data-tip="Telt mee als box 3-schuld (na de schuldendrempel). Verlaagt je box 3-grondslag.">?</span></label><input type="number" id="studieschuld" value="0" min="0" step="500"></div>
+          <div class="field"><label>Overige consumptieve schulden (€) <span class="help" data-tip="Persoonlijke leningen, creditcardschuld e.d. Tellen mee als box 3-schuld na de drempel.">?</span></label><input type="number" id="overigeSchuld" value="0" min="0" step="500"></div>
+        </div>
+        <div class="row head" style="border:none;">Pensioen-precisie</div>
+        <div class="field-group">
+          <div class="field"><label>Factor A / pensioenaangroei (€) <span class="help" data-tip="Je pensioenaangroei van vorig jaar (staat op je UPO / mijnpensioenoverzicht.nl). Hiermee bereken ik je jaarruimte EXACT i.p.v. te schatten.">?</span></label><input type="number" id="factorA" value="0" min="0" step="50"></div>
+          <div class="field"></div>
+        </div>
+        <div class="row head" style="border:none;">Toeslagen die je nu ontvangt (€/maand)</div>
+        <div class="section-intro" style="margin-top:4px;">Vul in wat je nu krijgt, dan vergelijk ik het met de berekening en zoek ik optimalisaties.</div>
+        <div class="field-group">
+          <div class="field"><label>Zorgtoeslag (€/mnd)</label><input type="number" id="ontvZorgtoeslag" value="0" min="0" step="5"></div>
+          <div class="field"><label>Huurtoeslag (€/mnd)</label><input type="number" id="ontvHuurtoeslag" value="0" min="0" step="5"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Kindgebonden budget (€/mnd)</label><input type="number" id="ontvKgb" value="0" min="0" step="5"></div>
+          <div class="field"><label>Kinderopvangtoeslag (€/mnd)</label><input type="number" id="ontvKot" value="0" min="0" step="10"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. SCHENKEN/ERVEN -->
     <div class="card" id="cardSchenken">
       <div class="card-head" data-toggle-card><div class="title"><span class="icon">⤳</span>Schenken &amp; nalaten (optioneel)</div><div class="summary"><span id="sumSchenken">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
@@ -779,6 +811,10 @@ function getState() {
     heeftVermogen: s('heeftVermogen')==='ja',
     b3Spaar: v('b3Spaar'), b3Beleggingen: v('b3Beleggingen'), b3Crypto: v('b3Crypto'), b3Vastgoed: v('b3Vastgoed'),
     b3Groen: v('b3Groen'), b3Schuld: v('b3Schuld'), b3Werkelijk: v('b3Werkelijk'), b3WerkelijkAantonen: s('b3WerkelijkAantonen')==='ja',
+    // compleet plaatje
+    overigInkomen: v('overigInkomen'), alimentatieOntvangen: v('alimentatieOntvangen'),
+    studieschuld: v('studieschuld'), overigeSchuld: v('overigeSchuld'), factorA: v('factorA'),
+    ontvZorgtoeslag: v('ontvZorgtoeslag'), ontvHuurtoeslag: v('ontvHuurtoeslag'), ontvKgb: v('ontvKgb'), ontvKot: v('ontvKot'),
     // schenken
     schenkInteresse: s('schenkInteresse')==='ja', schenkKinderen: Math.round(v('schenkKinderen')),
     schenkRelatie: s('schenkRelatie')||'kind', schenkBedrag: v('schenkBedrag'), schenkEenmalig: s('schenkEenmalig')||'nee',
@@ -916,9 +952,10 @@ function compute() {
     zzpBelast = winstNa;              // kan negatief zijn → verrekent met overig box 1-inkomen
   }
 
-  /* ---- DGA & PENSIOEN ---- */
+  /* ---- DGA, PENSIOEN & OVERIG INKOMEN ---- */
   const dgaLoon = st.pDga ? st.dgaLoon : 0;
   const pensioenInkomen = st.pPensioen ? st.pensioenInkomen : 0;
+  const overigBox1 = st.overigInkomen + st.alimentatieOntvangen;   // overig belast box 1-inkomen
 
   /* ---- EIGEN WONING ---- */
   let ewf = 0, ewAftrekKosten = 0, ewSaldo = 0, hillenAftrek = 0;
@@ -938,14 +975,14 @@ function compute() {
   const partnerAow = st.heeftPartner && (parseInt(st.year) - st.partnerGeboortejaar) >= 67;
 
   /* ---- LIJFRENTE / JAARRUIMTE ---- */
-  // Schat jaarruimte als die niet is ingevuld (alleen bij waarschijnlijk pensioentekort: ZZP of werknemer zonder pensioenpremie).
-  // jaarruimte = 0,30 × (min(inkomen;137.800) − AOW-franchise). Factor A onbekend, dus dit is een bovengrens-schatting.
-  const jrInkomen = loonBelast + Math.max(0, zzpBelast) + dgaLoon;
+  // jaarruimte = 0,30 × (min(inkomen;137.800) − AOW-franchise) − 6,27 × factor A.
+  // Met factor A is dit exact; zonder factor A een schatting (alleen bij waarschijnlijk pensioentekort).
+  const jrInkomen = loonBelast + Math.max(0, zzpBelast) + dgaLoon + overigBox1;
   let jaarruimte = st.jaarruimte;
   let jaarruimteGeschat = false;
-  if (jaarruimte <= 0 && jrInkomen > p.lijfFranchise && (st.pZzp || st.pDga || (st.pLoon && st.pensioenWN === 0))) {
-    jaarruimte = Math.max(0, (Math.min(jrInkomen, p.lijfMaxGrondslag) - p.lijfFranchise) * p.lijfPct);
-    jaarruimteGeschat = true;
+  if (jaarruimte <= 0 && jrInkomen > p.lijfFranchise && (st.pZzp || st.pDga || st.pensioenWN === 0 || st.factorA > 0)) {
+    jaarruimte = Math.max(0, (Math.min(jrInkomen, p.lijfMaxGrondslag) - p.lijfFranchise) * p.lijfPct - p.lijfFactorA * st.factorA);
+    jaarruimteGeschat = st.factorA === 0;   // zonder factor A blijft het een schatting
   }
   jaarruimte = Math.min(jaarruimte, p.lijfMaxJaar);
   const reserveringsruimte = Math.min(st.reserveringsruimte, p.lijfMaxReserve);
@@ -953,7 +990,7 @@ function compute() {
   const lijfrenteAftrek = Math.min(st.lijfrenteBetaald, lijfRuimte) + st.zzpAov;
 
   /* ---- AFTREKPOSTEN (PGA) ---- */
-  let inkomenVoorPGA = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + ewSaldo - lijfrenteAftrek;
+  let inkomenVoorPGA = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + overigBox1 + ewSaldo - lijfrenteAftrek;
   inkomenVoorPGA = Math.max(0, inkomenVoorPGA);
   // Drempelinkomen voor zorgkosten en giften = inkomen box 1 + box 2 + box 3, vóór persoonsgebonden aftrek
   const drempelInkomen = inkomenVoorPGA + box2Inkomen + b3.voordeelBelast + (st.heeftPartner ? st.partnerInkomen : 0);
@@ -980,7 +1017,7 @@ function compute() {
   const pga = zorgAftrek + giftAftrek + alimentatieAftrek + ovA;
 
   /* ---- BELASTBAAR BOX 1 ---- */
-  let belastbaar = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + ewSaldo - lijfrenteAftrek - pga;
+  let belastbaar = loonBelast + zzpBelast + dgaLoon + pensioenInkomen + overigBox1 + ewSaldo - lijfrenteAftrek - pga;
   belastbaar = Math.max(0, belastbaar);
 
   /* ---- AFTREKBEPERKING (tariefsaanpassing) ---- */
@@ -1026,7 +1063,7 @@ function compute() {
   const totaalBelasting = taxBox1Na + box2Na + box3Na + zvw;
   // Ondernemers-/MKB-aftrek zijn fiscaal (geen cash-uitgave): gebruik de echte winst als besteedbaar bedrag.
   const winstCash = st.pZzp ? st.zzpWinst : 0;
-  const brutoCash = (loonBruto - st.bijtelling) - st.pensioenWN + winstCash + dgaLoon + pensioenInkomen
+  const brutoCash = (loonBruto - st.bijtelling) - st.pensioenWN + winstCash + dgaLoon + pensioenInkomen + overigBox1
                   + expatOnbelast + (st.pDga ? st.dgaDividend : 0);
   const nettoJaar = brutoCash - totaalBelasting; // toeslagen apart
   const nettoMaand = nettoJaar / 12;
@@ -1040,7 +1077,7 @@ function compute() {
   const schenkErf = berekenSchenkErf(st, p, { b3 });
 
   Object.assign(R, {
-    schenkErf, expatOnbelast,
+    schenkErf, expatOnbelast, overigBox1,
     loonBruto, loonBelast, winstNa, ondernemersaftrek, mkbVrij, investAftrek, zzpBelast,
     dgaLoon, pensioenInkomen, ewf, ewSaldo, hillenAftrek, ewAftrekKosten,
     lijfrenteAftrek, zorgAftrek, zorgDrempelBedrag: zd, giftAftrek, gewoonAftrek, periodiekAftrek, alimentatieAftrek, ovA, pga,
@@ -1060,7 +1097,8 @@ function berekenBox3(st, p) {
   const groenBelast = Math.max(0, st.b3Groen - groenVrij);
   const overig = st.b3Beleggingen + st.b3Crypto + st.b3Vastgoed + groenBelast;
   const drempel = st.heeftPartner ? p.b3drempelP : p.b3drempel;
-  const schuldAftrek = Math.max(0, st.b3Schuld - drempel);
+  const totaalSchuld = st.b3Schuld + st.studieschuld + st.overigeSchuld;
+  const schuldAftrek = Math.max(0, totaalSchuld - drempel);
   const totBezit = bank + overig;
   const grondslag = totBezit - schuldAftrek;
   const vrij = st.heeftPartner ? p.b3vrijP : p.b3vrij;
@@ -1384,17 +1422,40 @@ function aanbevelingen(R) {
   }
 
   /* --- TOESLAGEN --- */
-  if (R.toeslagen.totaalJaar > 0) {
+  const ontvJaar = (st.ontvZorgtoeslag + st.ontvHuurtoeslag + st.ontvKgb + st.ontvKot) * 12;
+  if (R.toeslagen.totaalJaar > 0 && ontvJaar === 0) {
     list.push(adv(2, 'Toeslagen aanvragen', R.toeslagen.totaalJaar,
       `Op basis van je inkomen heb je naar schatting recht op ${[
         R.toeslagen.zorg>0?`zorgtoeslag ${fmtE(R.toeslagen.zorg)}`:null,
         R.toeslagen.huur>0?`huurtoeslag ${fmtE(R.toeslagen.huur)}`:null,
         R.toeslagen.kgb>0?`kindgebonden budget ${fmtE(R.toeslagen.kgb)}`:null,
         R.toeslagen.kot>0?`kinderopvangtoeslag ${fmtE(R.toeslagen.kot)}`:null
-      ].filter(Boolean).join(', ')} — samen ca. <b>${fmtE(R.toeslagen.totaalJaar)}/jaar</b>. Vraag aan via toeslagen.nl.`,
+      ].filter(Boolean).join(', ')} — samen ca. <b>${fmtE(R.toeslagen.totaalJaar)}/jaar</b>. Je gaf nog geen ontvangen toeslag op; check toeslagen.nl.`,
       ['toeslagen','los aanvragen']));
-  } else if (R.drempelInkomen > 0 && R.drempelInkomen < (st.heeftPartner?p.ztGrensP:p.ztGrensA) + 8000) {
-    vragen.push('Je zit net rond de inkomensgrens voor toeslagen. Een aftrekpost (zoals lijfrente) verlaagt je verzamelinkomen en kan recht op zorgtoeslag/kindgebonden budget (her)openen.');
+  } else if (R.toeslagen.totaalJaar - ontvJaar > 300 && ontvJaar > 0) {
+    list.push(adv(2, 'Je laat mogelijk toeslag liggen', R.toeslagen.totaalJaar - ontvJaar,
+      `Je berekende recht (${fmtE(R.toeslagen.totaalJaar)}/jr) ligt boven wat je nu ontvangt (${fmtE(ontvJaar)}/jr). Controleer je toeslagaanvraag — er lijkt ca. <b>${fmtE(R.toeslagen.totaalJaar - ontvJaar)}/jaar</b> te blijven liggen.`,
+      ['toeslagen','check']));
+  }
+
+  /* --- TOESLAG TERUGWINNEN DOOR INKOMEN TE VERLAGEN (lijfrente) --- */
+  const kanStortenTs = Math.max(0, R.lijfRuimte - st.lijfrenteBetaald);
+  if (kanStortenTs > 500 && R.drempelInkomen > 0) {
+    const lagerInkomen = Math.max(0, R.drempelInkomen - kanStortenTs);
+    const nieuwToeslag = berekenToeslagen(st, p, lagerInkomen, R.b3).totaalJaar;
+    const extraToeslag = nieuwToeslag - R.toeslagen.totaalJaar;
+    if (extraToeslag > 200) {
+      list.push(adv(1, 'Toeslag terugwinnen via lijfrente-inleg', extraToeslag,
+        `Je toetsingsinkomen voor toeslagen ligt net te hoog. Door <b>${fmtE(kanStortenTs)}</b> lijfrente in te leggen daalt je verzamelinkomen naar ${fmtE(lagerInkomen)}, waardoor je ca. <b>${fmtE(extraToeslag)}/jaar extra toeslag</b> krijgt — bovenop het belastingvoordeel van de aftrek zelf (${fmtPct(lRate*100)}). Dubbel voordeel.`,
+        ['toeslagen','lijfrente','combi'], 'vóór 31 dec'));
+    }
+  }
+  // Vragen om het plaatje compleet te maken
+  if (st.factorA === 0 && (st.pLoon || st.pZzp || st.pDga)) {
+    vragen.push('Vul je <b>factor A</b> (pensioenaangroei van je UPO) in onder "Compleet plaatje" — dan bereken ik je jaarruimte exact i.p.v. een schatting.');
+  }
+  if (ontvJaar === 0 && (st.wonen === 'huur' || st.kinderen > 0 || R.drempelInkomen < 40000)) {
+    vragen.push('Wat ontvang je nu maandelijks aan <b>zorg-, huur-, kinderopvangtoeslag of kindgebonden budget</b>? Vul het in onder "Compleet plaatje", dan vergelijk ik het met je recht en zoek ik optimalisaties.');
   }
 
   /* --- SCHENKEN / ERVEN --- */
@@ -1482,6 +1543,12 @@ function render() {
   setText('sumAftrek', aftrekTot > 0 ? `${fmtE(aftrekTot)} aftrek` : '—');
   setText('sumBox3', R.b3.actief ? (R.b3.belasting>0?`${fmtE(R.b3.belasting)}/jr`:'onder vrijstelling') : '—');
   setText('sumSchenken', st.schenkInteresse ? (R.schenkErf.erfBesparing>0?`bespaar ${fmtE(R.schenkErf.erfBesparing)} erf`:`${st.schenkKinderen} ontvanger(s)`) : '—');
+  const plDelen = [];
+  if (R.overigBox1 > 0) plDelen.push(`+${fmtE(R.overigBox1)} inkomen`);
+  if (st.factorA > 0) plDelen.push('factor A');
+  if ((st.studieschuld + st.overigeSchuld) > 0) plDelen.push(`${fmtE(st.studieschuld + st.overigeSchuld)} schuld`);
+  if ((st.ontvZorgtoeslag + st.ontvHuurtoeslag + st.ontvKgb + st.ontvKot) > 0) plDelen.push('toeslagen');
+  setText('sumPlaatje', plDelen.length ? plDelen.join(' · ') : '—');
 
   renderBreakdown(R);
   renderKortingen(R);
@@ -1516,6 +1583,7 @@ function renderBreakdown(R) {
   }
   if (R.dgaLoon > 0) out.push(row('DGA-loon', fmtE(R.dgaLoon)));
   if (R.pensioenInkomen > 0) out.push(row('Pensioen / uitkering', fmtE(R.pensioenInkomen)));
+  if (R.overigBox1 > 0) out.push(row('Overig box 1-inkomen', fmtE(R.overigBox1)));
   if (R.ewSaldo !== 0) out.push(row(R.ewSaldo>0?'+ Eigenwoningforfait (na Hillen)':'− Hypotheekrente saldo', (R.ewSaldo>0?'+':'−')+fmtE(Math.abs(R.ewSaldo)), R.ewSaldo>0?'':'neg'));
   if (R.lijfrenteAftrek > 0) out.push(row('− Lijfrente / AOV', '−'+fmtE(R.lijfrenteAftrek), 'neg'));
   if (R.pga > 0) out.push(row('− Persoonsgebonden aftrek', '−'+fmtE(R.pga), 'neg'));
@@ -1595,15 +1663,28 @@ function renderBox3Detail(R) {
 }
 
 function renderToeslagen(R) {
-  const t = R.toeslagen;
+  const t = R.toeslagen, st = R.st;
+  const ontvJaar = (st.ontvZorgtoeslag + st.ontvHuurtoeslag + st.ontvKgb + st.ontvKot) * 12;
   setText('sumToeslagen', t.totaalJaar>0?`${fmtE(t.totaalJaar)}/jr`:'€ 0');
   const out = [];
-  out.push(row('Zorgtoeslag', t.zorg>0?fmtE(t.zorg)+'/jr':'geen', t.zorg>0?'pos':''));
-  out.push(row('Huurtoeslag', t.huur>0?fmtE(t.huur)+'/jr':'geen', t.huur>0?'pos':''));
-  out.push(row('Kindgebonden budget', t.kgb>0?fmtE(t.kgb)+'/jr':'geen', t.kgb>0?'pos':''));
-  out.push(row('Kinderopvangtoeslag', t.kot>0?fmtE(t.kot)+'/jr':'geen', t.kot>0?'pos':''));
-  out.push(row('Totaal (schatting)', fmtE(t.totaalJaar)+'/jr', 'pos', true));
-  out.push('<div class="info">Indicatieve schatting. Toeslagen vraag je los aan via <strong>toeslagen.nl</strong> en hangen af van je exacte toetsingsinkomen en vermogen op 1 januari.</div>');
+  const heeftOntv = ontvJaar > 0;
+  const rij = (lbl, berekend, ontvMaand) => {
+    if (heeftOntv) return `<div class="row"><span class="lbl">${lbl}</span><span class="val">${berekend>0?fmtE(berekend):'—'} <span style="color:var(--text-faint)">· jij: ${ontvMaand>0?fmtE(ontvMaand*12):'€ 0'}</span></span></div>`;
+    return row(lbl, berekend>0?fmtE(berekend)+'/jr':'geen', berekend>0?'pos':'');
+  };
+  out.push(heeftOntv ? '<div class="row head">Toeslag · berekend · jij ontvangt</div>' : '');
+  out.push(rij('Zorgtoeslag', t.zorg, st.ontvZorgtoeslag));
+  out.push(rij('Huurtoeslag', t.huur, st.ontvHuurtoeslag));
+  out.push(rij('Kindgebonden budget', t.kgb, st.ontvKgb));
+  out.push(rij('Kinderopvangtoeslag', t.kot, st.ontvKot));
+  out.push(row('Totaal berekend (schatting)', fmtE(t.totaalJaar)+'/jr', 'pos', true));
+  if (heeftOntv) {
+    const verschil = t.totaalJaar - ontvJaar;
+    out.push(row('Totaal dat jij nu ontvangt', fmtE(ontvJaar)+'/jr'));
+    if (verschil > 200) out.push(`<div class="info good">Je berekende recht ligt ca. <strong>${fmtE(verschil)}/jaar hoger</strong> dan wat je ontvangt. Mogelijk laat je toeslag liggen — check toeslagen.nl.</div>`);
+    else if (verschil < -200) out.push(`<div class="info warn">Je ontvangt ca. <strong>${fmtE(-verschil)}/jaar méér</strong> dan de berekening — let op een mogelijke terugbetaling als je inkomen hoger uitvalt.</div>`);
+  }
+  out.push('<div class="info">Indicatieve schatting. Toeslagen vraag je los aan via <strong>toeslagen.nl</strong>; ze hangen af van je exacte toetsingsinkomen en vermogen op 1 januari.</div>');
   $('toeslagenBody').innerHTML = out.join('');
 }
 
