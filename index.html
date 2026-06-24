@@ -430,9 +430,10 @@
       <div class="card-head" data-toggle-card><div class="title"><span class="icon">−</span>Aftrekposten &amp; pensioenopbouw</div><div class="summary"><span id="sumAftrek">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
         <div class="row head" style="border:none;padding-top:6px;">Lijfrente / pensioentekort</div>
+        <div class="info" style="margin-top:0;">Jaarruimte en factor A bereken ik <strong>automatisch</strong> uit je inkomen en pensioensituatie. Laat de velden leeg; vul alleen je eigen exacte cijfers in als je die hebt (dan gebruik ik die).</div>
         <div class="field-group">
-          <div class="field"><label>Jaarruimte (€) <span class="help" data-tip="De ruimte om fiscaal aftrekbaar lijfrente in te leggen. Bereken via de tool van de Belastingdienst of laat leeg om te schatten.">?</span></label><input type="number" id="jaarruimte" value="0" min="0" step="100"></div>
-          <div class="field"><label>Reserveringsruimte (€) <span class="help" data-tip="Onbenutte jaarruimte van de afgelopen 10 jaar, max ±€42.000.">?</span></label><input type="number" id="reserveringsruimte" value="0" min="0" step="100"></div>
+          <div class="field"><label>Jaarruimte (€) — auto <span class="help" data-tip="Laat leeg: ik bereken je jaarruimte uit je inkomen − factor A. Vul alleen in als je het exacte bedrag van de Belastingdienst-tool hebt.">?</span></label><input type="number" id="jaarruimte" value="0" min="0" step="100" placeholder="automatisch"></div>
+          <div class="field"><label>Reserveringsruimte (€) <span class="help" data-tip="Onbenutte jaarruimte van de afgelopen 10 jaar (max ±€42.000). Dit kan ik niet uit je gegevens afleiden — vul in als je het weet.">?</span></label><input type="number" id="reserveringsruimte" value="0" min="0" step="100"></div>
         </div>
         <div class="field-group">
           <div class="field"><label>Al ingelegde lijfrente dit jaar (€)</label><input type="number" id="lijfrenteBetaald" value="0" min="0" step="100"></div>
@@ -512,9 +513,9 @@
           <div class="field"><label>Studieschuld DUO (€) <span class="help" data-tip="Telt mee als box 3-schuld (na de schuldendrempel). Verlaagt je box 3-grondslag.">?</span></label><input type="number" id="studieschuld" value="0" min="0" step="500"></div>
           <div class="field"><label>Overige consumptieve schulden (€) <span class="help" data-tip="Persoonlijke leningen, creditcardschuld e.d. Tellen mee als box 3-schuld na de drempel.">?</span></label><input type="number" id="overigeSchuld" value="0" min="0" step="500"></div>
         </div>
-        <div class="row head" style="border:none;">Pensioen-precisie</div>
+        <div class="row head" style="border:none;">Pensioen-precisie (optioneel)</div>
         <div class="field-group">
-          <div class="field"><label>Factor A / pensioenaangroei (€) <span class="help" data-tip="Je pensioenaangroei van vorig jaar (staat op je UPO / mijnpensioenoverzicht.nl). Hiermee bereken ik je jaarruimte EXACT i.p.v. te schatten.">?</span></label><input type="number" id="factorA" value="0" min="0" step="50"></div>
+          <div class="field"><label>Factor A / pensioenaangroei (€) — auto <span class="help" data-tip="Heb je werkgeverspensioen, dan schat ik factor A zelf uit je salaris (1,875% opbouw). Laat leeg, of vul het exacte bedrag van je UPO in voor een precieze jaarruimte.">?</span></label><input type="number" id="factorA" value="0" min="0" step="50" placeholder="automatisch"></div>
           <div class="field"></div>
         </div>
         <div class="row head" style="border:none;">Toeslagen die je nu ontvangt (€/maand)</div>
@@ -974,17 +975,26 @@ function compute() {
   const box2Inkomen = st.pDga ? st.dgaDividend : 0;
   const partnerAow = st.heeftPartner && (parseInt(st.year) - st.partnerGeboortejaar) >= 67;
 
-  /* ---- LIJFRENTE / JAARRUIMTE ---- */
+  /* ---- LIJFRENTE / JAARRUIMTE (automatisch berekend) ---- */
   // jaarruimte = 0,30 × (min(inkomen;137.800) − AOW-franchise) − 6,27 × factor A.
-  // Met factor A is dit exact; zonder factor A een schatting (alleen bij waarschijnlijk pensioentekort).
   const jrInkomen = loonBelast + Math.max(0, zzpBelast) + dgaLoon + overigBox1;
-  let jaarruimte = st.jaarruimte;
-  let jaarruimteGeschat = false;
-  if (jaarruimte <= 0 && jrInkomen > p.lijfFranchise && (st.pZzp || st.pDga || st.pensioenWN === 0 || st.factorA > 0)) {
-    jaarruimte = Math.max(0, (Math.min(jrInkomen, p.lijfMaxGrondslag) - p.lijfFranchise) * p.lijfPct - p.lijfFactorA * st.factorA);
-    jaarruimteGeschat = st.factorA === 0;   // zonder factor A blijft het een schatting
+  // Factor A automatisch schatten uit het salaris bij werkgeverspensioen (1,875% opbouw), tenzij handmatig ingevuld.
+  let factorAEff = st.factorA;
+  let factorAGeschat = false;
+  if (factorAEff <= 0 && st.pLoon && st.pensioenWN > 0 && loonBruto > p.lijfFranchise) {
+    factorAEff = (Math.min(loonBruto, p.lijfMaxGrondslag) - p.lijfFranchise) * 0.01875;
+    factorAGeschat = true;
+  }
+  const jrGrondslag = Math.max(0, Math.min(jrInkomen, p.lijfMaxGrondslag) - p.lijfFranchise);
+  let jaarruimte = st.jaarruimte;            // handmatige override heeft voorrang
+  let jaarruimteAuto = false;
+  if (jaarruimte <= 0 && jrGrondslag > 0) {
+    jaarruimte = Math.max(0, jrGrondslag * p.lijfPct - p.lijfFactorA * factorAEff);
+    jaarruimteAuto = true;
   }
   jaarruimte = Math.min(jaarruimte, p.lijfMaxJaar);
+  // "Geschat" alleen als factor A geschat is (werknemer met pensioen); bij ZZP/geen pensioen/handmatige invoer = nauwkeurig
+  const jaarruimteGeschat = jaarruimteAuto && factorAGeschat;
   const reserveringsruimte = Math.min(st.reserveringsruimte, p.lijfMaxReserve);
   const lijfRuimte = jaarruimte + reserveringsruimte;
   const lijfrenteAftrek = Math.min(st.lijfrenteBetaald, lijfRuimte) + st.zzpAov;
@@ -1085,7 +1095,7 @@ function compute() {
     arbeidsinkomen, verzamel, kAhk, kAk, kIack, kOuderen, kAlleenOuderen, kGroen, totaalKorting,
     taxBox1Na, zvw, totaalBelasting, nettoJaar, nettoMaand, druk, drempelInkomen, toeslagen,
     marginaal: marginaalTarief(belastbaar, st, p),
-    kindOnder12, jaarruimte, reserveringsruimte, lijfRuimte, jaarruimteGeschat, partnerAow, box2Inkomen
+    kindOnder12, jaarruimte, reserveringsruimte, lijfRuimte, jaarruimteGeschat, jaarruimteAuto, factorAEff, factorAGeschat, partnerAow, box2Inkomen
   });
   return R;
 }
@@ -1248,12 +1258,13 @@ function aanbevelingen(R) {
     let saving = kanStorten * lRate;
     let toeslagBoost = '';
     if (R.toeslagen.zorg > 0 || R.toeslagen.kgb > 0) toeslagBoost = ' Het verlaagt bovendien je verzamelinkomen, waardoor je zorgtoeslag/kindgebonden budget kan stijgen.';
-    const schatNoot = R.jaarruimteGeschat ? ' Dit is een <b>schatting</b> van je jaarruimte (zonder factor A van je pensioenopbouw) — controleer met de Belastingdienst-tool.' : '';
+    const basisNoot = R.jaarruimteAuto
+      ? ` Ik heb je jaarruimte automatisch berekend op <b>${fmtE(R.jaarruimte)}</b>${R.factorAGeschat?` (met een geschatte factor A van ${fmtE(R.factorAEff)} uit je salaris)`:''}.`
+      : '';
+    const schatNoot = R.jaarruimteGeschat ? ' Vul je exacte factor A (van je UPO) in onder "Compleet plaatje" voor een precieze berekening.' : '';
     list.push(adv(1, 'Extra lijfrente storten vóór 31 december', saving,
-      `Er lijkt nog <b>${fmtE(kanStorten)}</b> jaarruimte/reserveringsruimte over. Inleggen levert nu <b>${fmtE(saving)}</b> belastingvoordeel (${fmtPct(lRate*100)}).${toeslagBoost} Het bedrag keert later belast uit als oudedagsinkomen — ideaal als je dan in een lager tarief valt.${schatNoot}`,
+      `Er lijkt nog <b>${fmtE(kanStorten)}</b> jaarruimte/reserveringsruimte over.${basisNoot} Inleggen levert nu <b>${fmtE(saving)}</b> belastingvoordeel (${fmtPct(lRate*100)}).${toeslagBoost} Het bedrag keert later belast uit als oudedagsinkomen — ideaal als je dan in een lager tarief valt.${schatNoot}`,
       ['pensioen','liquiditeit nodig'], 'vóór 31 dec'));
-  } else if (ruimte === 0) {
-    vragen.push('Heb je je <b>jaarruimte en reserveringsruimte</b> al berekend (met factor A van je UPO)? Dit is vaak de grootste legale aftrekpost — soms €10.000+ ruimte.');
   }
 
   /* --- PENSIOEN VIA WERKGEVER --- */
@@ -1451,8 +1462,8 @@ function aanbevelingen(R) {
     }
   }
   // Vragen om het plaatje compleet te maken
-  if (st.factorA === 0 && (st.pLoon || st.pZzp || st.pDga)) {
-    vragen.push('Vul je <b>factor A</b> (pensioenaangroei van je UPO) in onder "Compleet plaatje" — dan bereken ik je jaarruimte exact i.p.v. een schatting.');
+  if (R.factorAGeschat) {
+    vragen.push(`Ik heb je factor A geschat op <b>${fmtE(R.factorAEff)}</b> uit je salaris. Klopt dit ongeveer? Vul het exacte bedrag van je UPO in onder "Compleet plaatje" voor een precieze jaarruimte.`);
   }
   if (ontvJaar === 0 && (st.wonen === 'huur' || st.kinderen > 0 || R.drempelInkomen < 40000)) {
     vragen.push('Wat ontvang je nu maandelijks aan <b>zorg-, huur-, kinderopvangtoeslag of kindgebonden budget</b>? Vul het in onder "Compleet plaatje", dan vergelijk ik het met je recht en zoek ik optimalisaties.');
