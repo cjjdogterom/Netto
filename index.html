@@ -262,7 +262,9 @@
           <label class="toggle-pill" data-toggle="pLoon"><input type="checkbox" id="pLoon" checked hidden>Loondienst</label>
           <label class="toggle-pill" data-toggle="pZzp"><input type="checkbox" id="pZzp" hidden>ZZP / IB-onderneming</label>
           <label class="toggle-pill" data-toggle="pDga"><input type="checkbox" id="pDga" hidden>DGA / eigen bv</label>
-          <label class="toggle-pill" data-toggle="pPensioen"><input type="checkbox" id="pPensioen" hidden>Pensioen / AOW / uitkering</label>
+          <label class="toggle-pill" data-toggle="pStudent"><input type="checkbox" id="pStudent" hidden>Student</label>
+          <label class="toggle-pill" data-toggle="pUitkering"><input type="checkbox" id="pUitkering" hidden>Uitkering</label>
+          <label class="toggle-pill" data-toggle="pPensioen"><input type="checkbox" id="pPensioen" hidden>Pensioen / AOW</label>
         </div>
         <div class="conditional" id="expatBlok">
           <div class="field-group">
@@ -291,6 +293,12 @@
         <div class="field-group">
           <div class="field"><label>Bruto bedrag (€)</label><input type="number" id="loonBedrag" value="45000" min="0" step="100"></div>
           <div class="field" id="urenField" style="display:none;"><label>Uren per week</label><input type="number" id="loonUren" value="40" min="1" max="60"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Contractvorm <span class="help" data-tip="Bij een 0-urencontract/oproep/uitzendwerk wisselt je inkomen sterk. Over piekmaanden houdt je werkgever vaak te veel in via het bijzonder tarief — dat krijg je terug via de aangifte.">?</span></label>
+            <select id="contractvorm"><option value="vast" selected>Vast contract</option><option value="tijdelijk">Tijdelijk contract</option><option value="oproep">0-uren / oproep</option><option value="minmax">Min-max contract</option><option value="uitzend">Uitzend / payroll</option><option value="stage">Stage</option></select>
+          </div>
+          <div class="field"><label>Wisselt je inkomen sterk per maand? <span class="help" data-tip="Onregelmatig inkomen → te veel ingehouden bijzonder tarief in piekmaanden, dat je via de jaaraangifte/voorlopige teruggaaf terugkrijgt.">?</span></label><select id="wisselendInkomen"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
         </div>
         <div class="field-group">
           <div class="field"><label>Vakantiegeld</label><select id="vakantiegeld"><option value="1.08" selected>8% (standaard)</option><option value="1.0">Geen / inbegrepen</option><option value="1.10">10%</option></select></div>
@@ -351,13 +359,50 @@
       </div>
     </div>
 
-    <!-- 6. PENSIOEN/UITKERING -->
+    <!-- 6. PENSIOEN/AOW -->
     <div class="card" id="cardPensioen">
-      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⊙</span>Pensioen / AOW / uitkering</div><div class="summary"><span id="sumPensioen">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">⊙</span>Pensioen / AOW</div><div class="summary"><span id="sumPensioen">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
         <div class="field-group">
-          <div class="field"><label>Bruto pensioen + AOW + uitkering (€/jaar)</label><input type="number" id="pensioenInkomen" value="0" min="0" step="100"></div>
-          <div class="field"><label>Betaal je zelf de ZVW-bijdrage? <span class="help" data-tip="Over pensioen/uitkering houdt de uitkerende instantie vaak ZVW in (laag tarief).">?</span></label><select id="pensioenZvw"><option value="ja" selected>Ja (lage bijdrage)</option><option value="nee">Nee</option></select></div>
+          <div class="field"><label>Bruto pensioen + AOW (€/jaar)</label><input type="number" id="pensioenInkomen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Betaal je zelf de ZVW-bijdrage? <span class="help" data-tip="Over pensioen houdt de uitkerende instantie vaak ZVW in (laag tarief).">?</span></label><select id="pensioenZvw"><option value="ja" selected>Ja (lage bijdrage)</option><option value="nee">Nee</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6b. STUDENT -->
+    <div class="card" id="cardStudent">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">✎</span>Student &amp; studiefinanciering</div><div class="summary"><span id="sumStudent">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="section-intro">Je bijbaan vul je in onder "Loon"; je studieschuld onder "Compleet plaatje". Hier de studiefinanciering en studiespecifieke optimalisaties.</div>
+        <div class="field-group">
+          <div class="field"><label>Type onderwijs</label><select id="studieType"><option value="wo">WO (universiteit)</option><option value="hbo" selected>HBO</option><option value="mbo">MBO</option><option value="anders">Anders / geen</option></select></div>
+          <div class="field"><label>Woonsituatie</label><select id="studieWonen"><option value="uit" selected>Uitwonend</option><option value="thuis">Thuiswonend</option></select></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Basisbeurs (€/maand) <span class="help" data-tip="Onbelast. 2025 uitwonend ±€302, thuiswonend ±€121. Bij hbo/wo prestatiebeurs: gift bij diploma binnen 10 jaar.">?</span></label><input type="number" id="studieBasisbeurs" value="0" min="0" step="10"></div>
+          <div class="field"><label>Aanvullende beurs (€/maand) <span class="help" data-tip="Onbelast, hangt af van ouderinkomen (max bij ouderinkomen < ±€36.000). Ook prestatiebeurs.">?</span></label><input type="number" id="studieAanvullend" value="0" min="0" step="10"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>DUO-lening / studievoorschot (€/maand) <span class="help" data-tip="Verhoogt je studieschuld (box 3-schuld). Rente 2025 ~0%, 2026 ~2,57%. Geef het maandbedrag dat je leent.">?</span></label><input type="number" id="studieLening" value="0" min="0" step="10"></div>
+          <div class="field"><label>Verwacht je je diploma binnen 10 jaar? <span class="help" data-tip="Voorwaarde om de prestatiebeurs (basis + aanvullend + reisproduct) omgezet te krijgen in een gift — anders terugbetalen.">?</span></label><select id="studieDiploma"><option value="ja" selected>Ja</option><option value="nee">Nog onzeker</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6c. UITKERING -->
+    <div class="card" id="cardUitkering">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">◰</span>Uitkering</div><div class="summary"><span id="sumUitkering">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="field-group">
+          <div class="field"><label>Type uitkering</label>
+            <select id="uitkeringType"><option value="ww" selected>WW</option><option value="bijstand">Bijstand / Participatiewet</option><option value="wia">WIA / WGA / WAO</option><option value="wajong">Wajong</option><option value="zw">Ziektewet</option><option value="anw">Anw (nabestaanden)</option><option value="ioaw">IOAW / IOAZ</option></select>
+          </div>
+          <div class="field"><label>Bruto uitkering (€/jaar)</label><input type="number" id="uitkeringInkomen" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Loonheffingskorting toegepast? <span class="help" data-tip="Maar één instantie mag de heffingskortingen toepassen. Bij uitkering + bijbaan kies de hoogste bron, anders volgt naheffing of laat je voordeel liggen.">?</span></label><select id="uitkeringLhk"><option value="ja" selected>Ja</option><option value="nee">Nee</option></select></div>
+          <div class="field"><label>Ben je jonggehandicapt (Wajong)? <span class="help" data-tip="Geeft recht op de jonggehandicaptenkorting (2026: €923). Wordt vaak gemist bij meerdere inkomstenbronnen.">?</span></label><select id="uitkeringWajong"><option value="auto" selected>Automatisch (bij Wajong)</option><option value="ja">Ja</option><option value="nee">Nee</option></select></div>
         </div>
       </div>
     </div>
@@ -387,7 +432,7 @@
           </div>
           <div class="field-group">
             <div class="field"><label>Jongste kind ≥6 maanden tot je huishouden? <span class="help" data-tip="Voorwaarde voor de inkomensafhankelijke combinatiekorting: een kind onder 12 moet minstens 6 maanden van het jaar op jouw adres ingeschreven staan (of co-ouderschap).">?</span></label><select id="kindHuishouden6mnd"><option value="ja" selected>Ja</option><option value="nee">Nee</option></select></div>
-            <div class="field"></div>
+            <div class="field"><label>Co-ouderschap (kind woont afwisselend)? <span class="help" data-tip="Bij co-ouderschap (kind minstens 3 dagen/week bij jou) kunnen BEIDE ouders de inkomensafhankelijke combinatiekorting krijgen, en elk de kinderopvangtoeslag voor eigen betaalde uren.">?</span></label><select id="coOuderschap"><option value="nee" selected>Nee</option><option value="ja">Ja</option></select></div>
           </div>
         </div>
       </div>
@@ -504,11 +549,20 @@
       <div class="card-head" data-toggle-card><div class="title"><span class="icon">∑</span>Compleet plaatje: overig inkomen, schulden &amp; toeslagen</div><div class="summary"><span id="sumPlaatje">—</span><span class="chevron">▾</span></div></div>
       <div class="card-body">
         <div class="section-intro">Hoe completer dit beeld, hoe preciezer het advies. Vul in wat van toepassing is — laat de rest op 0.</div>
-        <div class="row head" style="border:none;padding-top:6px;">Overig inkomen &amp; schulden</div>
+        <div class="row head" style="border:none;padding-top:6px;">Overige inkomstenbronnen</div>
         <div class="field-group">
-          <div class="field"><label>Overig belast inkomen box 1 (€/jaar) <span class="help" data-tip="Bijv. bijverdiensten, resultaat overige werkzaamheden, ontvangen partneralimentatie, freelance naast loondienst. Wordt als box 1-inkomen belast.">?</span></label><input type="number" id="overigInkomen" value="0" min="0" step="100"></div>
-          <div class="field"><label>Ontvangen partneralimentatie (€/jaar) <span class="help" data-tip="Ontvangen partneralimentatie is belast in box 1. Kinderalimentatie niet.">?</span></label><input type="number" id="alimentatieOntvangen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Bijverdiensten / freelance / klussen (€/jaar) <span class="help" data-tip="Resultaat uit overige werkzaamheden (box 1): bijles, oppassen, klussen, freelance naast loon. Structureel met winstoogmerk = belast; incidentele vriendendienst = onbelast.">?</span></label><input type="number" id="overigInkomen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Kosten voor die bijverdiensten (€/jaar) <span class="help" data-tip="Bij resultaat overige werkzaamheden zijn werkelijke kosten (materiaal, reiskosten, deel telefoon/internet) aftrekbaar van de opbrengst.">?</span></label><input type="number" id="rowKosten" value="0" min="0" step="50"></div>
         </div>
+        <div class="field-group">
+          <div class="field"><label>Ontvangen partneralimentatie (€/jaar) <span class="help" data-tip="Ontvangen partneralimentatie is belast in box 1. Kinderalimentatie niet.">?</span></label><input type="number" id="alimentatieOntvangen" value="0" min="0" step="100"></div>
+          <div class="field"><label>Kamerverhuur opbrengst (€/jaar) <span class="help" data-tip="Verhuur je een kamer in je eigen woning aan iemand die op jouw adres staat? Tot €6.633 (2026) volledig vrijgesteld. Daarboven vervalt de hele vrijstelling.">?</span></label><input type="number" id="kamerOpbrengst" value="0" min="0" step="100"></div>
+        </div>
+        <div class="field-group">
+          <div class="field"><label>Vrijwilligersvergoeding (€/jaar) <span class="help" data-tip="Vrijgesteld tot €2.200/jaar én €220/maand (2026). Bij overschrijding van één grens is alles belast.">?</span></label><input type="number" id="vrijwilligersVergoeding" value="0" min="0" step="50"></div>
+          <div class="field"><label>Crypto-opbrengst uit staking/mining (€/jaar) <span class="help" data-tip="Alleen passief crypto houden = box 3. Actief staking/mining/validator met arbeid = belast in box 1 (de munten blijven box 3 op peildatum).">?</span></label><input type="number" id="cryptoBox1" value="0" min="0" step="100"></div>
+        </div>
+        <div class="row head" style="border:none;">Schulden</div>
         <div class="field-group">
           <div class="field"><label>Studieschuld DUO (€) <span class="help" data-tip="Telt mee als box 3-schuld (na de schuldendrempel). Verlaagt je box 3-grondslag.">?</span></label><input type="number" id="studieschuld" value="0" min="0" step="500"></div>
           <div class="field"><label>Overige consumptieve schulden (€) <span class="help" data-tip="Persoonlijke leningen, creditcardschuld e.d. Tellen mee als box 3-schuld na de drempel.">?</span></label><input type="number" id="overigeSchuld" value="0" min="0" step="500"></div>
@@ -659,7 +713,7 @@ const P = {
     iackDrempel: 6239, iackOpb: 0.1145, iackMax: 3032,
     // Ouderenkorting
     ouderenMax: 2067, ouderenStart: 46002, ouderenAfb: 0.15, ouderenEnd: 59782,
-    alleenstaandeOuderen: 540,
+    alleenstaandeOuderen: 540, jonggehandicapt: 923,
     // Box 2
     b2g: 68843, b2t1: 0.245, b2t2: 0.31, dgaNorm: 58000,
     // Box 3
@@ -695,6 +749,7 @@ const P = {
     sgGrens: 158669, sgKindT1: 0.10, sgKindT2: 0.20, sgKleinT1: 0.18, sgKleinT2: 0.36, sgOverigT1: 0.30, sgOverigT2: 0.40,
     // Expat
     expatPct: 0.30, expatNormRegulier: 48013, expatNormJong: 36497, expatAftopping: 262000,
+    kamerVrij: 6633, vrijwilligersJaar: 2200, vrijwilligersMaand: 220,
     belastingrente: 0.05,
     // Pensioenprojectie (AOW bruto/jaar indicatief)
     aowAlleen: 18900, aowGehuwd: 16800
@@ -707,7 +762,7 @@ const P = {
     akAfb: 0.06510, akEnd: 129078, akMaxAow: 2802, akAfbAow: 0.03257,
     iackDrempel: 6145, iackOpb: 0.1145, iackMax: 2986,
     ouderenMax: 2035, ouderenStart: 45308, ouderenAfb: 0.15, ouderenEnd: 58875,
-    alleenstaandeOuderen: 531,
+    alleenstaandeOuderen: 531, jonggehandicapt: 909,
     b2g: 67804, b2t1: 0.245, b2t2: 0.31, dgaNorm: 56000,
     b3vrij: 57684, b3vrijP: 115368, b3bank: 0.0137, b3overig: 0.0588, b3schuld: 0.0270, b3tarief: 0.36,
     b3drempel: 3800, b3drempelP: 7600, b3groen: 26312, b3groenP: 52624, b3groenKorting: 0.001,
@@ -730,6 +785,7 @@ const P = {
     erfPartner: 804698, erfKind: 25490, erfOuder: 60359, erfOverig: 2690,
     sgGrens: 154197, sgKindT1: 0.10, sgKindT2: 0.20, sgKleinT1: 0.18, sgKleinT2: 0.36, sgOverigT1: 0.30, sgOverigT2: 0.40,
     expatPct: 0.30, expatNormRegulier: 46660, expatNormJong: 35468, expatAftopping: 246000,
+    kamerVrij: 6324, vrijwilligersJaar: 2100, vrijwilligersMaand: 210,
     belastingrente: 0.065,
     aowAlleen: 18250, aowGehuwd: 16200
   }
@@ -782,12 +838,20 @@ function getState() {
     resident: s('resident'),
     heeftPartner: s('heeftPartner') === 'ja',
     pLoon: chk('pLoon'), pZzp: chk('pZzp'), pDga: chk('pDga'), pPensioen: chk('pPensioen'),
+    pStudent: chk('pStudent'), pUitkering: chk('pUitkering'),
     expat: s('expat') === 'ja', expatBedrag: v('expatBedrag'),
+    // student
+    studieType: s('studieType'), studieWonen: s('studieWonen'), studieBasisbeurs: v('studieBasisbeurs'),
+    studieAanvullend: v('studieAanvullend'), studieLening: v('studieLening'), studieDiploma: s('studieDiploma')!=='nee',
+    // uitkering
+    uitkeringType: s('uitkeringType'), uitkeringInkomen: v('uitkeringInkomen'), uitkeringLhk: s('uitkeringLhk')!=='nee',
+    uitkeringWajong: s('uitkeringWajong'),
     // loon
     loonBedrag: v('loonBedrag'), loonUren: v('loonUren')||40,
     vakantiegeld: parseFloat(s('vakantiegeld'))||1.08, dertiende: parseFloat(s('dertiende'))||0,
     bonus: v('bonus'), bijtelling: v('bijtelling'), pensioenWN: v('pensioenWN'),
     loonheffingskorting: s('loonheffingskorting') === 'ja',
+    contractvorm: s('contractvorm')||'vast', wisselendInkomen: s('wisselendInkomen')==='ja',
     // zzp
     zzpWinst: v('zzpWinst'), zzpUren: s('zzpUren')==='ja', zzpStarter: s('zzpStarter')==='ja',
     zzpAov: v('zzpAov'), zzpKia: v('zzpKia'), zzpEia: v('zzpEia'), zzpMia: v('zzpMia'),
@@ -799,7 +863,7 @@ function getState() {
     // partner & gezin
     partnerInkomen: v('partnerInkomen'), partnerArbeidsinkomen: v('partnerArbeidsinkomen'), partnerGeboortejaar: v('partnerGeboortejaar')||1985,
     kinderen: Math.round(v('kinderen')), jongsteKind: v('jongsteKind'), kindHuishouden6mnd: s('kindHuishouden6mnd')!=='nee',
-    alleenstaandeOuder: s('alleenstaandeOuder')==='ja', opvangKosten: v('opvangKosten'),
+    alleenstaandeOuder: s('alleenstaandeOuder')==='ja', coOuderschap: s('coOuderschap')==='ja', opvangKosten: v('opvangKosten'),
     // wonen
     wonen: s('wonen'), woz: v('woz'), hyprente: v('hyprente'), ewSchuld: v('ewSchuld'), ewKosten: v('ewKosten'), ewRenteAftrekPct: $('ewRenteAftrekPct') ? clamp(v('ewRenteAftrekPct'),0,100) : 100,
     huur: v('huur'), huurLeeftijd: v('huurLeeftijd')||35,
@@ -813,7 +877,8 @@ function getState() {
     b3Spaar: v('b3Spaar'), b3Beleggingen: v('b3Beleggingen'), b3Crypto: v('b3Crypto'), b3Vastgoed: v('b3Vastgoed'),
     b3Groen: v('b3Groen'), b3Schuld: v('b3Schuld'), b3Werkelijk: v('b3Werkelijk'), b3WerkelijkAantonen: s('b3WerkelijkAantonen')==='ja',
     // compleet plaatje
-    overigInkomen: v('overigInkomen'), alimentatieOntvangen: v('alimentatieOntvangen'),
+    overigInkomen: v('overigInkomen'), rowKosten: v('rowKosten'), alimentatieOntvangen: v('alimentatieOntvangen'),
+    kamerOpbrengst: v('kamerOpbrengst'), vrijwilligersVergoeding: v('vrijwilligersVergoeding'), cryptoBox1: v('cryptoBox1'),
     studieschuld: v('studieschuld'), overigeSchuld: v('overigeSchuld'), factorA: v('factorA'),
     ontvZorgtoeslag: v('ontvZorgtoeslag'), ontvHuurtoeslag: v('ontvHuurtoeslag'), ontvKgb: v('ontvKgb'), ontvKot: v('ontvKot'),
     // schenken
@@ -953,10 +1018,17 @@ function compute() {
     zzpBelast = winstNa;              // kan negatief zijn → verrekent met overig box 1-inkomen
   }
 
-  /* ---- DGA, PENSIOEN & OVERIG INKOMEN ---- */
+  /* ---- DGA, PENSIOEN, UITKERING, STUDENT & OVERIG INKOMEN ---- */
   const dgaLoon = st.pDga ? st.dgaLoon : 0;
   const pensioenInkomen = st.pPensioen ? st.pensioenInkomen : 0;
-  const overigBox1 = st.overigInkomen + st.alimentatieOntvangen;   // overig belast box 1-inkomen
+  const uitkeringInkomen = st.pUitkering ? st.uitkeringInkomen : 0;   // box 1, geen arbeidsinkomen
+  const studieBeurs = st.pStudent ? (st.studieBasisbeurs + st.studieAanvullend) * 12 : 0;  // onbelast (cash)
+  const jonggehandicapt = (st.pUitkering && st.uitkeringType === 'wajong' && st.uitkeringWajong !== 'nee') || st.uitkeringWajong === 'ja';
+  // Overig box 1: bijverdiensten na kosten (ROW), belaste kamerverhuur/vrijwilligers (alleen boven vrijstelling), crypto box 1, alimentatie, uitkering
+  const rowNetto = Math.max(0, st.overigInkomen - st.rowKosten);
+  const kamerBelast = st.kamerOpbrengst > p.kamerVrij ? st.kamerOpbrengst : 0;          // kamerverhuur: cliff op de vrijstelling
+  const vrijwBelast = st.vrijwilligersVergoeding > p.vrijwilligersJaar ? st.vrijwilligersVergoeding : 0;
+  const overigBox1 = rowNetto + st.alimentatieOntvangen + uitkeringInkomen + kamerBelast + vrijwBelast + st.cryptoBox1;
 
   /* ---- EIGEN WONING ---- */
   let ewf = 0, ewAftrekKosten = 0, ewSaldo = 0, hillenAftrek = 0;
@@ -1048,13 +1120,14 @@ function compute() {
   const kAhk = ahk(verzamel, st.aow, p);
   const kAk = arbeidskorting(arbeidsinkomen, st.aow, p);
   // IACK: kind <12 op 1 jan, ten minste 6 mnd tot het huishouden, werken, én alleenstaand óf minstverdienende partner
-  const kindOnder12 = st.kinderen > 0 && st.jongsteKind < 12 && st.kindHuishouden6mnd;
-  const iackEligible = st.alleenstaandeOuder || (st.heeftPartner && arbeidsinkomen > 0 && st.partnerArbeidsinkomen <= arbeidsinkomen);
+  const kindOnder12 = st.kinderen > 0 && st.jongsteKind < 12 && (st.kindHuishouden6mnd || st.coOuderschap);
+  const iackEligible = st.alleenstaandeOuder || st.coOuderschap || (st.heeftPartner && arbeidsinkomen > 0 && st.partnerArbeidsinkomen <= arbeidsinkomen);
   const kIack = iack(arbeidsinkomen, kindOnder12, iackEligible, p);
   const kOuderen = ouderenkorting(verzamel, st.aow, p);
   const kAlleenOuderen = (st.aow && !st.heeftPartner) ? p.alleenstaandeOuderen : 0;
+  const kJong = (jonggehandicapt && !st.aow) ? p.jonggehandicapt : 0;   // niet samen met ouderenkorting
   const kGroen = Math.min(st.heeftVermogen ? st.b3Groen : 0, st.heeftPartner ? p.b3groenP : p.b3groen) * p.b3groenKorting;
-  let totaalKorting = kAhk + kAk + kIack + kOuderen + kAlleenOuderen + kGroen;
+  let totaalKorting = kAhk + kAk + kIack + kOuderen + kAlleenOuderen + kJong + kGroen;
   // heffingskortingen kunnen niet meer bedragen dan de verschuldigde belasting (box1+2+3), behoudens uitbetaling
   const heffingVoorKorting = taxBruto + box2 + b3.belasting;
   totaalKorting = Math.min(totaalKorting, heffingVoorKorting);
@@ -1068,12 +1141,13 @@ function compute() {
   let zvw = 0;
   if (st.pZzp) zvw += Math.min(Math.max(0, zzpBelast), p.zvwMax) * p.zvwLaag;
   if (st.pPensioen && st.pensioenZvw) zvw += Math.min(pensioenInkomen, p.zvwMax) * p.zvwLaag;
+  if (st.pUitkering) zvw += Math.min(uitkeringInkomen, p.zvwMax) * p.zvwLaag;   // UWV/gemeente houdt lage ZVW in
 
   /* ---- TOTALEN ---- */
   const totaalBelasting = taxBox1Na + box2Na + box3Na + zvw;
   // Ondernemers-/MKB-aftrek zijn fiscaal (geen cash-uitgave): gebruik de echte winst als besteedbaar bedrag.
   const winstCash = st.pZzp ? st.zzpWinst : 0;
-  const brutoCash = (loonBruto - st.bijtelling) - st.pensioenWN + winstCash + dgaLoon + pensioenInkomen + overigBox1
+  const brutoCash = (loonBruto - st.bijtelling) - st.pensioenWN + winstCash + dgaLoon + pensioenInkomen + overigBox1 + studieBeurs
                   + expatOnbelast + (st.pDga ? st.dgaDividend : 0);
   const nettoJaar = brutoCash - totaalBelasting; // toeslagen apart
   const nettoMaand = nettoJaar / 12;
@@ -1087,7 +1161,7 @@ function compute() {
   const schenkErf = berekenSchenkErf(st, p, { b3 });
 
   Object.assign(R, {
-    schenkErf, expatOnbelast, overigBox1,
+    schenkErf, expatOnbelast, overigBox1, uitkeringInkomen, studieBeurs, jonggehandicapt, kJong, kamerBelast, vrijwBelast,
     loonBruto, loonBelast, winstNa, ondernemersaftrek, mkbVrij, investAftrek, zzpBelast,
     dgaLoon, pensioenInkomen, ewf, ewSaldo, hillenAftrek, ewAftrekKosten,
     lijfrenteAftrek, zorgAftrek, zorgDrempelBedrag: zd, giftAftrek, gewoonAftrek, periodiekAftrek, alimentatieAftrek, ovA, pga,
@@ -1422,6 +1496,95 @@ function aanbevelingen(R) {
     vragen.push('Je nadert de AOW-leeftijd. Vanaf dan vervalt de AOW-premie (17,9%) en daalt je tarief in schijf 1 sterk. Overweeg aftrekposten (lijfrente, giften) nú te benutten tegen het hoge tarief.');
   }
 
+  /* --- JONGGEHANDICAPTENKORTING --- */
+  if (R.kJong > 0) {
+    list.push(adv(1, 'Jonggehandicaptenkorting toegepast', R.kJong,
+      `Als Wajonger heb je recht op de jonggehandicaptenkorting van <b>${fmtE(R.kJong)}</b>. Die wordt vaak gemist bij meerdere inkomstenbronnen — controleer dat hij is verrekend (via UWV of je aangifte).`,
+      ['heffingskorting','Wajong']));
+  }
+
+  /* --- STUDENT --- */
+  if (st.pStudent) {
+    // Teruggaaf loonheffing bij lage jaarinkomsten (bijbaan)
+    if (st.pLoon && R.belastbaar > 0 && R.belastbaar < 18000) {
+      list.push(adv(1, 'Vraag te veel ingehouden loonheffing terug', 0,
+        `Met een laag jaarinkomen zijn je heffingskortingen (algemeen + arbeid) vaak hoger dan de verschuldigde belasting. Loonheffing die je werkgever inhield krijg je dan terug via een (gratis) aangifte of voorlopige teruggaaf.`,
+        ['student','teruggaaf'], 'aangifte'));
+    }
+    // Prestatiebeurs gift
+    const beursJaar = (st.studieBasisbeurs + st.studieAanvullend) * 12;
+    if (beursJaar > 0 && (st.studieType === 'hbo' || st.studieType === 'wo')) {
+      list.push(adv(2, 'Prestatiebeurs wordt gift bij diploma', beursJaar,
+        `Je basis- en aanvullende beurs (${fmtE(beursJaar)}/jaar) is een prestatiebeurs: haal je je diploma binnen 10 jaar, dan wordt dit een <b>gift</b> die je niet hoeft terug te betalen. Bij MBO is de basisbeurs sowieso een gift.`,
+        ['student','beurs']));
+    }
+    // Lenen vs sparen
+    if (st.studieLening > 0 && st.heeftVermogen) {
+      list.push(adv(3, 'DUO-lening tegen lage rente i.p.v. spaargeld', 0,
+        `Lenen bij DUO (rente 2026 ~2,57%, 2025 ~0%) kan voordeliger zijn dan je spaargeld/beleggingen aanspreken. De studieschuld telt mee als box 3-schuld (na de drempel) en verlaagt je box 3-grondslag.`,
+        ['student','DUO']));
+    }
+    vragen.push('Heb je als uitwonende student een eigen (zelfstandig) huurcontract? Dan kun je mogelijk huurtoeslag krijgen. En check zorgtoeslag — die houd je als student met een bijbaan vaak gewoon.');
+  }
+
+  /* --- UITKERING --- */
+  if (st.pUitkering) {
+    const type = st.uitkeringType;
+    if (['ww','wia','zw','wajong'].includes(type)) {
+      vragen.push('Ligt je (gezins)inkomen onder het sociaal minimum? Dan kun je via UWV een <b>toeslag (Toeslagenwet)</b> krijgen die je uitkering aanvult tot het sociaal minimum.');
+    }
+    if (type === 'bijstand') {
+      vragen.push('Werk je parttime naast je bijstand? Dan geldt een <b>inkomstenvrijlating</b> (±25%, max ~€285/mnd, 6 maanden; voor alleenstaande ouders met jong kind langer). Vraag je gemeente om de vrijlating toe te passen.');
+      vragen.push('Let op de <b>vermogensgrens bijstand</b> (2025 €7.575 alleenstaand / €15.150 gezin) en de kostendelersnorm bij medebewoners van 27+.');
+    }
+    if (st.aow) {
+      vragen.push('Heb je een onvolledige AOW of laag inkomen? Dan kun je via de SVB een <b>AIO-aanvulling</b> krijgen tot het sociaal minimum (met vermogenstoets).');
+    }
+    if (st.pLoon || st.pPensioen) {
+      vragen.push('Je hebt naast je uitkering nog een andere inkomstenbron. Laat de <b>loonheffingskorting</b> maar bij één bron toepassen (meestal de hoogste) om naheffing te voorkomen.');
+    }
+  }
+
+  /* --- FLEXWERK / 0-UREN / WISSELEND INKOMEN --- */
+  if (st.pLoon && (['oproep','minmax','uitzend','tijdelijk'].includes(st.contractvorm) || st.wisselendInkomen)) {
+    list.push(adv(2, 'Te veel ingehouden loonheffing terugvragen', 0,
+      `Bij een 0-uren-/oproep-/flexcontract met wisselend inkomen houdt je werkgever in piekmaanden vaak te veel in via het <b>bijzonder tarief</b>. Over het hele jaar is dat te veel — je krijgt het terug via je <b>aangifte</b> of een <b>voorlopige teruggaaf</b> (dan maandelijks i.p.v. achteraf). Dit netto-bedrag dat ik toon is het juiste jaarbedrag.`,
+      ['flexwerk','teruggaaf'], 'aangifte'));
+    if (st.contractvorm === 'oproep') {
+      vragen.push('Werk je structureel meer dan je oproepcontract aangeeft? Na 12 maanden moet je werkgever een vast urenaanbod doen (rechtsvermoeden arbeidsomvang) — meer zekerheid en vaak meer inkomen.');
+    }
+  }
+
+  /* --- KAMERVERHUUR --- */
+  if (st.kamerOpbrengst > 0) {
+    if (R.kamerBelast === 0) {
+      list.push(adv(2, 'Kamerverhuur belastingvrij', st.kamerOpbrengst * dRate,
+        `Je kamerverhuuropbrengst van <b>${fmtE(st.kamerOpbrengst)}</b> blijft onder de vrijstelling van ${fmtE(p.kamerVrij)} en is dus <b>volledig onbelast</b> — dat scheelt ca. ${fmtE(st.kamerOpbrengst * dRate)} t.o.v. belast inkomen. Voorwaarde: huurder en jij staan op hetzelfde adres ingeschreven.`,
+        ['kamerverhuur','vrijstelling']));
+    } else {
+      const overschrijding = st.kamerOpbrengst - p.kamerVrij;
+      list.push(adv(1, 'Kamerverhuur: blijf onder de vrijstellingsgrens', p.kamerVrij * dRate,
+        `Let op: je opbrengst (${fmtE(st.kamerOpbrengst)}) ligt <b>boven</b> de grens van ${fmtE(p.kamerVrij)}. Daardoor vervalt de héle vrijstelling en is alles belast. Door <b>${fmtE(overschrijding)}</b> minder te vragen blijf je onder de grens en bespaar je tot ${fmtE(p.kamerVrij * dRate)}.`,
+        ['kamerverhuur','grens'], 'cliff-edge'));
+    }
+  }
+
+  /* --- VRIJWILLIGERSVERGOEDING --- */
+  if (st.vrijwilligersVergoeding > 0) {
+    if (R.vrijwBelast === 0) {
+      list.push(adv(3, 'Vrijwilligersvergoeding onbelast', 0,
+        `Je vrijwilligersvergoeding (${fmtE(st.vrijwilligersVergoeding)}) blijft binnen de vrijstelling (max ${fmtE(p.vrijwilligersJaar)}/jaar én ${fmtE(p.vrijwilligersMaand)}/maand) en is onbelast.`,
+        ['vrijwilliger','vrijstelling']));
+    } else {
+      vragen.push(`Je vrijwilligersvergoeding (${fmtE(st.vrijwilligersVergoeding)}) overschrijdt de vrijstelling (${fmtE(p.vrijwilligersJaar)}/jr) — daardoor is alles belast. Onder de grens blijven, of je vergoeding bij een ANBI <b>afzien</b> als gift (aftrekbaar), kan voordeliger zijn.`);
+    }
+  }
+
+  /* --- CRYPTO BOX 1 vs BOX 3 --- */
+  if (st.cryptoBox1 > 0) {
+    vragen.push('Je gaf crypto-opbrengst uit staking/mining op als box 1. Is het echt <b>actief</b> werk, of passief houden? Bij passief beheer hoort het in box 3 (vaak lager belast). Kosten (hardware, stroom) zijn bij box 1 aftrekbaar.');
+  }
+
   /* --- PARTNER --- */
   if (st.heeftPartner) {
     list.push(adv(3, 'Verdeel aftrekposten optimaal met je partner', 0,
@@ -1430,6 +1593,13 @@ function aanbevelingen(R) {
     if (st.geboortejaar < 1963 && (st.partnerInkomen === 0 || R.arbeidsinkomen === 0)) {
       vragen.push('Heeft de minstverdienende partner (geboren vóór 1963) weinig eigen inkomen? Dan kan de <b>algemene heffingskorting</b> deels worden uitbetaald.');
     }
+  }
+
+  /* --- CO-OUDERSCHAP --- */
+  if (st.coOuderschap && st.kinderen > 0) {
+    list.push(adv(2, 'Co-ouderschap: benut de regelingen voor beide ouders', R.kIack,
+      `Bij co-ouderschap kunnen <b>beide</b> ouders de inkomensafhankelijke combinatiekorting krijgen${R.kIack>0?` (bij jou ${fmtE(R.kIack)})`:''} en elk de <b>kinderopvangtoeslag</b> voor de uren die zij zelf betalen. Spreek af wie de kinderbijslag/het kindgebonden budget ontvangt — meestal de ouder met het laagste inkomen (hoger KGB).`,
+      ['co-ouder','IACK','toeslag']));
   }
 
   /* --- TOESLAGEN --- */
@@ -1517,6 +1687,8 @@ function applyVisibility(st) {
   toggleHidden('cardZzp', st.pZzp);
   toggleHidden('cardDga', st.pDga);
   toggleHidden('cardPensioen', st.pPensioen);
+  toggleHidden('cardStudent', st.pStudent);
+  toggleHidden('cardUitkering', st.pUitkering);
   toggleShow('expatBlok', st.pLoon);
   setDisplay('expatPctField', st.expat);
   setDisplay('urenField', st.period === 'hour');
@@ -1541,13 +1713,15 @@ function render() {
   setText('hNetMaand', Math.round(R.nettoMaand).toLocaleString('nl-NL'));
   setText('hBelasting', fmtE(R.totaalBelasting));
   setText('hDruk', fmtPct(R.druk));
-  setText('hPeriod', `${st.year} · ${[st.pLoon?'loon':null, st.pZzp?'ZZP':null, st.pDga?'DGA':null, st.pPensioen?'pensioen':null].filter(Boolean).join(' + ') || 'geen inkomen'}`);
+  setText('hPeriod', `${st.year} · ${[st.pLoon?'loon':null, st.pZzp?'ZZP':null, st.pDga?'DGA':null, st.pStudent?'student':null, st.pUitkering?'uitkering':null, st.pPensioen?'pensioen':null].filter(Boolean).join(' + ') || 'geen inkomen'}`);
   setText('yearBadge', `Belastingjaar ${st.year}`);
 
   setText('sumLoon', R.loonBruto > 0 ? `${fmtE(R.loonBruto)}/jr bruto` : '—');
   setText('sumZzp', st.pZzp ? `winst ${fmtE(st.zzpWinst)}` : '—');
   setText('sumDga', st.pDga ? `loon ${fmtE(st.dgaLoon)} · div ${fmtE(st.dgaDividend)}` : '—');
   setText('sumPensioen', st.pPensioen ? `${fmtE(st.pensioenInkomen)}/jr` : '—');
+  setText('sumStudent', st.pStudent ? `${st.studieType.toUpperCase()} · ${fmtE((st.studieBasisbeurs+st.studieAanvullend)*12)}/jr beurs` : '—');
+  setText('sumUitkering', st.pUitkering ? `${st.uitkeringType.toUpperCase()} · ${fmtE(st.uitkeringInkomen)}/jr` : '—');
   setText('sumPartner', st.heeftPartner ? `partner · ${st.kinderen} kind(eren)` : (st.kinderen>0?`${st.kinderen} kind(eren)`:'geen partner'));
   setText('sumWonen', st.wonen==='koop'?`koop · WOZ ${fmtE(st.woz)}`:st.wonen==='koopvrij'?'koop (afgelost)':st.wonen==='huur'?`huur ${fmtE(st.huur)}/mnd`:'—');
   const aftrekTot = R.lijfrenteAftrek + R.pga;
@@ -1594,7 +1768,10 @@ function renderBreakdown(R) {
   }
   if (R.dgaLoon > 0) out.push(row('DGA-loon', fmtE(R.dgaLoon)));
   if (R.pensioenInkomen > 0) out.push(row('Pensioen / uitkering', fmtE(R.pensioenInkomen)));
-  if (R.overigBox1 > 0) out.push(row('Overig box 1-inkomen', fmtE(R.overigBox1)));
+  if (R.uitkeringInkomen > 0) out.push(row('Uitkering', fmtE(R.uitkeringInkomen)));
+  const overigZonderUitk = R.overigBox1 - R.uitkeringInkomen;
+  if (overigZonderUitk > 0) out.push(row('Overig box 1-inkomen', fmtE(overigZonderUitk)));
+  if (R.studieBeurs > 0) out.push(row('Studiefinanciering (onbelast)', fmtE(R.studieBeurs)));
   if (R.ewSaldo !== 0) out.push(row(R.ewSaldo>0?'+ Eigenwoningforfait (na Hillen)':'− Hypotheekrente saldo', (R.ewSaldo>0?'+':'−')+fmtE(Math.abs(R.ewSaldo)), R.ewSaldo>0?'':'neg'));
   if (R.lijfrenteAftrek > 0) out.push(row('− Lijfrente / AOV', '−'+fmtE(R.lijfrenteAftrek), 'neg'));
   if (R.pga > 0) out.push(row('− Persoonsgebonden aftrek', '−'+fmtE(R.pga), 'neg'));
@@ -1643,6 +1820,7 @@ function renderKortingen(R) {
   if (R.kIack > 0) out.push(row('Inkomensafhankelijke combinatiekorting', fmtE(R.kIack)));
   if (R.kOuderen > 0) out.push(row('Ouderenkorting', fmtE(R.kOuderen)));
   if (R.kAlleenOuderen > 0) out.push(row('Alleenstaande ouderenkorting', fmtE(R.kAlleenOuderen)));
+  if (R.kJong > 0) out.push(row('Jonggehandicaptenkorting', fmtE(R.kJong)));
   if (R.kGroen > 0) out.push(row('Heffingskorting groen beleggen', fmtE(R.kGroen)));
   out.push(row('Totaal', fmtE(R.totaalKorting), '', true));
   if (!R.kindOnder12 && R.st.kinderen > 0) out.push(`<div class="info">Je jongste kind is 12+, dus geen recht op de inkomensafhankelijke combinatiekorting (alleen voor kinderen onder 12).</div>`);
