@@ -458,7 +458,11 @@
           </div>
           <div class="field-group">
             <div class="field"><label>Aftrekbaar deel hypotheekrente (%) <span class="help" data-tip="Renteaftrek geldt max 30 jaar en alleen voor (annuïtair/lineair) aflossende leningen vanaf 2013. Verstreken termijn of aflossingsvrije delen zonder overgangsrecht zijn NIET aftrekbaar — verlaag dan dit percentage.">?</span></label><input type="number" id="ewRenteAftrekPct" value="100" min="0" max="100" step="5"></div>
-            <div class="field"></div>
+            <div class="field"><label>Erfpachtcanon (€/jaar) <span class="help" data-tip="Betaalde erfpacht voor je eigen woning is aftrekbaar, net als hypotheekrente.">?</span></label><input type="number" id="erfpachtCanon" value="0" min="0" step="50"></div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Rente restschuld vorige woning (€/jaar) <span class="help" data-tip="Restschuld ontstaan bij verkoop 2013–2017: de rente is nog tijdelijk aftrekbaar (max 15 jaar vanaf ontstaan).">?</span></label><input type="number" id="restschuldRente" value="0" min="0" step="50"></div>
+            <div class="field"><label>Rente dubbele woonlasten (€/jaar) <span class="help" data-tip="Verhuisregeling: heb je tijdelijk twee woningen (oude te koop of nieuwe in aanbouw)? Dan is de rente over beide tijdelijk aftrekbaar.">?</span></label><input type="number" id="dubbeleWoonlastenRente" value="0" min="0" step="50"></div>
           </div>
         </div>
         <div class="conditional" id="huurBlok">
@@ -581,6 +585,69 @@
         <div class="field-group">
           <div class="field"><label>Kindgebonden budget (€/mnd)</label><input type="number" id="ontvKgb" value="0" min="0" step="5"></div>
           <div class="field"><label>Kinderopvangtoeslag (€/mnd)</label><input type="number" id="ontvKot" value="0" min="0" step="10"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11b. BIJZONDERE SITUATIES & GEBEURTENISSEN -->
+    <div class="card" id="cardBijzonder">
+      <div class="card-head" data-toggle-card><div class="title"><span class="icon">✦</span>Bijzondere situaties &amp; gebeurtenissen</div><div class="summary"><span id="sumBijzonder">—</span><span class="chevron">▾</span></div></div>
+      <div class="card-body">
+        <div class="section-intro">Vink aan wat speelt — elk punt levert gericht advies op. Alles wat niet van toepassing is, laat je staan.</div>
+
+        <div class="row head" style="border:none;padding-top:6px;">Levensgebeurtenissen dit jaar</div>
+        <div class="toggle-list">
+          <label class="toggle-pill" data-toggle="bzPartnerOverleden"><input type="checkbox" id="bzPartnerOverleden" hidden>Partner overleden</label>
+          <label class="toggle-pill" data-toggle="bzGescheiden"><input type="checkbox" id="bzGescheiden" hidden>Gescheiden / uit elkaar</label>
+          <label class="toggle-pill" data-toggle="bzGetrouwd"><input type="checkbox" id="bzGetrouwd" hidden>Getrouwd / samenwonen gestart</label>
+          <label class="toggle-pill" data-toggle="bzVerhuisd"><input type="checkbox" id="bzVerhuisd" hidden>Verhuisd / woning verkocht</label>
+          <label class="toggle-pill" data-toggle="bzMantelzorg"><input type="checkbox" id="bzMantelzorg" hidden>Mantelzorg</label>
+          <label class="toggle-pill" data-toggle="bzGemoedsbezwaard"><input type="checkbox" id="bzGemoedsbezwaard" hidden>Gemoedsbezwaard</label>
+          <label class="toggle-pill" data-toggle="bzSamenwonendGeenContract"><input type="checkbox" id="bzSamenwonendGeenContract" hidden>Samenwonend zonder contract</label>
+        </div>
+
+        <div class="row head" style="border:none;">Eigen woning</div>
+        <div class="toggle-list">
+          <label class="toggle-pill" data-toggle="bzOversluiten"><input type="checkbox" id="bzOversluiten" hidden>Hypotheek oversluiten overwogen</label>
+          <label class="toggle-pill" data-toggle="bzMonument"><input type="checkbox" id="bzMonument" hidden>Rijksmonument</label>
+          <label class="toggle-pill" data-toggle="bzWozHoog"><input type="checkbox" id="bzWozHoog" hidden>WOZ lijkt te hoog</label>
+          <label class="toggle-pill" data-toggle="bzVerduurzamen"><input type="checkbox" id="bzVerduurzamen" hidden>Woning verduurzamen</label>
+          <label class="toggle-pill" data-toggle="bzKoopplan"><input type="checkbox" id="bzKoopplan" hidden>Eerste woning kopen</label>
+        </div>
+
+        <div class="row head" style="border:none;">Internationaal &amp; grens</div>
+        <div class="field-group full">
+          <div class="field"><label>Situatie</label>
+            <select id="intSituatie"><option value="nee" selected>Niet van toepassing</option><option value="emigratie">Emigratie / immigratie dit jaar</option><option value="grens">Grensarbeider (woon of werk over de grens)</option><option value="buitenlands">Buitenlands inkomen/vermogen, woon in NL</option></select>
+          </div>
+        </div>
+        <div class="conditional" id="intBlok">
+          <div class="field-group">
+            <div class="field"><label>Buitenlands inkomen (€/jaar) <span class="help" data-tip="Inkomen waarover een ander land mag heffen. Bepaalt de voorkoming van dubbele belasting.">?</span></label><input type="number" id="buitenlandsInkomen" value="0" min="0" step="500"></div>
+            <div class="field"><label>Buitenlands vermogen (€) <span class="help" data-tip="Bv. een woning of spaargeld in het buitenland. Geeft recht op voorkoming van dubbele belasting in box 3.">?</span></label><input type="number" id="buitenlandsVermogen" value="0" min="0" step="1000"></div>
+          </div>
+        </div>
+
+        <div class="row head" style="border:none;">Ondernemer / DGA</div>
+        <div class="field-group">
+          <div class="field"><label>Schuld aan je eigen bv (€) <span class="help" data-tip="Wet excessief lenen: schuld aan je eigen bv boven €500.000 (excl. eigenwoningschuld) wordt belast in box 2.">?</span></label><input type="number" id="schuldEigenBv" value="0" min="0" step="5000"></div>
+          <div class="field"><label>FOR-saldo / oudedagsreserve (€) <span class="help" data-tip="Oude fiscale oudedagsreserve. Kan fiscaal vriendelijk worden omgezet in een lijfrente (aftrekbaar) i.p.v. later belast vrij te vallen.">?</span></label><input type="number" id="forSaldo" value="0" min="0" step="1000"></div>
+        </div>
+        <div class="toggle-list">
+          <label class="toggle-pill" data-toggle="bzWbso"><input type="checkbox" id="bzWbso" hidden>Innovatie / R&amp;D (WBSO)</label>
+          <label class="toggle-pill" data-toggle="bzBor"><input type="checkbox" id="bzBor" hidden>Bedrijf overdragen (BOR)</label>
+          <label class="toggle-pill" data-toggle="bzHolding"><input type="checkbox" id="bzHolding" hidden>Holdingstructuur</label>
+          <label class="toggle-pill" data-toggle="bzTbsPand"><input type="checkbox" id="bzTbsPand" hidden>Pand verhuren aan eigen bv</label>
+          <label class="toggle-pill" data-toggle="bzRechtsvorm"><input type="checkbox" id="bzRechtsvorm" hidden>ZZP→bv afwegen</label>
+        </div>
+
+        <div class="row head" style="border:none;">Pensioen &amp; aftrek</div>
+        <div class="toggle-list">
+          <label class="toggle-pill" data-toggle="bzBedragIneens"><input type="checkbox" id="bzBedragIneens" hidden>Bedrag ineens pensioen (10%)</label>
+          <label class="toggle-pill" data-toggle="bzAowGat"><input type="checkbox" id="bzAowGat" hidden>AOW-gat (buitenland gewoond)</label>
+          <label class="toggle-pill" data-toggle="bzRestantPga"><input type="checkbox" id="bzRestantPga" hidden>Restant aftrek vorig jaar</label>
+          <label class="toggle-pill" data-toggle="bzVerlies"><input type="checkbox" id="bzVerlies" hidden>Verlies te verrekenen</label>
+          <label class="toggle-pill" data-toggle="bzMiddeling"><input type="checkbox" id="bzMiddeling" hidden>Wisselend inkomen 2022-2024</label>
         </div>
       </div>
     </div>
@@ -866,6 +933,7 @@ function getState() {
     alleenstaandeOuder: s('alleenstaandeOuder')==='ja', coOuderschap: s('coOuderschap')==='ja', opvangKosten: v('opvangKosten'),
     // wonen
     wonen: s('wonen'), woz: v('woz'), hyprente: v('hyprente'), ewSchuld: v('ewSchuld'), ewKosten: v('ewKosten'), ewRenteAftrekPct: $('ewRenteAftrekPct') ? clamp(v('ewRenteAftrekPct'),0,100) : 100,
+    erfpachtCanon: v('erfpachtCanon'), restschuldRente: v('restschuldRente'), dubbeleWoonlastenRente: v('dubbeleWoonlastenRente'),
     huur: v('huur'), huurLeeftijd: v('huurLeeftijd')||35,
     // aftrek
     jaarruimte: v('jaarruimte'), reserveringsruimte: v('reserveringsruimte'),
@@ -880,6 +948,15 @@ function getState() {
     overigInkomen: v('overigInkomen'), rowKosten: v('rowKosten'), alimentatieOntvangen: v('alimentatieOntvangen'),
     kamerOpbrengst: v('kamerOpbrengst'), vrijwilligersVergoeding: v('vrijwilligersVergoeding'), cryptoBox1: v('cryptoBox1'),
     studieschuld: v('studieschuld'), overigeSchuld: v('overigeSchuld'), factorA: v('factorA'),
+    // bijzondere situaties
+    bzPartnerOverleden: chk('bzPartnerOverleden'), bzGescheiden: chk('bzGescheiden'), bzGetrouwd: chk('bzGetrouwd'),
+    bzVerhuisd: chk('bzVerhuisd'), bzMantelzorg: chk('bzMantelzorg'), bzGemoedsbezwaard: chk('bzGemoedsbezwaard'),
+    bzSamenwonendGeenContract: chk('bzSamenwonendGeenContract'),
+    bzOversluiten: chk('bzOversluiten'), bzMonument: chk('bzMonument'), bzWozHoog: chk('bzWozHoog'), bzVerduurzamen: chk('bzVerduurzamen'), bzKoopplan: chk('bzKoopplan'),
+    intSituatie: s('intSituatie')||'nee', buitenlandsInkomen: v('buitenlandsInkomen'), buitenlandsVermogen: v('buitenlandsVermogen'),
+    schuldEigenBv: v('schuldEigenBv'), forSaldo: v('forSaldo'),
+    bzWbso: chk('bzWbso'), bzBor: chk('bzBor'), bzHolding: chk('bzHolding'), bzTbsPand: chk('bzTbsPand'), bzRechtsvorm: chk('bzRechtsvorm'),
+    bzBedragIneens: chk('bzBedragIneens'), bzAowGat: chk('bzAowGat'), bzRestantPga: chk('bzRestantPga'), bzVerlies: chk('bzVerlies'), bzMiddeling: chk('bzMiddeling'),
     ontvZorgtoeslag: v('ontvZorgtoeslag'), ontvHuurtoeslag: v('ontvHuurtoeslag'), ontvKgb: v('ontvKgb'), ontvKot: v('ontvKot'),
     // schenken
     schenkInteresse: s('schenkInteresse')==='ja', schenkKinderen: Math.round(v('schenkKinderen')),
@@ -1041,9 +1118,14 @@ function compute() {
     if (saldoVoorHillen > 0) { hillenAftrek = saldoVoorHillen * p.hillen; ewSaldo = saldoVoorHillen - hillenAftrek; }
     else { ewSaldo = saldoVoorHillen; }
   }
+  // Extra eigenwoning-aftrek (erfpacht, restschuldrente, dubbele woonlasten) — ook bij huur mogelijk (restschuld)
+  const ewExtra = st.erfpachtCanon + st.restschuldRente + st.dubbeleWoonlastenRente;
+  ewSaldo -= ewExtra;
 
   /* ---- BOX 3 (vroeg nodig voor het drempelinkomen) ---- */
   const b3 = berekenBox3(st, p);
+  // Wet excessief lenen: schuld aan eigen bv boven €500.000 is fictief box 2-inkomen (apart getoond als waarschuwing, niet in netto cash)
+  const excessiefLenen = st.pDga ? Math.max(0, st.schuldEigenBv - 500000) : 0;
   const box2Inkomen = st.pDga ? st.dgaDividend : 0;
   const partnerAow = st.heeftPartner && (parseInt(st.year) - st.partnerGeboortejaar) >= 67;
 
@@ -1132,10 +1214,15 @@ function compute() {
   const heffingVoorKorting = taxBruto + box2 + b3.belasting;
   totaalKorting = Math.min(totaalKorting, heffingVoorKorting);
 
-  const taxBox1Na = Math.max(0, taxBruto - Math.min(totaalKorting, taxBruto));
+  let taxBox1Na = Math.max(0, taxBruto - Math.min(totaalKorting, taxBruto));
   const kortingRestBox23 = Math.max(0, totaalKorting - taxBruto);
   const box2Na = Math.max(0, box2 - Math.min(kortingRestBox23, box2));
-  const box3Na = Math.max(0, b3.belasting - Math.max(0, kortingRestBox23 - box2));
+  let box3Na = Math.max(0, b3.belasting - Math.max(0, kortingRestBox23 - box2));
+  // Voorkoming dubbele belasting (evenredige vrijstellingsmethode) voor buitenlands inkomen/vermogen
+  const vrijstelBox1 = (st.buitenlandsInkomen > 0 && belastbaar > 0) ? taxBox1Na * Math.min(1, st.buitenlandsInkomen / belastbaar) : 0;
+  const vrijstelBox3 = (st.buitenlandsVermogen > 0 && b3.grondslag > 0) ? box3Na * Math.min(1, st.buitenlandsVermogen / b3.grondslag) : 0;
+  taxBox1Na -= vrijstelBox1;
+  box3Na -= vrijstelBox3;
 
   /* ---- ZVW (eigen bijdrage, lage tarief) ---- */
   let zvw = 0;
@@ -1162,6 +1249,7 @@ function compute() {
 
   Object.assign(R, {
     schenkErf, expatOnbelast, overigBox1, uitkeringInkomen, studieBeurs, jonggehandicapt, kJong, kamerBelast, vrijwBelast,
+    excessiefLenen, vrijstelBox1, vrijstelBox3, ewExtra,
     loonBruto, loonBelast, winstNa, ondernemersaftrek, mkbVrij, investAftrek, zzpBelast,
     dgaLoon, pensioenInkomen, ewf, ewSaldo, hillenAftrek, ewAftrekKosten,
     lijfrenteAftrek, zorgAftrek, zorgDrempelBedrag: zd, giftAftrek, gewoonAftrek, periodiekAftrek, alimentatieAftrek, ovA, pga,
@@ -1585,6 +1673,97 @@ function aanbevelingen(R) {
     vragen.push('Je gaf crypto-opbrengst uit staking/mining op als box 1. Is het echt <b>actief</b> werk, of passief houden? Bij passief beheer hoort het in box 3 (vaak lager belast). Kosten (hardware, stroom) zijn bij box 1 aftrekbaar.');
   }
 
+  /* --- EXTRA EIGENWONING-AFTREK --- */
+  if (R.ewExtra > 0) {
+    list.push(adv(2, 'Erfpacht / restschuld / dubbele woonlasten aftrekken', R.ewExtra * dRate,
+      `Je opgegeven <b>${fmtE(R.ewExtra)}</b> aan erfpachtcanon, restschuldrente en/of rente bij dubbele woonlasten is aftrekbaar als eigenwoningkosten — ca. <b>${fmtE(R.ewExtra * dRate)}</b> voordeel.`,
+      ['eigen woning','aftrek']));
+  }
+  /* --- EIGEN WONING SITUATIES --- */
+  if (st.bzOversluiten && st.wonen === 'koop') {
+    list.push(adv(2, 'Oversluiten: boeterente is direct aftrekbaar', st.hyprente*0.15*dRate,
+      `Bij oversluiten naar een lagere rente is de <b>boeterente in één keer aftrekbaar</b> (tegen max ${fmtPct(p.maxAftrektarief*100)}). Reken de jaarlijkse rentebesparing af tegen de eenmalige kosten — vaak verdient het zich binnen enkele jaren terug.`,
+      ['eigen woning','oversluiten']));
+  }
+  if (st.bzWozHoog && st.wonen !== 'huur' && st.woz > 0) {
+    list.push(adv(3, 'Maak bezwaar tegen je WOZ-waarde', (st.woz*0.05)*p.ewfPct*dRate,
+      `Een te hoge WOZ verhoogt je eigenwoningforfait (en je gemeentelijke heffingen). Gratis bezwaar maken kan lonen: ${fmtPct(p.ewfPct*100)} van de WOZ telt mee als bijtelling.`,
+      ['eigen woning','WOZ'], 'binnen 6 weken'));
+  }
+  if (st.bzMonument) {
+    vragen.push('Heb je een <b>rijksmonument</b>? De fiscale onderhoudsaftrek is vervallen, maar je kunt de <b>Woonhuissubsidie</b> aanvragen (±38% van de onderhoudskosten) via de Rijksdienst voor het Cultureel Erfgoed.');
+  }
+  if (st.bzVerduurzamen && st.wonen !== 'huur') {
+    vragen.push('Ga je je woning <b>verduurzamen</b>? Financier het mee in je eigenwoningschuld (rente aftrekbaar) en check gemeentelijke/ISDE-subsidies en de energiebespaarlening (lage rente).');
+  }
+  if (st.bzKoopplan) {
+    list.push(adv(1, 'Startersvrijstelling overdrachtsbelasting', 8000,
+      `Koop je je eerste woning en ben je 18–34 jaar (woningwaarde 2025 onder ±€525.000)? Dan betaal je <b>0% overdrachtsbelasting</b> i.p.v. 2% — al snel duizenden euro's voordeel. Voor andere eigen bewoners geldt 2% i.p.v. 8% (beleggerstarief).`,
+      ['woning kopen','overdrachtsbelasting'], 'bij aankoop'));
+  }
+  if (st.bzVerhuisd) {
+    vragen.push('Verhuisd met een woning die nog te koop staat (of nieuwe in aanbouw)? Via de <b>verhuisregeling</b> is de rente op beide woningen tijdelijk aftrekbaar. Vul de rente in onder "dubbele woonlasten".');
+  }
+
+  /* --- INTERNATIONAAL --- */
+  if (st.intSituatie !== 'nee') {
+    if (R.vrijstelBox1 > 0 || R.vrijstelBox3 > 0) {
+      list.push(adv(1, 'Voorkoming dubbele belasting toegepast', R.vrijstelBox1 + R.vrijstelBox3,
+        `Over je buitenlandse inkomen/vermogen krijg je een vermindering van <b>${fmtE(R.vrijstelBox1 + R.vrijstelBox3)}</b> ter voorkoming van dubbele belasting (evenredige vrijstelling). Kies per situatie tussen vrijstelling en verrekening — soms is verrekening gunstiger.`,
+        ['internationaal','voorkoming']));
+    }
+    if (st.intSituatie === 'emigratie') {
+      vragen.push('Bij <b>emigratie</b>: je krijgt een conserverende aanslag over je aanmerkelijk belang (box 2) en pensioen/lijfrente. Die wordt na 10 jaar (pensioen) resp. bij niet-vervreemden kwijtgescholden. Ook geldt deeljaar: heffingskortingen vol over je NL-periode (M-biljet).');
+    }
+    if (st.intSituatie === 'grens') {
+      vragen.push('Als <b>grensarbeider</b>: check of je <b>kwalificerend buitenlands belastingplichtige</b> bent (≥90% inkomen in NL) — dan behoud je hypotheekrenteaftrek en heffingskortingen. Let op thuiswerkdagen-grenzen (NL-Duitsland) en de compensatieregeling NL-België.');
+    }
+    if (st.intSituatie === 'buitenlands' && st.buitenlandsInkomen === 0 && st.buitenlandsVermogen === 0) {
+      vragen.push('Vul je buitenlandse inkomen/vermogen in, dan bereken ik de voorkoming van dubbele belasting.');
+    }
+    vragen.push('Heb je in het buitenland gewoond/gewerkt? Mogelijk heb je een <b>AOW-gat</b> (2% korting per niet-verzekerd jaar). Vrijwillige AOW-inkoop of -verzekering kan dat dichten.');
+  }
+
+  /* --- DGA / ONDERNEMER BIJZONDER --- */
+  if (st.pDga) {
+    if (R.excessiefLenen > 0) {
+      const heffing = box2Tax(R.excessiefLenen, st.heeftPartner, p);
+      list.push(adv(1, 'Wet excessief lenen: breng schuld aan je bv terug', heffing,
+        `Je schuld aan je eigen bv ligt <b>${fmtE(R.excessiefLenen)}</b> boven de grens van €500.000. Dat wordt belast in box 2 (≈ ${fmtE(heffing)}). Los af, herfinancier extern of keer dividend uit vóór de peildatum (31 dec) om deze heffing te voorkomen.`,
+        ['DGA','box 2'], 'vóór 31 dec'));
+    }
+    if (st.forSaldo > 0) {
+      list.push(adv(2, 'FOR omzetten in lijfrente', st.forSaldo * dRate,
+        `Je oudedagsreserve (${fmtE(st.forSaldo)}) valt later belast vrij. Door hem (gedeeltelijk) om te zetten in een <b>lijfrente</b> krijg je nu de aftrek (≈ ${fmtE(st.forSaldo * dRate)}) en spreid je de heffing naar je oudedag tegen mogelijk lager tarief.`,
+        ['DGA','FOR','lijfrente']));
+    }
+    if (st.bzRechtsvorm) vragen.push('ZZP vs. bv: bij een winst boven ruwweg €100.000–€150.000 wordt een bv vaak voordeliger (Vpb 19% + box 2 i.p.v. progressief box 1). Laat het omslagpunt doorrekenen — het hangt af van je gebruikelijk loon en hoeveel je privé nodig hebt.');
+    if (st.bzWbso) vragen.push('Doe je technisch nieuwe ontwikkeling (<b>WBSO</b>)? Vraag de S&O-verklaring aan: in een bv een afdrachtvermindering op de loonheffing, als IB-ondernemer een extra S&O-aftrek. Mogelijk ook de <b>innovatiebox</b> (9% Vpb over innovatiewinst).');
+    if (st.bzBor) vragen.push('Bedrijf overdragen? De <b>bedrijfsopvolgingsregeling (BOR)</b> stelt ondernemingsvermogen tot €1.543.500 (2026) vrij van schenk-/erfbelasting + 75% daarboven, en de doorschuifregeling voorkomt box 2-afrekening. Start de planning ruim op tijd (bezitstermijn 5 jaar).');
+    if (st.bzHolding) vragen.push('Met een <b>holdingstructuur</b> kun je winst via de deelnemingsvrijstelling belastingvrij naar de holding halen en gespreid (en getimed) naar privé uitkeren — handig om box 2 te spreiden en risico te scheiden.');
+    if (st.bzTbsPand) vragen.push('Verhuur je een pand aan je eigen bv (<b>terbeschikkingstelling</b>)? Het resultaat valt in box 1 met 12% TBS-vrijstelling. Vergelijk dit met het pand in box 3 of in de bv houden.');
+  }
+
+  /* --- PENSIOEN BIJZONDER --- */
+  if (st.bzBedragIneens) vragen.push('Overweeg je een <b>bedrag ineens</b> (max 10% van je pensioen) bij pensionering? Dat geeft een inkomenspiek — let op een hoger tarief en verlies van toeslagen/heffingskortingen in dat jaar. Soms is spreiden voordeliger.');
+  if (st.bzAowGat) vragen.push('Een <b>AOW-gat</b> (jaren buiten NL gewoond) verlaagt je AOW met 2% per jaar. Vrijwillige verzekering/inkoop kan lonen; de premie is deels aftrekbaar. Bij laag inkomen kan de AIO-aanvulling het gat dichten.');
+
+  /* --- AFTREK & VERLIES TIMING --- */
+  if (st.bzRestantPga) vragen.push('Had je vorig jaar <b>aftrekposten die je niet kon verzilveren</b> (restant persoonsgebonden aftrek)? Die schuift onbeperkt door — geef ze dit jaar alsnog op.');
+  if (st.bzVerlies) vragen.push('Een <b>verlies</b> (bv. uit onderneming) mag je 3 jaar terug en 9 jaar vooruit verrekenen met ander box 1-inkomen. Vraag de verliesverrekening aan in je aangifte.');
+  if (st.bzMiddeling) vragen.push('Wisselend inkomen in <b>2022-2024</b>? Dit is het allerlaatste tijdvak voor <b>middeling</b> (de regeling is afgeschaft): je kunt de belasting herrekenen over het gemiddelde inkomen en mogelijk geld terugkrijgen (drempel €636). Vraag het vóór de verjaringstermijn aan.');
+
+  /* --- PERSOON / GEBEURTENISSEN --- */
+  if (st.bzPartnerOverleden) list.push(adv(2, 'Kies voljaarspartnerschap (jaar van overlijden)', 0,
+    `In het jaar dat je partner overlijdt mag je kiezen om <b>het hele jaar fiscaal partner</b> te blijven (F-biljet). Dat geeft vrije verdeling van aftrek en box 3 en mogelijk uitbetaling van de heffingskorting — vaak voordeliger.`, ['partner','aangifte']));
+  if (st.bzGescheiden) vragen.push('In het jaar van <b>scheiding</b>: je kunt kiezen voor deeljaar- of voljaarspartnerschap en de eigenwoning-/aftrekposten verdelen. Check ook de alleenstaande-ouderkop en betaalde/ontvangen partneralimentatie.');
+  if (st.bzGetrouwd) vragen.push('Pas <b>getrouwd of gaan samenwonen</b>? Vanaf dat moment ben je fiscaal partner — verdeel box 3 en aftrekposten optimaal, en check of voljaarspartnerschap voordeliger is.');
+  if (st.bzSamenwonendGeenContract && !st.heeftPartner) list.push(adv(2, 'Word fiscaal partner: laat een samenlevingscontract opstellen', R.b3.actief ? R.b3.belasting*0.3 : 600,
+    `Samenwonend zonder contract en zonder kind/koophuis? Dan ben je géén fiscaal partner. Een <b>notarieel samenlevingscontract</b> maakt je dat wél: dubbel heffingsvrij vermogen in box 3, vrije verdeling van aftrek, en de veel lagere partnervrijstelling voor erf-/schenkbelasting.`,
+    ['partner','box 3','erfbelasting']));
+  if (st.bzMantelzorg) vragen.push('Verleen of ontvang je <b>mantelzorg</b>? Vraag het (onbelaste) mantelzorgcompliment bij de gemeente. Let op: bij een mantelzorgrelatie kan het fiscaal partnerschap/de AOW-norm anders uitvallen — check je situatie.');
+  if (st.bzGemoedsbezwaard) vragen.push('Als <b>gemoedsbezwaarde</b> betaal je geen premies volksverzekeringen/ZVW maar een gelijke vervangende bijdrage. Mijn berekening gebruikt de reguliere premies — je netto komt ongeveer gelijk uit, maar regel de vrijstelling en spaarregeling apart.');
+
   /* --- PARTNER --- */
   if (st.heeftPartner) {
     list.push(adv(3, 'Verdeel aftrekposten optimaal met je partner', 0,
@@ -1699,6 +1878,7 @@ function applyVisibility(st) {
   toggleShow('huurBlok', st.wonen === 'huur');
   toggleShow('box3Blok', st.heeftVermogen);
   toggleShow('ovBlok', st.ovKm >= 10);
+  toggleShow('intBlok', st.intSituatie !== 'nee');
   toggleShow('schenkBlok', st.schenkInteresse);
   toggleHidden('cardBox3Calc', st.heeftVermogen);
   toggleHidden('cardWg', st.pLoon || st.pDga);
@@ -1734,6 +1914,8 @@ function render() {
   if ((st.studieschuld + st.overigeSchuld) > 0) plDelen.push(`${fmtE(st.studieschuld + st.overigeSchuld)} schuld`);
   if ((st.ontvZorgtoeslag + st.ontvHuurtoeslag + st.ontvKgb + st.ontvKot) > 0) plDelen.push('toeslagen');
   setText('sumPlaatje', plDelen.length ? plDelen.join(' · ') : '—');
+  const bzCount = ['bzPartnerOverleden','bzGescheiden','bzGetrouwd','bzVerhuisd','bzMantelzorg','bzGemoedsbezwaard','bzSamenwonendGeenContract','bzOversluiten','bzMonument','bzWozHoog','bzVerduurzamen','bzKoopplan','bzWbso','bzBor','bzHolding','bzTbsPand','bzRechtsvorm','bzBedragIneens','bzAowGat','bzRestantPga','bzVerlies','bzMiddeling'].filter(k=>st[k]).length + (st.intSituatie!=='nee'?1:0) + (st.schuldEigenBv>0||st.forSaldo>0?1:0);
+  setText('sumBijzonder', bzCount>0 ? `${bzCount} aangevinkt` : '—');
 
   renderBreakdown(R);
   renderKortingen(R);
